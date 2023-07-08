@@ -1,0 +1,24 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css')}}">
+
+<div class="lcontainer">
+
+<div class="profile-info">
+    <div class="profile-picture">
+        <img src="{{ url_for('uploaded_users_images', filename=current_user.image) }}" alt="Profile Picture">
+    </div>
+    <div class="profile-details">
+        <p>Username: {{ current_user.username }}</p>
+        <p>Email: {{ current_user.email }}</p>
+        <a href="{{ url_for('edit_profile') }}">Edit </a>
+    </div>
+    
+    
+</div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/orangegraph.js') }}"></script>
+{% endblock%}

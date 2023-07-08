@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/notification.css')}}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    
+    <link rel="icon" href="{{ url_for('static', filename='imgs/link.jpg') }}" type="image/jpg">
+
+
+    <title>GWYGL Shop</title>
+</head>
+
+<body>
+    <div class="navbar">
+      <div class="menu-toggle">&#9776;</div>
+      <a href="{{url_for('home')}}" class="logo"><img style="max-width: 50px; margin-left: 20px;"
+                src="{{ url_for('static', filename='imgs/logo.jpg')}}" alt=""></a>
+        <a href="{{url_for('home')}}">Home</a>
+        <a href="{{url_for('shop')}}">Shop</a>
+
+        <div class="dropdown">
+            <a href="#" class="dropdown-btn">Leaderboards &#9662;</a>
+            <ul class="dropdown-content">
+                <a href="{{url_for('leaderboard')}}">Playing Hours</a>
+                <a href="{{url_for('leaderboard_rank')}}">Championships</a>
+
+            </ul>
+        </div>
+
+        <a href="{{url_for('jobs')}}">Jobs</a>
+        <a href="{{url_for('donate')}}">Donate</a>
+
+        
+
+
+        {% if user.is_admin %}
+        <a href="{{url_for('job_applications')}}">Job Applications</a>
+        <a href="{{url_for('add_job')}}">Add New Job</a>
+        <a href="{{url_for('add_product')}}">Add Product</a>
+        {% endif %}
+
+
+        
+        {% if user.is_authenticated %}
+        <a href="{{url_for('profile')}}">Profile</a>
+        {% endif %}
+
+        <div class="notification-wrapper">
+          <div class="notification-icon" onclick="toggleNotificationBox()">
+            <i class="fas fa-bell"></i>
+            <span id="notificationCount" class="notification-count">0</span>
+          </div>
+          <div class="notification-box" id="notificationBox">
+            <!-- Notification items will be dynamically added here -->
+            
+          </div>
+        </div>
+        
+        
+       
+
+
+        <div class="search-form"></div>
+
+
+        <a href="/cart" class="cart-icon">
+            <i class="fa fa-shopping-cart" style="color: aliceblue;"></i>
+            <span class="cart-count">0</span>
+        </a>
+
+        {% if user.is_authenticated %}
+        <img style="border-radius: 50%; max-width: 30px; margin-right: 20px;" src="{{ url_for('uploaded_users_images', filename=current_user.image) }}" alt="Profile Picture"> <strong style="margin-right: 30px;">{{user.username}}</strong>
+        <a href="{{url_for('logout')}}" class="login-button" style="background-color: red;">Logout</a>
+        {% else %}
+        <a href="{{url_for('login')}}" class="login-button">Login</a>
+        {% endif %}
+
+
+
+
+        
+    </div>
+
+    <div class="drawer-menu">
+      <div class="menu-close">&times;</div>
+      <div class="drawer-menu-items">
+        <br><br>
+        <h1>Main Menu</h1>
+        <a href="{{url_for('leaderboard')}}">Playing Hours</a>
+        <hr>
+        <a href="{{url_for('leaderboard_rank')}}">Championships</a>
+        <hr>
+        <a href="{{url_for('jobs')}}">Jobs</a>
+        <hr>
+        <a href="{{url_for('donate')}}">Donate</a>
+        <hr>
+        {% if user.is_authenticated %}
+        <a href="{{url_for('profile')}}">Profile</a>
+        {% endif %}
+        <hr>
+        {% if user.is_admin %}
+        <a href="{{url_for('job_applications')}}">Job Applications</a>
+        <hr>
+        <a href="{{url_for('add_job')}}">Add New Job</a>
+        <hr>
+        <a href="{{url_for('add_product')}}">Add Product</a>
+        {% endif %}
+        <hr>
+        <a href="/cart" class="cart-icon">
+          <i class="fa fa-shopping-cart" style="color: aliceblue;"></i>
+          <span class="cart-count">0</span>
+        </a>
+        <hr>
+      {% if user.is_authenticated %}
+      <img style="border-radius: 50%; max-width: 30px; margin-right: 20px;" src="{{ url_for('uploaded_users_images', filename=current_user.image) }}" alt="Profile Picture"> <strong style="margin-left: 10px;"> {{user.username}}</strong>
+      <hr>
+      <a href="{{url_for('logout')}}" class="login-button" style="background-color: red;">Logout</a>
+      <hr>
+      {% else %}
+      <a href="{{url_for('login')}}" class="login-button">Login</a>
+      {% endif %}
+      <hr>
+      </div>
+    </div>
+
+    
+
+
+    <section class="container">
+        <div class="background-container">
+            <canvas id="canvas"></canvas>
+        </div>
+        <!-- Display Flash Message -->
+        <div id="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  {% if category == 'error' %}
+                    <div class="error">
+                      {{ message }}
+                    </div>
+                  {% else %}
+                    <div class="success">
+                      {{ message }}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+          </div>          
+        <!--  end of messages -->
+
+
+        {%block content%}
+        {%endblock%}
+    </section>
+
+
+    <script>
+      // JavaScript code here
+      const menuToggle = document.querySelector('.menu-toggle');
+      const menuClose = document.querySelector('.menu-close');
+      const drawerMenu = document.querySelector('.drawer-menu');
+  
+      menuToggle.addEventListener('click', () => {
+        drawerMenu.classList.add('open');
+      });
+  
+      menuClose.addEventListener('click', () => {
+        drawerMenu.classList.remove('open');
+      });
+    </script>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
+    <script src="{{ url_for('static', filename='js/notification.js') }}"></script>
+    
+</body>
+
+</html>

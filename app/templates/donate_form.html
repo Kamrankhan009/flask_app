@@ -1,0 +1,150 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/donate_form.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/donate.css')}}">
+
+<div class="lcontainer">
+    <!-- Add the necessary Stripe JavaScript library -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <div class="form-container">
+        <h2>Donate Form</h2>
+        <form action="{{ url_for('process_payment') }}" method="POST" id="payment-form">
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" name="name" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="card-element">Card Details:</label>
+                <div id="card-element" class="card-element"></div>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount:</label>
+                <input type="number" name="amount" id="amount" placeholder="Enter donation amount" required>
+            </div>
+            <button type="submit" class="btn-primary">Donate with Card</button>
+        </form>
+    </div>
+</div>
+
+<style>
+  .red-bg {
+    background-color: #dc3545;
+}
+</style>
+<script>
+  // Get the URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const minAmount = urlParams.get('min_amount');
+
+  // Set the min and max values for the amount input based on minAmount
+  const amountInput = document.getElementById('amount');
+  if (minAmount === '150') {
+      amountInput.min = 150;
+  } else {
+      amountInput.min = 5;
+      amountInput.max = 145;
+  }
+  amountInput.value = amountInput.min;
+
+  // Check if min_amount is equal to 150
+  if (minAmount === '150') {
+      // Select the form-container element
+      const formContainer = document.querySelector('.form-container');
+
+      // Change the color of form-container
+      formContainer.classList.add('red-bg');
+  }
+
+</script>
+
+
+<script>
+    // Create a Stripe client
+    const stripe = Stripe('pk_test_51NP8SlAG1w1CkJgYirjkuUL8lP2f0iPg0KVLKWFq4L0piz1cWo9FPppSiMFthKC6PJqjwfGdE3vUWtLd79a2Hkiz00rUtkYZBC');
+
+    // Create an instance of Elements
+    const elements = stripe.elements();
+
+    // Style the card Element
+    const style = {
+        base: {
+            iconColor: '#666EE8',
+            color: '#31325F',
+            lineHeight: '40px',
+            fontWeight: 400,
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSize: '15px',
+            '::placeholder': {
+                color: '#CFD7E0'
+            }
+        }
+    };
+
+    // Create an instance of the card Element
+    const cardElement = elements.create('card', { style });
+
+    // Mount the card Element to the card-element div
+    cardElement.mount('#card-element');
+
+    // Handle form submission
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        // Create a PaymentMethod
+        const { paymentMethod, error } = await stripe.createPaymentMethod({
+            type: 'card',
+            card: cardElement,
+        });
+
+        if (error) {
+            // Display error to the user
+            console.log(error.message);
+        } else {
+            // Payment method created successfully
+            const paymentMethodId = paymentMethod.id;
+
+            // Send payment method ID to the server-side
+            fetch('/process_payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    payment_method: paymentMethodId,
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    amount: document.getElementById('amount').value,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    if (data.success) {
+                        // Display success message to the user
+                        window.location.href="http://localhost:5000/success"
+                        // Clear the payment form
+                        form.reset();
+                    } else {
+                        // Display error message to the user
+                        alert('Payment failed. Please try again.');
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    // Display error message to the user
+                    alert('An error occurred. Please try again later.');
+                });
+        }
+    });
+</script>
+
+<script src="{{ url_for('static', filename='js/donate_form.js') }}"></script>
+<script src="{{ url_for('static', filename='js/skybluegraph.js') }}"></script>
+{% endblock%}

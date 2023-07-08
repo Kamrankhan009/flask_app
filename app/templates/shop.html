@@ -1,0 +1,24 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/card.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/shop.css')}}">
+{% for product in products %}
+<div class="card">
+    <div style="align-items: center; text-align: center;">
+        <a href="{{url_for('one_product', id=product.id)}}">
+    <img src="{{ url_for('uploaded_product_images', filename=product.image) }}" alt="sdsdsd" style="max-width: 250px; width: 250px; height: 250px; max-height: 250px;">
+    </a>
+    </div>
+<div class="card-title"> {{product.title}} </div>
+<div class="card-description">
+    ${{product.price}} {{product.description}}
+</div>
+<button class="add-to-cart" data-item-id="{{product.id}}">Add to Cart</button>
+</div>
+    
+{% endfor %}
+
+
+<script src="{{ url_for('static', filename='js/redgraph.js') }}"></script>
+{% endblock%}

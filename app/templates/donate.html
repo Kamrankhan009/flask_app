@@ -1,0 +1,32 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/donate.css')}}">
+
+
+
+<div class="lcontainer">
+    <h1  style=" color: azure;">Donate</h1>
+    <div class="donate-cards">
+        <div class="card regular-donate" onclick="regularDonate()">
+            <h2>Regular Donate</h2>
+            <p>Minimum Amount: $<span id="min-amount">5</span></p>
+            <p>Maximum Amount: $<span id="max-amount">145</span></p>
+        </div>
+        <div class="card strong-donate" onclick="strongDonate()">
+            <h2>Strong Donate</h2>
+            <p>Minimum Amount: $<span id="min-amount">150</span></p>
+            <p>Maximum Amount: <span id="max-amount">∞</span></p>
+        </div>
+
+    
+        
+    </div>
+
+    <a id="donate-link" href="#" onclick="">Donate</a>
+    
+</div>
+
+<script src="{{ url_for('static', filename='js/donate.js') }}"></script>
+<script src="{{ url_for('static', filename='js/skybluegraph.js') }}"></script>
+{% endblock%}

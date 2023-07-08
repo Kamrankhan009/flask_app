@@ -1,0 +1,43 @@
+.card {
+  display:inline-block;
+  background-color: #f1f1f100;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+  margin: 0 auto;
+  margin-bottom: 3px;
+  color: #ffffff;
+  }
+  
+  .card-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  }
+  
+  .card-description {
+  font-size: 16px;
+  color: #969696;
+  overflow: auto;
+  }
+
+
+
+  .add-to-cart-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-to-cart-btn:hover {
+    background-color: #45a049;
+  }

@@ -1,0 +1,27 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css')}}">
+
+<div class="lcontainer">
+
+<h1 class="white-color">Edit Profile</h1>
+<form method="POST" action="{{ url_for('update_profile') }}" enctype="multipart/form-data">
+    <label>Username:</label>
+    <input type="text" name="username" value="{{ current_user.username }}" required>
+    <br><br>
+    <label>Email:</label>
+    <input type="email" name="email" value="{{ current_user.email }}" required>
+    <br><br>
+    <label>Profile Picture:</label>
+    <input type="file" name="image">
+    <br><br>
+    <label>Banner Background</label>
+    <input type="file" name="banner">
+    <br><br>
+    <input type="submit" value="Update Profile">
+</form>
+
+</div>
+<script src="{{ url_for('static', filename='js/orangegraph.js') }}"></script>
+{% endblock%}

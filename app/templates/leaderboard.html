@@ -1,0 +1,94 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user_card.css')}}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+<link href="{{ url_for('static', filename='css/style18.css')}}" rel="stylesheet" type="text/css" />
+
+
+
+
+<section class="rate" style="">
+
+    <div class="container" >
+  
+      <h1 class="text-center text-white" style="margin-top: -130px;">Leaderboard Playing Hours</h1>
+      
+  
+      <div class="row " style="">
+        {% for active_user in active_users[:3] %}
+        <div class="col-md-4 place2">
+          <div class="content second mb-2">
+            <div class="card">
+              <div class="card-img-top second" style="background-image: url('{{ url_for('uploaded_users_images', filename=active_user.banner) }}');">
+                <p>#2</p>
+              </div>
+              <div class="card-body">
+                <img src="{{ url_for('uploaded_users_images', filename=active_user.image) }}" alt="" class="avatar" onError="this.onerror=null;this.src='/uploads/RG17vQejvkOoAmQTaioY.png';">
+                <h5 class="card-title">{{active_user.username}}</h5>
+                <p>                {% if active_user.duration < 60 %}
+                    {{ active_user.duration }} minute{{ 's' if active_user.duration > 1 else '' }}
+                {% else %}
+                    {% set hours = active_user.duration // 60 %}
+                    {% set minutes = active_user.duration % 60 %}
+                    {{ hours }}:{{ minutes }} hour{{ 's' if hours > 1 else '' }}
+                {% endif %}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endfor%}
+    
+  
+      </div>
+  
+  
+  
+  
+  
+  
+      <div class="row " style="">
+        <div class="col-md-12">
+          <article class="leaderboard text-center mt-5 mb-5">
+            <header>
+              
+              <h1 class=""><span class="leaderboard__title--top">Rest of the Player Rank</span></h1>
+            </header>
+            <main class="leaderboard__profiles">
+  
+              {% for active_user in active_users[:3] %}
+              <article class="leaderboard__profile">
+                <img src="{{ url_for('uploaded_users_images', filename=active_user.image) }}" alt="-- " class="leaderboard__picture" onError="this.onerror=null;this.src='/uploads/RG17vQejvkOoAmQTaioY.png';">
+                <span class="leaderboard__name">{{ active_user.username }}</span>
+                <span class="" style="color: green;"> 
+
+                    {% if active_user.duration < 60 %}
+            {{ active_user.duration }} minute{{ 's' if active_user.duration > 1 else '' }}
+        {% else %}
+            {% set hours = active_user.duration // 60 %}
+            {% set minutes = active_user.duration % 60 %}
+            {{ hours }} hour{{ 's' if hours > 1 else '' }} and {{ minutes }} minute{{ 's' if minutes > 1 else '' }}
+        {% endif %}
+                </span>
+              </article>
+              {%endfor%}
+            </main>
+          </article>
+        </div>
+      </div>
+  
+  
+  
+  
+  
+    </div>
+  </section>
+  
+
+
+
+<script src="{{ url_for('static', filename='js/leaderboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/yellowgraph.js') }}"></script>
+{% endblock%}

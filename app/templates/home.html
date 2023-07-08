@@ -1,0 +1,30 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+
+<style>
+  .square {
+  margin-left: 2px;
+  width: 10px;
+  height: 18px;
+  background-color: rgb(250, 250, 250);
+  display: inline-block;
+}
+
+</style>
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/testing.css')}}">
+
+<div class="lcontainer">
+    <div class="chat-container">
+        <div id="chat-message" class="chat-message"></div>
+        
+      </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/greengraph.js') }}"></script>
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+{% endblock%}

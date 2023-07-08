@@ -1,0 +1,97 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user_card.css')}}">
+
+
+
+<div class="lcontainer">
+    <h1  style=" color: azure; margin-left: 45%;"> Leaderboard Championships</h1>
+    <div class="user-cards">
+        {% for active_user in active_users[:3] %}
+
+        <!--  -->
+        <div class="outer-div">
+            <div class="inner-div">
+                <div class="front">
+                    <div class="front__bkg-photo"
+                        style="--bg-image: url('{{ url_for('uploaded_users_images', filename=active_user.banner) }}')"></div>
+                    <div class="front__face-photo"
+                        style="--bg-image: url('{{ url_for('uploaded_users_images', filename=active_user.image) }}')">
+                    </div>
+
+                    <div class="front__text">
+                        <h3 class="front__text-header">{{ active_user.username }}</h3>
+                        <p class="front__text-para">
+                            {{active_user.rank}}
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+
+
+        {% endfor %}
+    </div>
+
+    <ul class="user-list">
+        <li style="background-color: blueviolet;"> 
+            <i class="fa fa-trophy" aria-hidden="true" style="margin-left: 100px; color: beige;"></i>
+            <h1 style="margin-left: 50px; color: beige;">Rest of the Players' Ranks</h1>
+        </li>
+        {% for active_user in active_users[3:] %}
+        <li class="list-item">
+            <div class="profile-picture">
+                <img src="{{ url_for('uploaded_users_images', filename=active_user.image) }}" alt="Profile Picture">
+            </div>
+
+            <span class="username">{{ active_user.username }}</span>
+            <span class="duration">
+                {{active_user.rank}}
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+
+
+
+<div class="lcontainer">
+    
+    <ul class="user-list">
+
+        <li style="background-color: blueviolet;"> 
+            <i class="fa fa-user" aria-hidden="true" style="margin-left: 100px; color: beige;"></i>
+            <h1 style="margin-left: 50px; color: beige;">List of Admins</h1>
+        </li>
+
+        {% if not is_in_board %}
+        {% for admin_user in admin_list %}
+        <li class="list-item">
+            <div class="profile-picture">
+                <img src="{{ url_for('uploaded_users_images', filename=admin_user.image) }}" alt="Profile Picture">
+            </div>
+
+            <span class="username">{{ admin_user.username }}</span> 
+            <button
+                onclick="createNotification('{{admin_user.id}}','ADD me to Leaderboard Rank Page!','lb_request','{{user.id}}')">Send</button>
+        </li>
+        {% endfor %}
+        {% else %}
+        <li class="list-item">
+        <h3>You aready in the list You cant't send a request!</h3>
+        </li>
+        {% endif %}
+    </ul>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/leaderboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/yellowgraph.js') }}"></script>
+{% endblock%}

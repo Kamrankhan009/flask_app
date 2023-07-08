@@ -1,0 +1,50 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/productform.css')}}">
+
+<div class="lcontainer">
+
+<form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="title" class="white-color">Title:</label>
+      <input type="text" id="title" name="title" required>
+    </div>
+
+    <div class="form-group">
+      <label for="description" class="white-color">Description:</label>
+      <textarea id="description" name="description" rows="4" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="price" class="white-color">Price:</label>
+      <input type="number" id="price" name="price" required>
+    </div>
+
+    <div class="form-group">
+      <label for="image" class="upload-btn" id="image-label">Upload Image</label>
+      <input type="file" id="image" name="image" accept="image/*" required>
+    </div>
+
+    <div class="form-group">
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+</div>
+
+<script>
+  const fileInput = document.getElementById('image');
+const label = document.getElementById('image-label');
+
+fileInput.addEventListener('change', function() {
+  if (fileInput.files.length > 0) {
+    label.textContent = fileInput.files[0].name;
+  } else {
+    label.textContent = 'Choose Image';
+  }
+});
+</script>
+
+<script src="{{ url_for('static', filename='js/whitegraph.js') }}"></script>
+{% endblock%}

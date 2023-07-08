@@ -1,0 +1,35 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jobs.css')}}">
+
+
+
+<div class="lcontainer">
+    
+
+    <ul>
+        {% for job in jobs %}
+            <li>
+                <div class="job-card">
+                    <h3>Job Title: {{ job.title }}</h3>
+                    {% if job.from_salary > 0 %}
+                    <p>From Salary: ${{job.from_salary}} - To Salary: ${{job.to_salary }}</p>
+                    {% endif %}
+                    <p> <strong>Job Description:</strong> <br> {{ job.description }}</p>
+                    
+                    {% if job.applied %}
+                    <a style="background-color: green;" disabled>Applied</a>
+                    {% else %}
+                    <a href="/apply_job/{{ job.id }}">Apply Now</a>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+
+</div>
+
+<script src="{{ url_for('static', filename='js/bluegraph.js') }}"></script>
+{% endblock%}

@@ -1,0 +1,103 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/product.css')}}">
+
+<div class="lcontainer">
+<div class="product-card">
+    <img src="{{ url_for('uploaded_product_images', filename=product.image) }}" alt="Product Image">
+    <h2>{{product.title}}</h2>
+    <p>{{product.description}}</p>
+    
+    <div class="counter-container">
+      <button id="decrement" class="counter-button">-</button>
+      <input id="counter" class="counter-input" type="number" min="1" value="1">
+      <button id="increment" class="counter-button">+</button>
+      <div class="price-container">
+        <p id="product-price">{{ product.price }}</p>
+      </div>
+    </div>
+
+    
+    <button class="add-to-cart" data-item-id="{{product.id}}">Add to Cart</button>
+  </div>
+
+</div> -->
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/product.css')}}">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <!-- CSS -->
+    <link href="{{ url_for('static', filename='css/style23.css') }}" rel="stylesheet">
+    
+    <main class="container">
+
+      <!-- Left Column / Headphones Image -->
+      <div class="left-column">
+
+        <img data-image="red" class="active" src="{{ url_for('uploaded_product_images', filename=product.image) }}" height="100%" alt="">
+      </div>
+
+
+      <!-- Right Column -->
+      <div class="right-column">
+
+        <!-- Product Description -->
+        <div class="product-description">
+          <!-- <span>Headphones</span> -->
+          <h1>{{product.title}}</h1>
+          <p>{{product.description}}</p>
+        </div>
+
+        <!-- Product Configuration -->
+        <div class="product-configuration">
+
+          <!-- Product Color -->
+          <div class="product-color">
+            
+
+          </div>
+
+          <!-- Cable Configuration -->
+          <div class="cable-config">
+            <span>Cable configuration</span>
+
+            <div class="cable-choose">
+
+
+              <div class="counter-container">
+                <button id="decrement" class="counter-button">-</button>
+                <input id="counter" class="counter-input" type="number" min="1" value="1">
+                <button id="increment" class="counter-button">+</button>
+                
+              </div>
+              <!-- <button>Straight</button>
+              <button>Coiled</button>
+              <button>Long-coiled</button> -->
+            </div>
+
+            <a href="#">How to configurate your headphones</a>
+          </div>
+        </div>
+
+        <!-- Product Pricing -->
+        <div class="product-price">
+          <span><div class="price-container">
+            <span id="product-price">{{ product.price }}</span>$
+          </div></span>
+          <a href="#"  class="cart-btn add-to-cart" data-item-id="{{product.id}}">Add to cart</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='js/script23.js') }}" charset="utf-8"></script>
+  </body>
+</html>
+
+
+
+<script src="{{ url_for('static', filename='js/redgraph.js') }}"></script>
+<script src="{{ url_for('static', filename='js/one_product.js') }}"></script>
+{% endblock%}

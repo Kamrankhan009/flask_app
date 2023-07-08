@@ -1,0 +1,53 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css')}}">
+
+
+
+<!-- Add your beautiful design and styling for the cart page here -->
+<div class="cart-container">
+    <table class="cart-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cart_item in cart_items %}
+        <tr>
+          <td>{{ cart_item.item.title }}</td>
+          <td>{{ cart_item.item.description }}</td>
+          <td>{{ cart_item.item.price }}</td>
+          <td>{{ cart_item.quantity }}</td>
+          <td>
+            <form action="/delete_from_cart/{{ cart_item.id }}" method="POST">
+              <button type="submit" class="delete-btn">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td colspan="3"></td>
+          <td><strong>Total Amount:</strong></td>
+          <td><strong>{{ total_amount }}</strong></td>
+        </tr>
+      </tbody>
+      <tr>
+        <td>
+          <a href="#" id="pay-btn" class="pay-btn" onclick="getPayFormURL('{{ total_amount }}')">Complete Payment</a>
+        </td>
+      </tr>
+    </table>
+
+    
+  </div>
+  
+  <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/purplegraph.js') }}"></script>
+
+{% endblock%}

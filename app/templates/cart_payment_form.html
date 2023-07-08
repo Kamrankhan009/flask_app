@@ -1,0 +1,43 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cart_payment_form.css')}}">
+
+
+
+
+<div class="lcontainer">
+    
+
+    <div class="payment-form">
+        <h2>Payment Information</h2>
+        <form id="payment-form">
+
+    
+          <div id="card-number"></div>
+    
+
+    
+          <label for="amount">Amount</label>
+          <input type="text" id="amount" name="amount" readonly>
+    
+          <button type="submit" id="submit-payment-btn">Submit Payment</button>
+        </form>
+      </div>
+    
+
+
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const amount = urlParams.get('amount');
+    var amountInput = document.getElementById('amount');
+    amountInput.min = amount;
+    amountInput.max = amount;
+    amountInput.value = amount;
+</script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{{ url_for('static', filename='js/cart_pay_form.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bluegraph.js') }}"></script>
+{% endblock%}
