@@ -72,8 +72,9 @@ def jobs():
     
     
     all_jobs= []
+    applied = False
     for job in jobs:
-        applied = False
+        
         if current_user.is_authenticated:
             check_if_applied_job = JobApplication.query.filter_by(job_id=job.id, user_id=current_user.id).first()
             if check_if_applied_job:

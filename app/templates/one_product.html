@@ -1,35 +1,13 @@
 {% extends 'nav.html' %}
 
 {% block content %}
-<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/product.css')}}">
-
-<div class="lcontainer">
-<div class="product-card">
-    <img src="{{ url_for('uploaded_product_images', filename=product.image) }}" alt="Product Image">
-    <h2>{{product.title}}</h2>
-    <p>{{product.description}}</p>
-    
-    <div class="counter-container">
-      <button id="decrement" class="counter-button">-</button>
-      <input id="counter" class="counter-input" type="number" min="1" value="1">
-      <button id="increment" class="counter-button">+</button>
-      <div class="price-container">
-        <p id="product-price">{{ product.price }}</p>
-      </div>
-    </div>
-
-    
-    <button class="add-to-cart" data-item-id="{{product.id}}">Add to Cart</button>
-  </div>
-
-</div> -->
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/product.css')}}">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <!-- CSS -->
     <link href="{{ url_for('static', filename='css/style23.css') }}" rel="stylesheet">
-    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <main class="container">
 
       <!-- Left Column / Headphones Image -->
@@ -40,7 +18,7 @@
 
 
       <!-- Right Column -->
-      <div class="right-column">
+      <div class="right-column" style="margin-top: 0px !important;">
 
         <!-- Product Description -->
         <div class="product-description">
@@ -54,21 +32,59 @@
 
           <!-- Product Color -->
           <div class="product-color">
-            
-
+            <div class="product-configuration">
+              <div class="product-color">
+                <button id="iron-button" class="color-button btn" onclick="selectButton(this, 6)" style="padding:3px; margin: 2px; background-color: white; opacity: .8; border: 2px solid gray; font-size: 12px; letter-spacing: 0.2em;">IRON TO BRANZE <br> +$6.00</button>
+                <button id="branze-button" class="color-button btn" onclick="selectButton(this, 11)" style="padding:3px;margin: 2px; background-color: white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">BRANZE TO SILVER<br> +$11.00</button>
+                <button id="silver-button" class="color-button btn" onclick="selectButton(this, 16)" style="padding:3px;margin: 2px; background-color: white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">SILVER TO GOLD <br> +$16.00</button>
+                <button id="gold-button" class="color-button btn " onclick="selectButton(this, 22)" style="padding:3px;margin: 2px; background-color: white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">GOLD TO PLAT <br> +$22.00</button>
+                <button id="plat-button" class="color-button btn " onclick="selectButton(this, 32)" style="padding:3px;margin: 2px; background-color: white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">PLAT TO DIAMOND <br> +$32.00</button>
+                <button id="diamond-button" class="color-button btn" onclick="selectButton(this, 52)" style="padding:3px;margin: 2px; background-color: white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">DIAMOND TO ASC <br> +$52.00</button>
+              </div>
+            </div>
           </div>
 
+           <script>
+var selectedButton = null;
+var selectedPrice = 0;
+
+function selectButton(button, price) {
+  var buttons = document.getElementsByClassName('color-button');
+  var totalPriceElement = document.getElementById('product-price');
+  var initialPrice = parseFloat(totalPriceElement.textContent);
+
+  if (selectedButton !== null) {
+    selectedButton.classList.remove('selected');
+    initialPrice -= selectedPrice;
+  }
+
+  button.classList.add('selected');
+  selectedButton = button;
+  selectedPrice = price;
+  initialPrice += selectedPrice;
+
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].style.backgroundColor = 'white';
+    buttons[i].style.color = 'black';
+  }
+
+  button.style.backgroundColor = 'green';
+  button.style.color = 'white';
+
+  totalPriceElement.textContent = initialPrice.toFixed(2);
+}
+</script>
+          </script>
           <!-- Cable Configuration -->
           <div class="cable-config">
-            <span>Cable configuration</span>
 
             <div class="cable-choose">
 
 
               <div class="counter-container">
-                <button id="decrement" class="counter-button">-</button>
-                <input id="counter" class="counter-input" type="number" min="1" value="1">
-                <button id="increment" class="counter-button">+</button>
+                <button id="decrement" class="counter-button" style="background-color: white; opacity: 0.8;">-</button>
+                <input id="counter" class="counter-input" style="background-color: white; opacity: 0.8;" type="number" min="1" value="1">
+                <button id="increment" class="counter-button" style="background-color: white; opacity: 0.8;">+</button>
                 
               </div>
               <!-- <button>Straight</button>
@@ -76,7 +92,7 @@
               <button>Long-coiled</button> -->
             </div>
 
-            <a href="#">How to configurate your headphones</a>
+            
           </div>
         </div>
 

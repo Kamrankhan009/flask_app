@@ -10,20 +10,20 @@
 
 
 
-<section class="rate" style="">
+<section class="rate">
 
     <div class="container" >
   
       <h1 class="text-center text-white" style="margin-top: -130px;">Leaderboard Playing Hours</h1>
       
   
-      <div class="row " style="">
+      <div class="row ">
         {% for active_user in active_users[:3] %}
         <div class="col-md-4 place2">
           <div class="content second mb-2">
             <div class="card">
               <div class="card-img-top second" style="background-image: url('{{ url_for('uploaded_users_images', filename=active_user.banner) }}');">
-                <p>#2</p>
+                <p>#{{loop.index}}</p>
               </div>
               <div class="card-body">
                 <img src="{{ url_for('uploaded_users_images', filename=active_user.image) }}" alt="" class="avatar" onError="this.onerror=null;this.src='/uploads/RG17vQejvkOoAmQTaioY.png';">
@@ -49,7 +49,7 @@
   
   
   
-      <div class="row " style="">
+      <div class="row " >
         <div class="col-md-12">
           <article class="leaderboard text-center mt-5 mb-5">
             <header>

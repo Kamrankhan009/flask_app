@@ -16,11 +16,14 @@ html, body {
 /* Columns */
 .left-column {
   width: 60%;
+  height: 80%;
+  margin-right: 10px;
   position: relative;
 }
 
 .right-column {
-  width: 35%;
+  width: 30%;
+  height: 80%;
   margin-top: 60px;
 }
 
@@ -36,7 +39,7 @@ html, body {
 }
 
 .left-column img.active {
-  opacity: .6;
+  opacity: .8;
 }
 
 

@@ -3,22 +3,55 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/card.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/shop.css')}}">
-{% for product in products %}
-<div class="card">
-    <div style="align-items: center; text-align: center;">
-        <a href="{{url_for('one_product', id=product.id)}}">
-    <img src="{{ url_for('uploaded_product_images', filename=product.image) }}" alt="sdsdsd" style="max-width: 250px; width: 250px; height: 250px; max-height: 250px;">
-    </a>
-    </div>
-<div class="card-title"> {{product.title}} </div>
-<div class="card-description">
-    ${{product.price}} {{product.description}}
-</div>
-<button class="add-to-cart" data-item-id="{{product.id}}">Add to Cart</button>
-</div>
-    
-{% endfor %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  
+<style>
+    .card {
+    opacity: .7;
+    max-width: 18rem;
+    height: 340px;    
+  }
 
+  .card-img-top {
+    object-fit: cover;
+    max-height: 70%; /* Adjust the image height as desired */
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    padding: 10px;
+  }
+  </style>
+
+<div class="row">
+{% for product in products %}
+<div class="col-lg-4 col-md-4">
+  <div class="card" style="width: 18rem;">
+   <a href="/products/{{product.id}}"> <img src="{{ url_for('uploaded_product_images', filename=product.image) }}" class="card-img-top" alt="Card Image"></a>
+    <div class="card-body" style="color: black;">
+      <p class="card-title">{{product.title[:10]}}.</p>
+      <p class="card-text">{{product.description [:10]}}. </p>
+      <p class="card-text">${{product.price}} </p>
+      <button class="add-to-cart btn btn-danger" data-item-id="{{product.id}}">Add to Cart</button>
+    
+    </div>
+  </div>
+
+ 
+</div>
+{% endfor %}
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
 <script src="{{ url_for('static', filename='js/redgraph.js') }}"></script>
 {% endblock%}
+

@@ -1,12 +1,11 @@
-  // ctx.strokeStyle = '#3277d1';
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-
 let circles = [];
 let lines = [];
 const maxCircleRadius = 5;
 const minCircleRadius = 5;
 const maxLineDistance = 200;
+let animationId;
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -20,8 +19,8 @@ function init() {
     const radius = Math.random() * (maxCircleRadius - minCircleRadius) + minCircleRadius;
     const x = Math.random() * (canvas.width - radius * 2) + radius;
     const y = Math.random() * (canvas.height - radius * 2) + radius;
-    const dx = (Math.random() - 0.5) * 0.5;
-    const dy = (Math.random() - 0.5) * 0.5;
+    const dx = (Math.random() - 0.5) * 2;
+    const dy = (Math.random() - 0.5) * 2;
 
     circles.push({ x, y, radius, dx, dy });
   }
@@ -34,8 +33,8 @@ function resizeCanvas() {
   canvas.height = window.innerHeight;
 }
 
-async function animate() {
-  requestAnimationFrame(animate);
+function animate() {
+  animationId = requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Update circle positions
@@ -120,11 +119,17 @@ function drawLine(line) {
   ctx.closePath();
 }
 
+// Initialize the animation
 init();
 
-window.addEventListener('resize', function() {
-  resizeCanvas();
-  circles = [];
-  lines = [];
-  init();
+// Listen for window resize event
+window.addEventListener('resize', () => {
+  cancelAnimationFrame(animationId); // Stop the animation
+  circles = []; // Clear the circles array
+  lines = []; // Clear the lines array
+  init(); // Reinitialize the animation with updated canvas dimensions
 });
+
+
+  // ctx.strokeStyle = '#3277d1';
+  

@@ -9,18 +9,18 @@ decrementButton.addEventListener('click', function() {
   const currentValue = parseInt(counterInput.value);
   if (currentValue > 1) {
     counterInput.value = currentValue - 1;
-    updatePrice();
+   s
   }
 });
 
 incrementButton.addEventListener('click', function() {
   const currentValue = parseInt(counterInput.value);
   counterInput.value = currentValue + 1;
-  updatePrice();
+ 
 });
 
 counterInput.addEventListener('change', function() {
-  updatePrice();
+
 });
 
 function updatePrice() {

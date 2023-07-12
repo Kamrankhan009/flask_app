@@ -44,7 +44,7 @@ $(document).ready(function() {
           updateCartCount();
         },
         error: function(error) {
-          alert('Error adding item to cart');
+          alert('Login Required!');
         },
         complete: function() {
           button.removeClass('disabled').removeAttr('disabled');

@@ -1,0 +1,1 @@
+'mysql+pymysql://GWYGL:KingofKuwait22@GWYGL.mysql.pythonanywhere-services.com/GWYGL$shopdb'
