@@ -1,9 +1,17 @@
+
+
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 .lcontainer {
-  max-width: 100%;
+  max-width: 90%;
   width: 100%;
   width: calc(100% - 1rem);
-  margin: 50px auto;
+  margin-top: 50px auto;
   padding: 50px;
+
 }
 
 

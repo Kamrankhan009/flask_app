@@ -31,6 +31,23 @@ function init() {
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+
+  // Adjust circles' positions to stay within the new canvas size
+  for (let i = 0; i < circles.length; i++) {
+    const circle = circles[i];
+    if (circle.x + circle.radius > canvas.width) {
+      circle.x = canvas.width - circle.radius;
+    }
+    if (circle.x - circle.radius < 0) {
+      circle.x = circle.radius;
+    }
+    if (circle.y + circle.radius > canvas.height) {
+      circle.y = canvas.height - circle.radius;
+    }
+    if (circle.y - circle.radius < 0) {
+      circle.y = circle.radius;
+    }
+  }
 }
 
 function animate() {
@@ -127,9 +144,6 @@ window.addEventListener('resize', () => {
   cancelAnimationFrame(animationId); // Stop the animation
   circles = []; // Clear the circles array
   lines = []; // Clear the lines array
+  resizeCanvas(); // Adjust the canvas size
   init(); // Reinitialize the animation with updated canvas dimensions
 });
-
-
-  // ctx.strokeStyle = '#3277d1';
-  
