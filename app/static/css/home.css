@@ -1,5 +1,5 @@
 .lcontainer {
-  max-width: 1500px;
+  max-width: 100%;
   width: 100%;
   width: calc(100% - 1rem);
   margin: 50px auto;

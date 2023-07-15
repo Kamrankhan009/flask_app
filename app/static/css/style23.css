@@ -200,6 +200,25 @@ html, body {
   background-color: #64af3d;
 }
 
+
+@media (max-width: 1241px) {
+  .container {
+    max-width: 100%;
+    padding: 0 15px;
+  }
+
+  .left-column {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .right-column {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
 /* Responsive */
 @media (max-width: 940px) {
   .container {
