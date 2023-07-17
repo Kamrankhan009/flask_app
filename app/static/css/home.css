@@ -3,14 +3,16 @@
 body {
   overflow-x: hidden;
   overflow-y: auto;
+  background-color: #000;
 }
 
 .lcontainer {
+
   max-width: 90%;
   width: 100%;
   width: calc(100% - 1rem);
-  margin-top: 50px auto;
-  padding: 50px;
+  /* margin-top: -20px auto;
+  padding: 50px; */
 
 }
 
@@ -38,7 +40,7 @@ body {
 /* background */
 .background-container {
   position: fixed;
-  top: 0;
+  top: 7%;
   left: 0;
   width: 100%;
   height: 100%;

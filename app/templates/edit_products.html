@@ -1,0 +1,113 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Responsive Table with Image and Action Button</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+     
+      color: white;
+    }
+
+    #responsive-table {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    #responsive-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #responsive-table th,
+    #responsive-table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    #responsive-table th:first-child,
+    #responsive-table td:first-child {
+      padding-left: 0;
+    }
+
+    #responsive-table th:last-child,
+    #responsive-table td:last-child {
+      padding-right: 0;
+    }
+
+    .image-column img {
+      max-width: 100px;
+      height: auto;
+    }
+
+    .action-column button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+      #responsive-table {
+        overflow-x: scroll;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="responsive-table">
+  <table>
+    <thead>
+      <tr style="background-color: red; opacity: .8;">
+        <th>#</th>
+        <th>Image</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for product in products%}
+      <tr style="background-color: grey; opacity: .8;">
+        <td>{{loop.index}}</td>
+        <td class="image-column">
+          <a href="/products/{{product.id}}"><img src="{{ url_for('uploaded_product_images', filename=product.image) }}" alt="Image 1">
+          </a>
+        </td>
+        <td>{{product.title}}</td>
+        <td>{{product.description}}</td>
+        <td class="action-column"><a href="/delete_product/{{product.id}}"><button style="background-color: red;">Delete</button></a>
+        
+          <a href="/edit_product/{{product.id}}"><button style="background-color: red;">Edit</button></a>
+        </td>
+      </tr>
+      {%endfor%}
+      
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+<script src="{{ url_for('static', filename='js/whitegraph.js') }}"></script>
+
+{% endblock%}

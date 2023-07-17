@@ -6,6 +6,37 @@
 
 <div class="lcontainer">
 
+{% if edit %}
+<form method="POST" enctype="multipart/form-data" action="/edit_product/{{product.id}}">
+  <div class="form-group">
+    <label for="title" class="white-color">Title:</label>
+    <input type="text" id="title" name="title" value="{{product.title}}" required>
+  </div>
+
+  <div class="form-group">
+    <label for="description" class="white-color">Description:</label>
+    <textarea id="description" name="description" rows="4" required>{{product.description}}</textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="price" class="white-color">Price:</label>
+    <input type="number" id="price" name="price" value="{{product.price}}" required>
+  </div>
+
+
+  <div class="form-group">
+    <label for="image" class="upload-btn" id="image-label">Upload Image</label>
+    <input type="file" id="image" name="image" accept="image/*" value="{{product.image}}">
+  </div>
+
+  <div class="form-group">
+    <input type="submit" value="Submit">
+  </div>
+</form>
+</div>
+
+
+{%else%}
 <form method="POST" enctype="multipart/form-data">
     <div class="form-group">
       <label for="title" class="white-color">Title:</label>
@@ -45,6 +76,6 @@ fileInput.addEventListener('change', function() {
   }
 });
 </script>
-
+{%endif%}
 <script src="{{ url_for('static', filename='js/whitegraph.js') }}"></script>
 {% endblock%}

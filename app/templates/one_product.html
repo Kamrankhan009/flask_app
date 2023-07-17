@@ -34,12 +34,12 @@
           <div class="product-color">
             <div class="product-configuration">
               <div class="product-color">
-                <button id="iron-button" class="color-button btn" onclick="selectButton(this, 6)" style="padding:3px; margin: 2px; background-color: white; opacity: .8; border: 2px solid gray; font-size: 12px; letter-spacing: 0.2em;">IRON TO BRANZE <br> +$6.00</button>
-                <button id="branze-button" class="color-button btn" onclick="selectButton(this, 11)" style="padding:3px;margin: 2px; background-color: white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">BRANZE TO SILVER<br> +$11.00</button>
-                <button id="silver-button" class="color-button btn" onclick="selectButton(this, 16)" style="padding:3px;margin: 2px; background-color: white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">SILVER TO GOLD <br> +$16.00</button>
-                <button id="gold-button" class="color-button btn " onclick="selectButton(this, 22)" style="padding:3px;margin: 2px; background-color: white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">GOLD TO PLAT <br> +$22.00</button>
-                <button id="plat-button" class="color-button btn " onclick="selectButton(this, 32)" style="padding:3px;margin: 2px; background-color: white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">PLAT TO DIAMOND <br> +$32.00</button>
-                <button id="diamond-button" class="color-button btn" onclick="selectButton(this, 52)" style="padding:3px;margin: 2px; background-color: white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">DIAMOND TO ASC <br> +$52.00</button>
+                <button id="iron-button" class="color-button btn" onclick="selectButton(this, 6)" style="padding:3px; margin: 2px; background-color: rgb(2, 2, 2);color:white; opacity: .8; border: 2px solid gray; font-size: 12px; letter-spacing: 0.2em;">IRON TO BRANZE <br> +$6.00</button>
+                <button id="branze-button" class="color-button btn" onclick="selectButton(this, 11)" style="padding:3px;margin: 2px; background-color: rgb(2, 2, 2);color:white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">BRANZE TO SILVER<br> +$11.00</button>
+                <button id="silver-button" class="color-button btn" onclick="selectButton(this, 16)" style="padding:3px;margin: 2px; background-color: rgb(2, 2, 2);color:white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">SILVER TO GOLD <br> +$16.00</button>
+                <button id="gold-button" class="color-button btn " onclick="selectButton(this, 22)" style="padding:3px;margin: 2px; background-color: rgb(2, 2, 2);color:white;opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">GOLD TO PLAT <br> +$22.00</button>
+                <button id="plat-button" class="color-button btn " onclick="selectButton(this, 32)" style="padding:3px;margin: 2px; background-color: rgb(2, 2, 2);color:white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">PLAT TO DIAMOND <br> +$32.00</button>
+                <button id="diamond-button" class="color-button btn" onclick="selectButton(this, 52)" style="padding:3px;margin: 2px; background-color: rgb(2, 2, 2);color:white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">DIAMOND TO ASC <br> +$52.00</button>
               </div>
             </div>
           </div>
@@ -64,11 +64,11 @@ function selectButton(button, price) {
   initialPrice += selectedPrice;
 
   for (var i = 0; i < buttons.length; i++) {
-    buttons[i].style.backgroundColor = 'white';
-    buttons[i].style.color = 'black';
+    buttons[i].style.backgroundColor = 'black';
+    buttons[i].style.color = 'white';
   }
 
-  button.style.backgroundColor = 'green';
+  button.style.backgroundColor = 'red';
   button.style.color = 'white';
 
   totalPriceElement.textContent = initialPrice.toFixed(2);
@@ -82,9 +82,9 @@ function selectButton(button, price) {
 
 
               <div class="counter-container">
-                <button id="decrement" class="counter-button" style="background-color: white; opacity: 0.8;">-</button>
-                <input id="counter" class="counter-input" style="background-color: white; opacity: 0.8;" type="number" min="1" value="1">
-                <button id="increment" class="counter-button" style="background-color: white; opacity: 0.8;">+</button>
+                <button id="decrement" class="counter-button" style="background-color: rgb(0, 0, 0); color: white; opacity: 0.8;">-</button>
+                <input id="counter" class="counter-input" style="background-color: rgb(0, 0, 0); color: white; opacity: 0.8;" type="number" min="1" value="1">
+                <button id="increment" class="counter-button" style="background-color: rgb(0, 0, 0); color: white; opacity: 0.8;">+</button>
                 
               </div>
               <!-- <button>Straight</button>
@@ -101,7 +101,7 @@ function selectButton(button, price) {
           <span><div class="price-container">
             <span id="product-price">{{ product.price }}</span>$
           </div></span>
-          <a href="#"  class="cart-btn add-to-cart" data-item-id="{{product.id}}">Add to cart</a>
+          <a href="#"  class="cart-btn add-to-cart" style="background-color: red !important" data-item-id="{{product.id}}">Add to cart</a>
         </div>
       </div>
     </main>

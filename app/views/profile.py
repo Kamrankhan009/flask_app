@@ -2,10 +2,11 @@
 from app import app, db
 from flask import render_template,jsonify, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from ..models import User
+from ..models import User, Product
 from werkzeug.utils import secure_filename
 import os
 from uuid import uuid4
+
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif','webp'}
 
@@ -83,3 +84,4 @@ def profile():
 @login_required
 def edit_profile():
     return render_template('edit_profile.html',user=current_user)
+

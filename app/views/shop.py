@@ -110,3 +110,60 @@ def delete_from_cart(cart_item_id):
         db.session.commit()
 
     return redirect('/cart')  # Redirect back to the cart page
+
+
+
+@app.route("/update_products")
+@login_required
+def update_products():
+    products=Product.query.all()
+    return render_template("edit_products.html", user = current_user, products=products)
+
+
+@app.route("/edit_product/<id>", methods = ['GET','POST'])
+def edit_product(id):
+    product = Product.query.get(id)
+    if request.method == "POST":
+        title = request.form['title']
+        description = request.form['description']
+        price = request.form['price']
+        image = request.files['image']
+
+        if not image:
+            pass
+        else:
+        # Save the image to a specific location or process it as needed
+            filename = str(uuid4()) + '.' + image.filename.rsplit('.', 1)[1].lower()
+            image.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/products", filename))
+            product.image = filename
+        
+        product.title = title
+        product.description = description
+        product.price = price
+
+        db.session.commit()
+        return redirect(url_for('update_products'))
+
+        # image.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/products", filename))
+        # new_product=Product(title=title,description=description,price=price,image=f'{filename}')
+        # db.session.add(new_product)
+        # db.session.commit()
+        # # ...
+
+        # # Redirect to a success page or another route
+        # return redirect(url_for('shop'))
+
+    
+    return render_template("add_product.html",user = current_user, product = product, edit = True)
+
+@app.route("/delete_product/<id>")
+@login_required
+def delete_product(id):
+    product = Product.query.get(id)
+
+    db.session.delete(product)
+    db.session.commit()
+
+    return redirect("/edit_products")
+
+
