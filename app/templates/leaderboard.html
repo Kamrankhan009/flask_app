@@ -54,11 +54,11 @@
           <article class="leaderboard text-center mt-5 mb-5">
             <header>
               
-              <h1 class=""><span class="leaderboard__title--top">Rest of the Player Rank</span></h1>
+              <h3 class="" style="margin-top: 5%;"><span class="">Rest of the Player Rank</span></h3>
             </header>
             <main class="leaderboard__profiles">
   
-              {% for active_user in active_users[:3] %}
+              {% for active_user in active_users[3:] %}
               <article class="leaderboard__profile">
                 <img src="{{ url_for('uploaded_users_images', filename=active_user.image) }}" alt="-- " class="leaderboard__picture" onError="this.onerror=null;this.src='/uploads/RG17vQejvkOoAmQTaioY.png';">
                 <span class="leaderboard__name">{{ active_user.username }}</span>

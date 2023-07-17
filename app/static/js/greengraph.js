@@ -32,7 +32,12 @@ function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  // Adjust circles' positions to stay within the new canvas size
+  // Calculate the ratio based on the change in canvas size compared to the initial size
+  const widthRatio = canvas.width / window.innerWidth;
+  const heightRatio = canvas.height / window.innerHeight;
+  const ratio = Math.min(widthRatio, heightRatio);
+
+  // Adjust circles' positions and radii to stay within the new canvas size
   for (let i = 0; i < circles.length; i++) {
     const circle = circles[i];
     if (circle.x + circle.radius > canvas.width) {
@@ -47,8 +52,12 @@ function resizeCanvas() {
     if (circle.y - circle.radius < 0) {
       circle.y = circle.radius;
     }
+
+    // Update circle radius based on the new canvas size
+    circle.radius *= ratio;
   }
 }
+
 
 function animate() {
   animationId = requestAnimationFrame(animate);
