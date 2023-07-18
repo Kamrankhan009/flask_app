@@ -1,7 +1,7 @@
 from app import app,db
 from flask import render_template,jsonify, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from ..models import Product,Cart
+from ..models import Product,Cart, Product_offer
 import os
 from ..confing import basedir
 from uuid import uuid4
@@ -41,7 +41,8 @@ def add_product():
 @app.route("/products/<int:id>", methods = ['GET','POST'])
 def one_product(id):
     product=Product.query.filter_by(id=id).first()
-    return render_template('one_product.html',user=current_user,product=product)
+    offer = Product_offer.query.filter_by(p_id = id).all()
+    return render_template('one_product.html',user=current_user,product=product, offer = offer)
 
 
 @app.route('/cart')
@@ -74,6 +75,8 @@ def add_to_cart(item_id):
     # Retrieve the current user ID (assuming you have a way to get the user ID)
     user_id = current_user.id
     quantity = int(request.form['quantity'])
+    price = request.form['price']
+    
 
     # Check if the item is already in the cart for the user
     cart_item = Cart.query.filter_by(uid=user_id, itemid=item_id).first()
@@ -85,7 +88,7 @@ def add_to_cart(item_id):
         return jsonify({'message': 'Item added to cart successfully'})
     else:
         # If the item is not in the cart, create a new Cart object
-        cart_item = Cart(uid=user_id, itemid=item_id, quantity=quantity)
+        cart_item = Cart(uid=user_id, itemid=item_id, quantity=quantity, price=price)
 
         # Save the Cart object to the database
         db.session.add(cart_item)
@@ -123,6 +126,7 @@ def update_products():
 @app.route("/edit_product/<id>", methods = ['GET','POST'])
 def edit_product(id):
     product = Product.query.get(id)
+    offer = Product_offer.query.filter_by(p_id = id).all()
     if request.method == "POST":
         title = request.form['title']
         description = request.form['description']
@@ -142,19 +146,9 @@ def edit_product(id):
         product.price = price
 
         db.session.commit()
+
         return redirect(url_for('update_products'))
-
-        # image.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/products", filename))
-        # new_product=Product(title=title,description=description,price=price,image=f'{filename}')
-        # db.session.add(new_product)
-        # db.session.commit()
-        # # ...
-
-        # # Redirect to a success page or another route
-        # return redirect(url_for('shop'))
-
-    
-    return render_template("add_product.html",user = current_user, product = product, edit = True)
+    return render_template("add_product.html",user = current_user, product = product, edit = True, offer = offer)
 
 @app.route("/delete_product/<id>")
 @login_required
@@ -167,3 +161,32 @@ def delete_product(id):
     return redirect("/edit_products")
 
 
+@app.route('/product_offer', methods=['POST'])
+def product_offer():
+    data = request.get_json()
+    id = data.get('id')
+    title = data.get('name')
+    price = data.get('email')
+
+
+    print(title)
+    add = Product_offer(p_id = id, price = price, title = title)
+
+    db.session.add(add)
+    db.session.commit()
+    # Process the form data
+    # ...
+    # Return a response
+    response = {'message': 'Product offer received successfully!'}
+    return jsonify(response)
+
+
+@app.route('/delete_offer/<id>/<Pid>')
+def delete_offer(id, Pid):
+
+    offr = Product_offer.query.get(id)
+
+    db.session.delete(offr)
+    db.session.commit()
+
+    return redirect(f"/edit_product/{Pid}")

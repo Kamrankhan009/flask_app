@@ -34,46 +34,53 @@
           <div class="product-color">
             <div class="product-configuration">
               <div class="product-color">
-                <button id="iron-button" class="color-button btn" onclick="selectButton(this, 6)" style="padding:3px; margin: 2px; background-color: rgb(2, 2, 2);color:white; opacity: .8; border: 2px solid gray; font-size: 12px; letter-spacing: 0.2em;">IRON TO BRANZE <br> +$6.00</button>
-                <button id="branze-button" class="color-button btn" onclick="selectButton(this, 11)" style="padding:3px;margin: 2px; background-color: rgb(2, 2, 2);color:white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">BRANZE TO SILVER<br> +$11.00</button>
-                <button id="silver-button" class="color-button btn" onclick="selectButton(this, 16)" style="padding:3px;margin: 2px; background-color: rgb(2, 2, 2);color:white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">SILVER TO GOLD <br> +$16.00</button>
-                <button id="gold-button" class="color-button btn " onclick="selectButton(this, 22)" style="padding:3px;margin: 2px; background-color: rgb(2, 2, 2);color:white;opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">GOLD TO PLAT <br> +$22.00</button>
-                <button id="plat-button" class="color-button btn " onclick="selectButton(this, 32)" style="padding:3px;margin: 2px; background-color: rgb(2, 2, 2);color:white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">PLAT TO DIAMOND <br> +$32.00</button>
-                <button id="diamond-button" class="color-button btn" onclick="selectButton(this, 52)" style="padding:3px;margin: 2px; background-color: rgb(2, 2, 2);color:white; opacity: .8; border: 2px solid gray;font-size: 12px;letter-spacing: 0.2em;">DIAMOND TO ASC <br> +$52.00</button>
+                {% for off in offer %}
+                <button id="iron-button" class="color-button btn" onclick="selectButton(this)" style="padding:3px; margin: 2px; background-color: rgb(2, 2, 2);color:white; opacity: .8; border: 2px solid gray; font-size: 12px; letter-spacing: 0.2em;">{{off.title}} <br> +${{off.price}}.00</button>
+                {% endfor %}
               </div>
             </div>
           </div>
-
-           <script>
-var selectedButton = null;
-var selectedPrice = 0;
-
-function selectButton(button, price) {
-  var buttons = document.getElementsByClassName('color-button');
-  var totalPriceElement = document.getElementById('product-price');
-  var initialPrice = parseFloat(totalPriceElement.textContent);
-
-  if (selectedButton !== null) {
-    selectedButton.classList.remove('selected');
-    initialPrice -= selectedPrice;
-  }
-
-  button.classList.add('selected');
-  selectedButton = button;
-  selectedPrice = price;
-  initialPrice += selectedPrice;
-
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].style.backgroundColor = 'black';
-    buttons[i].style.color = 'white';
-  }
-
-  button.style.backgroundColor = 'red';
-  button.style.color = 'white';
-
-  totalPriceElement.textContent = initialPrice.toFixed(2);
-}
-</script>
+          
+          <script>
+            var selectedButton = null;
+            var selectedPrice = 0;
+          
+            function selectButton(button) {
+              var buttons = document.getElementsByClassName('color-button');
+              var totalPriceElement = document.getElementById('product-price');
+              var initialPrice = parseFloat(totalPriceElement.textContent);
+          
+              if (selectedButton !== null) {
+                selectedButton.classList.remove('selected');
+                initialPrice -= selectedPrice;
+              }
+          
+              button.classList.add('selected');
+              selectedButton = button;
+              selectedPrice = parseFloat(button.innerText.split('+$')[1]);
+              initialPrice += selectedPrice;
+          
+              for (var i = 0; i < buttons.length; i++) {
+                buttons[i].style.backgroundColor = 'black';
+                buttons[i].style.color = 'white';
+              }
+          
+              button.style.backgroundColor = 'red';
+              button.style.color = 'white';
+          
+              totalPriceElement.textContent = initialPrice.toFixed(2);
+            }
+          
+            // Select the first button by default on the first run
+            if (selectedButton === null) {
+              var buttons = document.getElementsByClassName('color-button');
+              if (buttons.length > 0) {
+                selectButton(buttons[0]);
+              }
+            }
+          </script>
+          
+          
           </script>
           <!-- Cable Configuration -->
           <div class="cable-config">
@@ -99,7 +106,7 @@ function selectButton(button, price) {
         <!-- Product Pricing -->
         <div class="product-price">
           <span><div class="price-container">
-            <span id="product-price">{{ product.price }}</span>$
+            <span id="product-price">{% if not offer %}{{ product.price }}{%else%}0{%endif%}</span>$
           </div></span>
           <a href="#"  class="cart-btn add-to-cart" style="background-color: red !important" data-item-id="{{product.id}}">Add to cart</a>
         </div>

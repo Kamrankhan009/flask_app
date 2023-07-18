@@ -12,7 +12,7 @@ const englishText = `Welcome to the <span style="color:yellow">"FORTPLAY"</span>
 
 Additionally, we offer tournaments throughout the month with substantial prize pools to support professional players. Even if you are not a professional player in the game, there are events in which you can participate and win cash prizes.
 
-We seek to create a suitable place for Fortnite players, where they can communicate with each other on the "FORTPLAY" discord server and offer tournaments to encourage professional players, and we also offer events to make the server fun for everyone. We also provide business opportunities for those who seek opening a clan in our server, where they can get financial income.
+We seek to create a suitable place for Fortnite players, where they can communicate with each other on the <span style="color:yellow">"FORTPLAY"</span> discord server and offer tournaments to encourage professional players, and we also offer events to make the server fun for everyone. We also provide business opportunities for those who seek opening a clan in our server, where they can get financial income.
 
 <br><br>
 <div style="text-align: center;">
