@@ -4,7 +4,7 @@ let circles = [];
 let lines = [];
 const maxCircleRadius = 5;
 const minCircleRadius = 5;
-const maxLineDistance = 200;
+const maxLineDistance = 120;
 let animationId;
 
 function sleep(ms) {

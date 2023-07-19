@@ -7,12 +7,19 @@
 <style>
   #main_div
   {
-
+    margin-top: -100px;
     background-color: white;
-    opacity: 0.8;
     color: black;
-    padding: 30px;
-    width: 85%;
+    padding-left: 8%;
+    padding-top: 5%;
+    padding-bottom: 3%;
+    width: 70%;
+
+  }
+  table,th,td{
+    padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
 
   }
 </style>
@@ -24,6 +31,7 @@
 
 {% if edit %}
 <div id="main_div">
+  <h2 style="margin-left: 35%;">UPDATE FORM</h2>
 <form method="POST" enctype="multipart/form-data" action="/edit_product/{{product.id}}">
   <div class="form-group" style="width: 80%;">
     <label for="title" style="">Title:</label>

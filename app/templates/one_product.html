@@ -26,20 +26,39 @@
           <h1>{{product.title}}</h1>
           <p>{{product.description}}</p>
         </div>
-
+        <style>
+          .selected {
+              background-color: red;
+              color: white;
+          }
+      </style>
         <!-- Product Configuration -->
         <div class="product-configuration">
 
           <!-- Product Color -->
           <div class="product-color">
             <div class="product-configuration">
+             
               <div class="product-color">
-                {% for off in offer %}
+                {%for off in offer[:1] %}
+                <button id="iron-button" class="color-button btn selected" onclick="selectButton(this)" style="padding:3px; margin: 2px; background-color: rgb(255, 0, 0);color:white; opacity: .8; border: 2px solid gray; font-size: 12px; letter-spacing: 0.2em;">{{off.title}} <br> +${{off.price}}.00</button>
+                {%endfor%}
+                {% for off in offer[1:] %}
                 <button id="iron-button" class="color-button btn" onclick="selectButton(this)" style="padding:3px; margin: 2px; background-color: rgb(2, 2, 2);color:white; opacity: .8; border: 2px solid gray; font-size: 12px; letter-spacing: 0.2em;">{{off.title}} <br> +${{off.price}}.00</button>
                 {% endfor %}
               </div>
             </div>
           </div>
+          <script>
+            function selectButton(button) {
+              var isSelected = button.classList.contains("selected");
+              if (isSelected) {
+                button.classList.remove("selected");
+              } else {
+                button.classList.add("selected");
+              }
+            }
+          </script>
           
           <script>
             var selectedButton = null;
@@ -49,7 +68,7 @@
               var buttons = document.getElementsByClassName('color-button');
               var totalPriceElement = document.getElementById('product-price');
               var initialPrice = parseFloat(totalPriceElement.textContent);
-          
+              // initialPrice = 0;
               if (selectedButton !== null) {
                 selectedButton.classList.remove('selected');
                 initialPrice -= selectedPrice;
@@ -106,7 +125,12 @@
         <!-- Product Pricing -->
         <div class="product-price">
           <span><div class="price-container">
-            <span id="product-price">{% if not offer %}{{ product.price }}{%else%}0{%endif%}</span>$
+            <span id="product-price">{% if not offer %}{{ product.price }}{%else%}
+              
+              {%for off in offer[:1]%}
+              0
+              {%endfor%}
+              {%endif%}</span>$
           </div></span>
           <a href="#"  class="cart-btn add-to-cart" style="background-color: red !important" data-item-id="{{product.id}}">Add to cart</a>
         </div>

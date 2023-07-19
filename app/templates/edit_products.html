@@ -15,7 +15,7 @@
     body {
       font-family: Arial, sans-serif;
      
-      color: white;
+      color: rgb(0, 0, 0);
     }
 
     #responsive-table {
@@ -37,7 +37,7 @@
 
     #responsive-table th:first-child,
     #responsive-table td:first-child {
-      padding-left: 0;
+      padding-left: 2%;
     }
 
     #responsive-table th:last-child,
@@ -52,7 +52,7 @@
 
     .action-column button {
       background-color: #4CAF50;
-      color: white;
+      color: rgb(0, 0, 0);
       padding: 6px 12px;
       border: none;
       border-radius: 4px;
@@ -71,7 +71,7 @@
 <div id="responsive-table">
   <table>
     <thead>
-      <tr style="background-color: red; opacity: .8;">
+      <tr style="background-color: red;">
         <th>#</th>
         <th>Image</th>
         <th>Title</th>
@@ -81,7 +81,7 @@
     </thead>
     <tbody>
         {% for product in products%}
-      <tr style="background-color: grey; opacity: .8;">
+      <tr style="background-color: rgb(255, 255, 255);">
         <td>{{loop.index}}</td>
         <td class="image-column">
           <a href="/products/{{product.id}}"><img src="{{ url_for('uploaded_product_images', filename=product.image) }}" alt="Image 1">

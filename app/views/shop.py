@@ -12,7 +12,8 @@ cart = []
 @app.route("/shop", methods = ['GET','POST'])
 def shop():
     products=Product.query.all()
-    return render_template('shop.html',user=current_user,products=products)
+    offer = Product_offer.query.all()
+    return render_template('shop.html',user=current_user,products=products, offer = offer)
 
 
 @app.route('/add_product', methods=['GET', 'POST'])
@@ -41,7 +42,8 @@ def add_product():
 @app.route("/products/<int:id>", methods = ['GET','POST'])
 def one_product(id):
     product=Product.query.filter_by(id=id).first()
-    offer = Product_offer.query.filter_by(p_id = id).all()
+    offer = Product_offer.query.filter_by(p_id=id).order_by(Product_offer.price).all()
+    
     return render_template('one_product.html',user=current_user,product=product, offer = offer)
 
 

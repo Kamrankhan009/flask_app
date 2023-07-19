@@ -46,7 +46,22 @@
             <div class="card-body" style="color: white;">
                 <p class="card-title">{{product.title[:10]}}.</p>
                 <p class="card-text">{{product.description [:10]}}. </p>
-                <p class="card-text">${{product.price}} </p>
+                    
+                  {% set prices = [] %}
+                    {% for product1 in offer %}
+
+                    {% if product1.p_id == product.id %}
+                    {% set _ = prices.append(product1.price) %}
+                    {%endif%}
+                    {% endfor %}
+
+                    {% set min_price = prices | min %}
+
+                <p class="card-text">${% if min_price %} {{min_price}}
+                    {%else%}
+                    {{product.price}}
+                    
+                    {%endif%} </p>
                 <button class="add-to-cart btn btn-danger" data-item-id="{{product.id}}">Add to Cart</button>
             </div>
         </div>
