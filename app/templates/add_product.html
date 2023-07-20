@@ -30,6 +30,11 @@
 <div class="lcontainer">
 
 {% if edit %}
+<style>
+  body{
+    overflow-y: auto !important;
+  }
+</style>
 <div id="main_div">
   <h2 style="margin-left: 35%;">UPDATE FORM</h2>
 <form method="POST" enctype="multipart/form-data" action="/edit_product/{{product.id}}">

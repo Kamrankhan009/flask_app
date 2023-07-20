@@ -2,9 +2,9 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let circles = [];
 let lines = [];
-const maxCircleRadius = 5;
-const minCircleRadius = 5;
-const maxLineDistance = 120;
+let maxCircleRadius;
+let minCircleRadius;
+let maxLineDistance;
 let animationId;
 
 function sleep(ms) {
@@ -15,7 +15,7 @@ function init() {
   resizeCanvas();
 
   // Create circles
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 120; i++) {
     const radius = Math.random() * (maxCircleRadius - minCircleRadius) + minCircleRadius;
     const x = Math.random() * (canvas.width - radius * 2) + radius;
     const y = Math.random() * (canvas.height - radius * 2) + radius;
@@ -32,17 +32,25 @@ function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
+  const zoomLevel = window.devicePixelRatio || 1;
+  const zoomedWidth = canvas.width / zoomLevel;
+  const zoomedHeight = canvas.height / zoomLevel;
+
+  maxCircleRadius = 5 / zoomLevel;
+  minCircleRadius = 5 / zoomLevel;
+  maxLineDistance = 120 / zoomLevel;
+
   // Adjust circles' positions to stay within the new canvas size
   for (let i = 0; i < circles.length; i++) {
     const circle = circles[i];
-    if (circle.x + circle.radius > canvas.width) {
-      circle.x = canvas.width - circle.radius;
+    if (circle.x + circle.radius > zoomedWidth) {
+      circle.x = zoomedWidth - circle.radius;
     }
     if (circle.x - circle.radius < 0) {
       circle.x = circle.radius;
     }
-    if (circle.y + circle.radius > canvas.height) {
-      circle.y = canvas.height - circle.radius;
+    if (circle.y + circle.radius > zoomedHeight) {
+      circle.y = zoomedHeight - circle.radius;
     }
     if (circle.y - circle.radius < 0) {
       circle.y = circle.radius;

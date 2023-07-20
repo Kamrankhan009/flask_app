@@ -1,7 +1,7 @@
 body {
   background-color: #000000;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 h1 {

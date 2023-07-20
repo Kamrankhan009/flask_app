@@ -1,3 +1,7 @@
+body{
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
 .lcontainer {
   max-width: 1500px;
   width: 100%;
@@ -84,6 +88,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  padding-top: 4%;
   width: 100%;
   height: 100%;
   z-index: -1;
