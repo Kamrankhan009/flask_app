@@ -31,6 +31,7 @@ $(document).ready(function() {
   $('.add-to-cart').click(function() {
     var button = $(this);
     var itemId = button.data('item-id');
+    var price = $('#product-price').text();
 
     if (!button.hasClass('disabled')) {
       button.addClass('disabled').attr('disabled', 'disabled');
@@ -38,7 +39,7 @@ $(document).ready(function() {
       $.ajax({
         type: 'POST',
         url: '/add_to_cart/' + itemId,
-        data: { quantity: 1 }, // Pass the quantity as data
+        data: { quantity: 1, price: price }, // Pass the quantity as data
         dataType: 'json',
         success: function(response) {
           updateCartCount();

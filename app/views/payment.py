@@ -2,10 +2,12 @@ from app import app, db
 from flask import render_template,jsonify,request, url_for
 from flask_login import current_user
 import stripe
+from ..models import Cart
 
 
 @app.route("/success")
 def success():
+    
     return render_template("success.html", user=current_user)
 
 
@@ -13,14 +15,16 @@ def success():
 @app.route('/cart_payment_form')
 def cart_payment_form():
     amount = request.args.get('amount')
-    return render_template('cart_payment_form.html', amount=amount, user=current_user)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('cart_payment_form.html', amount=amount, user=current_user, count = count)
 
 
 @app.route('/donate_form')
 def donate_form():
     min_amount = request.args.get('min_amount')
     # Render the donate_form.html template with the min_amount value
-    return render_template('donate_form.html', min_amount=min_amount, user=current_user)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('donate_form.html', min_amount=min_amount, user=current_user, count = count)
 
 @app.route("/process_payment", methods=["POST"])
 def process_payment():

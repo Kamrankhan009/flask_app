@@ -13,7 +13,8 @@ cart = []
 def shop():
     products=Product.query.all()
     offer = Product_offer.query.all()
-    return render_template('shop.html',user=current_user,products=products, offer = offer)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('shop.html',user=current_user,products=products, offer = offer, count = count)
 
 
 @app.route('/add_product', methods=['GET', 'POST'])
@@ -36,15 +37,15 @@ def add_product():
 
         # Redirect to a success page or another route
         return redirect(url_for('shop'))
-
-    return render_template('add_product.html',user=current_user)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('add_product.html',user=current_user, count = count)
 
 @app.route("/products/<int:id>", methods = ['GET','POST'])
 def one_product(id):
     product=Product.query.filter_by(id=id).first()
     offer = Product_offer.query.filter_by(p_id=id).order_by(Product_offer.price).all()
-    
-    return render_template('one_product.html',user=current_user,product=product, offer = offer)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('one_product.html',user=current_user,product=product, offer = offer, count = count)
 
 
 @app.route('/cart')
@@ -58,8 +59,8 @@ def cart():
 
     # Calculate the total amount
     total_amount = sum(cart_item.item.price * cart_item.quantity for cart_item in cart_items)
-
-    return render_template('cart.html', cart_items=cart_items, total_amount=total_amount, user=current_user)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('cart.html', cart_items=cart_items, total_amount=total_amount, user=current_user, count = count)
 
 @app.route('/cart_count')
 def cart_count():
@@ -77,7 +78,10 @@ def add_to_cart(item_id):
     # Retrieve the current user ID (assuming you have a way to get the user ID)
     user_id = current_user.id
     quantity = int(request.form['quantity'])
-    price = request.form['price']
+    try:
+        price = request.form['price']
+    except:
+        price = 0
     
 
     # Check if the item is already in the cart for the user
@@ -150,7 +154,8 @@ def edit_product(id):
         db.session.commit()
 
         return redirect(url_for('update_products'))
-    return render_template("add_product.html",user = current_user, product = product, edit = True, offer = offer)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template("add_product.html",user = current_user, product = product, edit = True, offer = offer, count = count)
 
 @app.route("/delete_product/<id>")
 @login_required

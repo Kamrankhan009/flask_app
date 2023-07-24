@@ -2,7 +2,7 @@
 from app import app, db
 from flask import render_template,jsonify, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from ..models import User, Product
+from ..models import User, Product, Cart
 from werkzeug.utils import secure_filename
 import os
 from uuid import uuid4
@@ -77,11 +77,13 @@ def update_profile():
 @app.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html',user=current_user)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('profile.html',user=current_user, count = count)
 
 
 @app.route('/edit_profile')
 @login_required
 def edit_profile():
-    return render_template('edit_profile.html',user=current_user)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('edit_profile.html',user=current_user, count = count)
 

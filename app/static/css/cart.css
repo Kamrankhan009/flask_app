@@ -45,7 +45,10 @@
   .pay-btn {
 
 
-    display: inline-block;
+    display: inline-flex;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
     outline: none;
     cursor: pointer;
     font-size: 14px;
@@ -64,8 +67,7 @@
     color: #fff;
     background-color: #15883e;
     height: 30px;
-
-
+   
 
   }
 

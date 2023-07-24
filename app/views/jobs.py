@@ -2,7 +2,7 @@ from app import app,db
 from flask import Flask, render_template, request,redirect,url_for,jsonify,flash
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
-from ..models import JobApplication,Job, User
+from ..models import JobApplication,Job, User, Cart
 from uuid import uuid4
 import os
 import smtplib
@@ -25,8 +25,9 @@ def job_applications():
             "email":user.email,
             "resume":application.resume
         })
-
-    return render_template('job_applications.html', applications=all_apps, user=current_user)
+    
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('job_applications.html', applications=all_apps, user=current_user, count = count)
 
 
 # Apply for a job page
@@ -62,8 +63,8 @@ def apply_job(job_id):
             db.session.commit()
             flash('You applied Succesfully For this Job, Thank you!')
             return redirect(url_for('jobs'))
-
-    return render_template('apply_job.html', job=job, user=current_user,job_id=job_id)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('apply_job.html', job=job, user=current_user,job_id=job_id, count = count)
 
 
 @app.route('/jobs')
@@ -95,7 +96,8 @@ def jobs():
 @app.route('/view_application/<int:application_id>')
 def view_application(application_id):
     application = JobApplication.query.get_or_404(application_id)
-    return render_template('view_application.html', application=application)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('view_application.html', application=application, count = count)
 
 
 @app.route('/send_email', methods=['POST'])
@@ -161,5 +163,5 @@ def add_job():
         db.session.commit()
         
         return redirect(url_for('jobs'))
-    
-    return render_template('add_job.html', user=current_user)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('add_job.html', user=current_user, count = count)

@@ -2,14 +2,14 @@
 from app import app, db
 from flask import render_template,jsonify, request, flash, redirect, url_for
 from flask_login import current_user
-from ..models import User,LeaderboardList
+from ..models import User,LeaderboardList,Cart
 
 @app.route('/leaderboard')
 def leaderboard():
     # Retrieve the most active users from the database
     active_users = User.query.order_by(User.duration.desc()).limit(10).all()
-    
-    return render_template('leaderboard.html', active_users=active_users,user=current_user)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('leaderboard.html', active_users=active_users,user=current_user, count = count)
 
 
 @app.route('/leaderboard_rank')
@@ -37,7 +37,8 @@ def leaderboard_rank():
         user_in_rboeard = LeaderboardList.query.filter_by(user_id=current_user.id).first()
         if user_in_rboeard:
             is_in_board = True
-        return render_template('testing.html', active_users=active_users,user=current_user, admin_list=admin_list,is_in_board=is_in_board)
+        count = Cart.query.filter_by(uid=current_user.id).count()
+        return render_template('testing.html', active_users=active_users,user=current_user, admin_list=admin_list,is_in_board=is_in_board, count = count)
     else:
         active_users = []
         for user in ranked_users:
@@ -53,4 +54,5 @@ def leaderboard_rank():
                 }
             )
         is_in_board = False
-        return render_template('testing.html', active_users=active_users,user=current_user, admin_list=[],is_in_board=is_in_board)
+        count = Cart.query.filter_by(uid=current_user.id).count()
+        return render_template('testing.html', active_users=active_users,user=current_user, admin_list=[],is_in_board=is_in_board, count = count)

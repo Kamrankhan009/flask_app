@@ -72,7 +72,7 @@
 
         <a href="/cart" class="cart-icon" style="background-color: black;">
             <i class="fa fa-shopping-cart" ></i>
-            <span class="cart-count">0</span>
+            <span class="cart-count">{%if count%} {{count}}{%else%}0{%endif%}</span>
         </a>
 
         {% if user.is_authenticated %}

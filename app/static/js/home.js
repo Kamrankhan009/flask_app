@@ -3,7 +3,7 @@ const englishMessageElement = document.getElementById('english-message');
 
 const arabicText = `مرحبًا بكم في موقع الويب الخاص بسيرفر <span style="color:yellow">"FORTPLAY"</span>، حيث يمكنكم شراء المنتجات الخاصة بالسيرفر هنا. يمكنكم أيضًا من خلال الموقع رؤية ترتيبكم في البطولة، وأيضًا معرفة أكثر 10 أشخاص جالسين في غرف السيرفر ومدة وجودهم فيها. نحن نوظف المحترفين لصالح المتجر، حيث يمكنهم الحصول على وظيفة معنا. يحتوي الموقع على صفحة لإرسال الدعم للسيرفر، ومن خلاله يمكنكم دعم السيرفر بمبلغ مادي، وسيكرمكم سيرفرنا على الديسكورد برتبة تليق بكم. <br><br>
 <div style="text-align: center;">
-  <span style="color: #936EC4; font-size: 40px;">
+  <span style="color: red; font-size: 40px;">
     <b>يرجى ملاحظة أن هذا السيرفر تم تصميمه لنشر السعادة بينكم.</b>
     </span>
   </div>`;
@@ -16,7 +16,7 @@ We seek to create a suitable place for Fortnite players, where they can communic
 
 <br><br>
 <div style="text-align: center;">
-  <span style="color: #936EC4; font-size: 40px;">
+  <span style="color: red; font-size: 40px;">
     <b>
       Please note that this server is created to spread happiness among players.
     </b>

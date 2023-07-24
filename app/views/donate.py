@@ -3,10 +3,12 @@ from app import app, db
 from flask import render_template,jsonify,request, url_for
 from flask_login import current_user
 import stripe
+from ..models import Cart
 
 @app.route('/donate')
 def donate():
-    return render_template('donate.html', user=current_user)
+    count = Cart.query.filter_by(uid=current_user.id).count()
+    return render_template('donate.html', user=current_user, count = count)
 
 
 @app.route('/donate-url')
