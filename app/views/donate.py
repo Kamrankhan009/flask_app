@@ -7,7 +7,10 @@ from ..models import Cart
 
 @app.route('/donate')
 def donate():
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    try:
+        count = Cart.query.filter_by(uid=current_user.id).count()
+    except:
+        count = 0
     return render_template('donate.html', user=current_user, count = count)
 
 

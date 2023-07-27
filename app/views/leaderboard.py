@@ -21,6 +21,8 @@ def leaderboard_rank():
         admin_list =[]
         if not current_user.is_admin:
             admin_list = User.query.filter_by(is_admin=True).all()
+            for value in admin_list:
+                print(value.username)
         for user in ranked_users:
             filter_user = User.query.filter_by(id=user.user_id).first()
             active_users.append(
@@ -37,7 +39,12 @@ def leaderboard_rank():
         user_in_rboeard = LeaderboardList.query.filter_by(user_id=current_user.id).first()
         if user_in_rboeard:
             is_in_board = True
-        count = Cart.query.filter_by(uid=current_user.id).count()
+        
+        try:
+            count = Cart.query.filter_by(uid=current_user.id).count()
+        except:
+            count = 0
+
         return render_template('testing.html', active_users=active_users,user=current_user, admin_list=admin_list,is_in_board=is_in_board, count = count)
     else:
         active_users = []
@@ -54,5 +61,8 @@ def leaderboard_rank():
                 }
             )
         is_in_board = False
-        count = Cart.query.filter_by(uid=current_user.id).count()
+        try:
+            count = Cart.query.filter_by(uid=current_user.id).count()
+        except:
+            count = 0
         return render_template('testing.html', active_users=active_users,user=current_user, admin_list=[],is_in_board=is_in_board, count = count)

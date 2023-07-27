@@ -5,5 +5,8 @@ from ..models import User, Cart
 
 @app.route("/", methods = ['GET','POST'])
 def home():
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    try:
+        count = Cart.query.filter_by(uid=current_user.id).count()
+    except:
+        count = 0
     return render_template('home.html',user=current_user, count = count)

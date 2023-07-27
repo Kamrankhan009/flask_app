@@ -26,7 +26,10 @@ def job_applications():
             "resume":application.resume
         })
     
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    try:
+        count = Cart.query.filter_by(uid=current_user.id).count()
+    except:
+        count = 0
     return render_template('job_applications.html', applications=all_apps, user=current_user, count = count)
 
 
@@ -90,8 +93,11 @@ def jobs():
                 "to_salary":job.to_salary
                 
             })
- 
-    return render_template('jobs.html', jobs=all_jobs, user=current_user, applied=applied)
+    try:
+        count = Cart.query.filter_by(uid=current_user.id).count()
+    except:
+        count = 0
+    return render_template('jobs.html', jobs=all_jobs, user=current_user, applied=applied, count = count)
 
 @app.route('/view_application/<int:application_id>')
 def view_application(application_id):
@@ -163,5 +169,9 @@ def add_job():
         db.session.commit()
         
         return redirect(url_for('jobs'))
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    
+    try:
+        count = Cart.query.filter_by(uid=current_user.id).count()
+    except:
+        count = 0
     return render_template('add_job.html', user=current_user, count = count)

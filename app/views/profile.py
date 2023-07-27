@@ -87,3 +87,26 @@ def edit_profile():
     count = Cart.query.filter_by(uid=current_user.id).count()
     return render_template('edit_profile.html',user=current_user, count = count)
 
+
+@app.route('/users')
+@login_required
+def users():
+    users = User.query.all()
+
+    return render_template('users.html', users = users, user = current_user)
+
+
+
+@app.route("/info_user/<id>")
+def info_user(id):
+    users = User.query.get(id)
+    return render_template("info_user.html", user = current_user, users = users)
+
+
+@app.route("/delete_user/<id>")
+def delete_user(id):
+    user = User.query.get(id)
+    db.session.delete(user)
+    db.session.commit()
+
+    return redirect("/users")

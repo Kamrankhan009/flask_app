@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Responsive Table with Image and Action Button</title>
+  <title>Users</title>
   <style>
     * {
       box-sizing: border-box;
@@ -70,37 +70,45 @@
 </head>
 <body>
 
-<div id="responsive-table">
+<div id="responsive-table" style="background-color: white;">
   <table>
     <thead>
       <tr style="background-color: rgb(25, 0, 255);">
-        <th>#</th>
+        <th>Id</th>
         <th>Image</th>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Action</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>is_admin</th>
+ 
+        
       </tr>
     </thead>
     <tbody>
-        {% for product in products%}
+      
       <tr style="background-color: rgb(255, 255, 255);">
-        <td>{{loop.index}}</td>
+        <td>{{users.id}}</td>
         <td class="image-column">
-          <a href="/products/{{product.id}}"><img src="{{ url_for('uploaded_product_images', filename=product.image) }}" alt="Image 1">
+          <a href="/profile/{{user.id}}"><img src="{{ url_for('uploaded_users_images', filename=users.image) }}" alt="Image 1">
           </a>
         </td>
-        <td>{{product.title}}</td>
-        <td>{{product.description}}</td>
-        <td class="action-column"><a href="/delete_product/{{product.id}}"><button style="background-color: rgb(255, 0, 0 , 0.808);">Delete</button></a>
-        
-          <a href="/edit_product/{{product.id}}"><button style="background-color: rgb(0, 190, 9, 0.678);">Edit</button></a>
-        </td>
+        <td>{{users.username}}</td>
+        <td>{{users.email}}</td>
+        <td>{{users.password}}</td>
+        <td>{{users.is_admin}}</td>
+    
+      
       </tr>
-      {%endfor%}
+ 
       
       <!-- Add more rows as needed -->
     </tbody>
   </table>
+<br><br>
+  <div>
+    <h1 style="margin: 0% 30% 0% 40%; color: red;">User Buying History</h1>
+    <br><br><br><br>
+  </div>
 </div>
 
 </body>

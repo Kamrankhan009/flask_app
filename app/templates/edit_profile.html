@@ -3,7 +3,7 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css')}}">
 
-<div class="lcontainer">
+<div class="lcontainer" style="margin-top: -50px;">
 
 <h1 class="white-color">Edit Profile</h1>
 <form method="POST" action="{{ url_for('update_profile') }}" enctype="multipart/form-data">

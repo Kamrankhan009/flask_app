@@ -63,11 +63,12 @@
           <script>
             var selectedButton = null;
             var selectedPrice = 0;
+            var initialPrice = 0
           
             function selectButton(button) {
               var buttons = document.getElementsByClassName('color-button');
               var totalPriceElement = document.getElementById('product-price');
-              var initialPrice = parseFloat(totalPriceElement.textContent);
+              // var initialPrice = parseFloat(totalPriceElement.textContent);
               // initialPrice = 0;
               if (selectedButton !== null) {
                 selectedButton.classList.remove('selected');
@@ -128,9 +129,12 @@
             <span id="product-price">{% if not offer %}{{ product.price }}{%else%}
               
               {%for off in offer[:1]%}
-              0
+              {{off.price}}
               {%endfor%}
-              {%endif%}</span>$
+              {%endif%}
+            
+            
+            </span>$
           </div></span>
           <a href="#"  class="cart-btn add-to-cart" style="background-color: red !important" data-item-id="{{product.id}}">Add to cart</a>
         </div>
