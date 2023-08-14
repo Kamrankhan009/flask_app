@@ -62,7 +62,22 @@
                     
                     {% endif %}
                 </span> </p>
+
+
+                {%if product.quantity%}
+                <p class="card-text">
+                    {{product.quantity}} Products Remaining
+                </p>
+                {%endif%}
+
+                {%if product.in_stock == 0%}
+                <button class="btn btn-danger disabled" >Out of Stock</button>
+                {%else%}
                 <button class="add-to-cart btn btn-danger" data-item-id="{{product.id}}">Add to Cart</button>
+        
+                
+                {%endif%}
+
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@
 {% block content %}
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,6 @@
       overflow-x: hidden;
   overflow-y: hidden;
     }
-
     #responsive-table {
       max-width: 100%;
       overflow-x: auto;
@@ -60,7 +60,7 @@
       border-radius: 4px;
       cursor: pointer;
     }
-
+ 
     @media screen and (max-width: 768px) {
       #responsive-table {
         overflow-x: scroll;
@@ -70,32 +70,50 @@
 </head>
 <body>
 
-<div id="responsive-table">
+ 
+<div style="background-color: white; padding:30px; width: 100%;">
+
+    {% if update %}
+    <h1>Update color</h1>
+    <form action="/color_edit/{{color.id}}" method="POST">
+        <label for="blue-class">Color Class:</label>
+        <input type="text" class="form-control" id="blue-class" name="color_class" value="{{color.class_name}}"><br><br>
+        <label for="red-class">Color:</label>
+        <input type="color" id="red-class" name="color" value="{{color.color}}"><br><br>
+        <button type="submit">Update Color</button>
+    </form>
+    {%else%}
+    
+    <h1>Add New Color Class</h1>
+    <form action="{{ url_for('edit_color') }}" method="POST">
+        <label for="blue-class">Color Class:</label>
+        <input type="text" class="form-control" id="blue-class" name="color_class"><br><br>
+        <label for="red-class">Color:</label>
+        <input type="color" id="red-class" name="color"><br><br>
+        <button type="submit">Add new class</button>
+    </form>
+    {%endif%}
+    <hr>
+
+ <h1>color classes</h1>
+
+ <div id="responsive-table">
   <table>
     <thead>
-      <tr style="{%if color %} background-color: {{color.color}} {%else%} rgb(25, 0, 255);
-      {%endif%}">
+      <tr style="background-color: rgb(25, 0, 255);">
         <th>#</th>
-        <th>Image</th>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Action</th>
+        <th>Class Name</th>
+        <th>Color Preview</th>
+        <th>action</th>
       </tr>
     </thead>
     <tbody>
-        {% for product in products%}
+        {% for color in colors%}
       <tr style="background-color: rgb(255, 255, 255);">
-        <td>{{loop.index}}</td>
-        <td class="image-column">
-          <a href="/products/{{product.id}}"><img src="{{ url_for('uploaded_product_images', filename=product.image) }}" alt="Image 1">
-          </a>
-        </td>
-        <td>{{product.title}}</td>
-        <td>{{product.description}}</td>
-        <td class="action-column"><a href="/delete_product/{{product.id}}"><button style="background-color: rgb(255, 0, 0 , 0.808);">Delete</button></a>
-        
-          <a href="/edit_product/{{product.id}}"><button style="background-color: rgb(0, 190, 9, 0.678);">Edit</button></a>
-        </td>
+       <td>{{loop.index}}</td>
+       <td>{{color.class_name}}</td>
+       <td style="background-color: {{color.color}}; padding:4px;"></td>
+       <td><a href="/color_edit/{{color.id}}"><button>edit color</button></a></td>
       </tr>
       {%endfor%}
       
@@ -104,6 +122,7 @@
   </table>
 </div>
 
+</div>
 </body>
 </html>
 

@@ -1,7 +1,7 @@
 from app import app,db
 from flask import render_template,jsonify, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from ..models import Product,Cart, Product_offer
+from ..models import Product,Cart, Product_offer, color_management
 import os
 from ..confing import basedir
 from uuid import uuid4
@@ -13,7 +13,15 @@ cart = []
 def shop():
     products=Product.query.all()
     offer = Product_offer.query.all()
-    count = Cart.query.filter_by(uid=current_user.id).count()
+
+    try:
+        count = Cart.query.filter_by(uid=current_user.id).all()
+        full_count = 0
+        for data in count:
+            full_count += data.quantity
+        count = full_count
+    except:
+        count = 0
     return render_template('shop.html',user=current_user,products=products, offer = offer, count = count)
 
 
@@ -37,14 +45,25 @@ def add_product():
 
         # Redirect to a success page or another route
         return redirect(url_for('shop'))
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    count = Cart.query.filter_by(uid=current_user.id).all()
+    full_count = 0
+    for data in count:
+        full_count += data.quantity
+    count = full_count
     return render_template('add_product.html',user=current_user, count = count)
 
 @app.route("/products/<int:id>", methods = ['GET','POST'])
 def one_product(id):
     product=Product.query.filter_by(id=id).first()
     offer = Product_offer.query.filter_by(p_id=id).order_by(Product_offer.price).all()
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    try:
+        count = Cart.query.filter_by(uid=current_user.id).all()
+        full_count = 0
+        for data in count:
+            full_count += data.quantity
+        count = full_count
+    except:
+        count = 0
     return render_template('one_product.html',user=current_user,product=product, offer = offer, count = count)
 
 
@@ -59,7 +78,11 @@ def cart():
 
     # Calculate the total amount
     total_amount = sum(cart_item.item.price * cart_item.quantity for cart_item in cart_items)
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    count = Cart.query.filter_by(uid=current_user.id).all()
+    full_count = 0
+    for data in count:
+        full_count += data.quantity
+    count = full_count
     return render_template('cart.html', cart_items=cart_items, total_amount=total_amount, user=current_user, count = count)
 
 @app.route('/cart_count')
@@ -68,7 +91,12 @@ def cart_count():
     count = 0
     if current_user.is_authenticated:
         # Query the Cart table for the count of items for the current user
-        count = Cart.query.filter_by(uid=current_user.id).count()
+        count = Cart.query.filter_by(uid=current_user.id).all()
+
+        all_count = 0
+        for data in count:
+            all_count += data.quantity
+        count = all_count
 
     return jsonify({'count': count})
 
@@ -126,7 +154,8 @@ def delete_from_cart(cart_item_id):
 @login_required
 def update_products():
     products=Product.query.all()
-    return render_template("edit_products.html", user = current_user, products=products)
+    color = color_management.query.filter_by(class_name = "update_products").first()
+    return render_template("edit_products.html", user = current_user, products=products, color = color)
 
 
 @app.route("/edit_product/<id>", methods = ['GET','POST'])
@@ -138,7 +167,10 @@ def edit_product(id):
         description = request.form['description']
         price = request.form['price']
         image = request.files['image']
+        stock = bool(request.form.get('check', False))
+        quantity = request.form.get('quantity')
 
+        
         if not image:
             pass
         else:
@@ -150,11 +182,25 @@ def edit_product(id):
         product.title = title
         product.description = description
         product.price = price
+        product.quantity = quantity
+
+
+        if stock:
+            product.in_stock = False
+        else:
+            product.in_stock = True
 
         db.session.commit()
 
         return redirect(url_for('update_products'))
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    try:
+        count = Cart.query.filter_by(uid=current_user.id).all()
+        full_count = 0
+        for data in count:
+            full_count += data.quantity
+        count = full_count
+    except:
+        count = 0
     return render_template("add_product.html",user = current_user, product = product, edit = True, offer = offer, count = count)
 
 @app.route("/delete_product/<id>")

@@ -15,7 +15,14 @@ def success():
 @app.route('/cart_payment_form')
 def cart_payment_form():
     amount = request.args.get('amount')
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    try:
+        count = Cart.query.filter_by(uid=current_user.id).all()
+        full_count = 0
+        for data in count:
+            full_count += data.quantity
+        count = full_count
+    except:
+        count = 0
     return render_template('cart_payment_form.html', amount=amount, user=current_user, count = count)
 
 
@@ -23,7 +30,14 @@ def cart_payment_form():
 def donate_form():
     min_amount = request.args.get('min_amount')
     # Render the donate_form.html template with the min_amount value
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    try:
+        count = Cart.query.filter_by(uid=current_user.id).all()
+        full_count = 0
+        for data in count:
+            full_count += data.quantity
+        count = full_count
+    except:
+        count = 0
     return render_template('donate_form.html', min_amount=min_amount, user=current_user, count = count)
 
 @app.route("/process_payment", methods=["POST"])

@@ -8,7 +8,11 @@ from ..models import Cart
 @app.route('/donate')
 def donate():
     try:
-        count = Cart.query.filter_by(uid=current_user.id).count()
+        count = Cart.query.filter_by(uid=current_user.id).all()
+        full_count = 0
+        for data in count:
+            full_count += data.quantity
+        count = full_count
     except:
         count = 0
     return render_template('donate.html', user=current_user, count = count)

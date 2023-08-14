@@ -27,7 +27,11 @@ def job_applications():
         })
     
     try:
-        count = Cart.query.filter_by(uid=current_user.id).count()
+        count = Cart.query.filter_by(uid=current_user.id).all()
+        full_count = 0
+        for data in count:
+            full_count += data.quantity
+        count = full_count
     except:
         count = 0
     return render_template('job_applications.html', applications=all_apps, user=current_user, count = count)
@@ -66,7 +70,11 @@ def apply_job(job_id):
             db.session.commit()
             flash('You applied Succesfully For this Job, Thank you!')
             return redirect(url_for('jobs'))
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    count = Cart.query.filter_by(uid=current_user.id).all()
+    full_count = 0
+    for data in count:
+        full_count += data.quantity
+    count = full_count
     return render_template('apply_job.html', job=job, user=current_user,job_id=job_id, count = count)
 
 
@@ -94,7 +102,11 @@ def jobs():
                 
             })
     try:
-        count = Cart.query.filter_by(uid=current_user.id).count()
+        count = Cart.query.filter_by(uid=current_user.id).all()
+        full_count = 0
+        for data in count:
+            full_count += data.quantity
+        count = full_count
     except:
         count = 0
     return render_template('jobs.html', jobs=all_jobs, user=current_user, applied=applied, count = count)
@@ -102,7 +114,14 @@ def jobs():
 @app.route('/view_application/<int:application_id>')
 def view_application(application_id):
     application = JobApplication.query.get_or_404(application_id)
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    try:
+        count = Cart.query.filter_by(uid=current_user.id).all()
+        full_count = 0
+        for data in count:
+            full_count += data.quantity
+        count = full_count
+    except:
+        count = 0
     return render_template('view_application.html', application=application, count = count)
 
 
@@ -171,7 +190,11 @@ def add_job():
         return redirect(url_for('jobs'))
     
     try:
-        count = Cart.query.filter_by(uid=current_user.id).count()
+        count = Cart.query.filter_by(uid=current_user.id).all()
+        full_count = 0
+        for data in count:
+            full_count += data.quantity
+        count = full_count
     except:
         count = 0
     return render_template('add_job.html', user=current_user, count = count)

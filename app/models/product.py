@@ -12,6 +12,7 @@ class Product(db.Model):
     image = db.Column(db.String(256))
     quantity = db.Column(db.Integer)
     in_cart = db.relationship("Cart", backref="item")
+    in_stock = db.Column(db.Boolean, default=True)
 
 class Product_offer(db.Model):
       id = db.Column(db.Integer, primary_key = True)
@@ -25,4 +26,9 @@ class Cart(db.Model):
     itemid = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
     price = db.Column(db.Float)
     quantity = db.Column(db.Integer, nullable=False, default=1)
-    
+
+
+class color_management(db.Model):
+     id = db.Column(db.Integer, primary_key=True)
+     color = db.Column(db.String(255))
+     class_name = db.Column(db.String(255))

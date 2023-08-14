@@ -54,7 +54,8 @@
     <div class="row " style="">
       <div class="col-md-12">
         <article class="leaderboard text-center mt-5 mb-5">
-          <header>
+          <header style="{%if color %} background-color: {{color.color}} !important;
+          {%endif%}">
             
             <h1 class="" style="margin-top: 3%;"><span class="leaderboard__title--top">Rest of the Player Rank</span></h1>
           </header>
@@ -75,13 +76,10 @@
 
 
     
+    {% if admin_list %}
     <div class="row " style="">
       <div class="col-md-12">
         <article class="leaderboard text-center mt-5 mb-5" >
-          <header>
-            
-            <h1 class="" style="margin-top: 3%;"><span class="leaderboard__title--top">List of Admins</span></h1>
-          </header>
           <main class="leaderboard__profiles">
 
             {% if not is_in_board %}
@@ -105,6 +103,9 @@
         </article>
       </div>
     </div>
+{%endif%}
+
+
 
 
 

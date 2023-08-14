@@ -77,14 +77,22 @@ def update_profile():
 @app.route('/profile')
 @login_required
 def profile():
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    count = Cart.query.filter_by(uid=current_user.id).all()
+    full_count = 0
+    for data in count:
+        full_count += data.quantity
+    count = full_count
     return render_template('profile.html',user=current_user, count = count)
 
 
 @app.route('/edit_profile')
 @login_required
 def edit_profile():
-    count = Cart.query.filter_by(uid=current_user.id).count()
+    count = Cart.query.filter_by(uid=current_user.id).all()
+    full_count = 0
+    for data in count:
+        full_count += data.quantity
+    count = full_count
     return render_template('edit_profile.html',user=current_user, count = count)
 
 
