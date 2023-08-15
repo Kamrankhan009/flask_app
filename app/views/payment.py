@@ -7,7 +7,7 @@ from ..models import Cart
 
 @app.route("/success")
 def success():
-    
+    print("don")
     return render_template("success.html", user=current_user)
 
 
@@ -49,6 +49,7 @@ def process_payment():
     name = request.json.get("name")
     email = request.json.get("email")
     amount = request.json.get('amount')
+    print(request.json)
     print(amount)
   
     try:
@@ -77,7 +78,10 @@ def process_payment_cart():
     try:
         # Retrieve the payment amount from the request
         payment_amount = request.form.get('payment-amount')
-
+        address = request.form.get('address')
+        zip = request.form.get('zip')
+        city = request.form.get('city')
+        state = request.form.get('state')
         # Create a payment intent with Stripe
         payment_intent = stripe.PaymentIntent.create(
             amount=int(float(payment_amount) * 100),  # Stripe requires amount in cents

@@ -10,13 +10,25 @@ document.addEventListener('DOMContentLoaded', function() {
     event.preventDefault();
     
     const paymentAmount = document.getElementById('amount').value;
+    const address = document.getElementById('address').value;
+    const zip = document.getElementById('zip').value;
+    const city = document.getElementById('city').value;
+    const state = document.getElementById('state').value;
+
+
+    const requestBody = new URLSearchParams();
+      requestBody.append('payment-amount', paymentAmount);
+      requestBody.append('address', address);
+      requestBody.append('zip', zip);
+      requestBody.append('city', city);
+      requestBody.append('state', state);
 
     fetch('/process_payment_cart', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: 'payment-amount=' + encodeURIComponent(paymentAmount)
+      body: requestBody.toString()
     })
     .then(response => response.text())
     .then(clientSecret => {
@@ -24,6 +36,15 @@ document.addEventListener('DOMContentLoaded', function() {
       stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: cardElement,
+          billing_details: {
+            address: {
+              line1: address,
+              postal_code: zip,
+              city: city,
+              state: state,
+              country: 'AE' // Replace with the appropriate country code
+            }
+          }
         }
       })
       .then(result => {

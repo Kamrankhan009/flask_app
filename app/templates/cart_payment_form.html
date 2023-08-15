@@ -2,7 +2,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/cart_payment_form.css')}}">
-
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
 
 
 
@@ -13,19 +13,58 @@
         <h2>Payment Information</h2>
         <form id="payment-form">
 
-    
-          <div id="card-number"></div>
-    
+        <div class="row">
+        <div class="col-md-12">
+          <label>Street</label>
+          <input type="text" name="address" id="address" class="form-control" required>
+        </div>
+        </div>
 
-    
+        <div class="row" >
+
+          <style>
+            #countryDropdown {
+    width: 100%;
+    padding: 8px 12px; /* Add some padding to improve visual appearance */
+  }
+  
+  #countryDropdown option {
+    padding: 8px 12px; /* Add padding to vertically center text */
+    vertical-align: middle; /* Vertically center text */
+  }
+          </style>
+          <div class="col-md-5">
+            <label>State</label>
+            
+            <!-- <select id="countryDropdown" class="form-control" style=""></select>
+             -->
+             <input type="text" name="state" id="state" class="form-control" required>
+          </div>
+           
+        <div class="col-md-4" style="">
+          <label>City</label>
+          <!-- <select id="" class="form-control"></select> -->
+          <input type="text" name="city" id="city" class="form-control" required>
+        </div>
+
+
+        <!-- 6S4BGGrFAW5JbqUoWFje9RRZd0WaMGJOMRf3bTilQae9NSMgmBKoVe713_loX1i7-ig -->
+
+
+        <div class="col-md-3">
+          <label>Zip</label>
+          <input type="text" name="zip" id="zip" class="form-control" required>
+        </div>
+
+        </div>
+          <div id="card-number"></div>
           <label for="amount">Amount</label>
           <input type="text" id="amount" name="amount" readonly>
-    
           <button type="submit" id="submit-payment-btn">Submit Payment</button>
         </form>
       </div>
     
-
+      
 
 </div>
 
