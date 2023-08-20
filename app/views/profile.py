@@ -26,6 +26,7 @@ def update_profile():
     # Check if any field is being updated
     if image or banner or new_email or new_username:
         if image and allowed_file(image.filename):
+            print("here")
             # Generate a new filename using UUID
             new_filename = str(uuid4()) + '.' + image.filename.rsplit('.', 1)[1].lower()
             # Remove the old profile picture if it exists

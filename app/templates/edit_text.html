@@ -1,0 +1,150 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Speed management</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+     
+      color: rgb(0, 0, 0);
+      overflow-x: hidden;
+  overflow-y:auto;
+    }
+    #responsive-table {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    #responsive-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #responsive-table th,
+    #responsive-table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    #responsive-table th:first-child,
+    #responsive-table td:first-child {
+      padding-left: 2%;
+    }
+
+    #responsive-table th:last-child,
+    #responsive-table td:last-child {
+      padding-right: 0;
+    }
+
+    .image-column img {
+      max-width: 100px;
+      height: auto;
+    }
+
+    .action-column button {
+      background-color: #4CAF50;
+      color: rgb(0, 0, 0);
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+ 
+    @media screen and (max-width: 768px) {
+      #responsive-table {
+        overflow-x: scroll;
+      }
+    }
+  </style>
+</head>
+<body>
+
+ 
+<div style="background-color: white; padding:30px; width: 100%;">
+
+    {% if update %}
+    <h1>Update Text</h1>
+    <form action="/text_edit/{{text.id}}" method="POST">
+        <label for="blue-class">Page Name:</label>
+        <input type="text" class="form-control" id="blue-class" name="speed_class" value="{{text.page_name}}"><br><br>
+        
+        <label for="user_input">English Text:</label>
+        <textarea name="english_text" id="user_input" rows="4" cols="50" class="form-control">{{text.English_text}}</textarea>
+
+
+        <label for="user_input">Arabic Text:</label>
+        <textarea name="arabic_text" id="user_input" rows="4" cols="50" class="form-control">{{text.Arabic_text}}</textarea>
+
+        
+        <button type="submit">Update Text</button>
+    </form>
+    {%else%}
+    
+    <h1>Add New page</h1>
+    <form action="{{ url_for('edit_text') }}" method="POST">
+        <label for="blue-class">Page Name:</label>
+        <input type="text" class="form-control" id="blue-class" name="speed_class"><br><br>
+        
+        <label for="user_input">English Text:</label>
+        <textarea name="english_text" id="user_input" rows="4" cols="50" class="form-control"></textarea>
+
+
+        <label for="user_input">Arabic Text:</label>
+        <textarea name="arabic_text" id="user_input" rows="4" cols="50" class="form-control"></textarea>
+
+        <button type="submit">Add new Text Class</button>
+    </form>
+    {%endif%}
+    <hr>
+
+ <h1>Text</h1>
+
+ <div id="responsive-table">
+  <table>
+    <thead>
+      <tr style="background-color: rgb(25, 0, 255);">
+        <th>#</th>
+        <th>Page Name</th>
+        <th>English Text</th>
+        <th>Arabic Text</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for text in texts%}
+      <tr style="background-color: rgb(255, 255, 255);">
+       <td>{{loop.index}}</td>
+       <td>{{text.page_name}}</td>
+       <td style=""><div>{{text.English_text | safe}}  </div></td>
+       <td>{{text.Arabic_text | safe}}</td>
+       <td><a href="/text_edit/{{text.id}}"><button>edit text</button></a></td>
+      </tr>
+      {%endfor%}
+      
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
+</div>
+
+</div>
+</body>
+</html>
+
+
+
+
+
+<script src="{{ url_for('static', filename='js/whitegraph.js') }}"></script>
+
+{% endblock%}

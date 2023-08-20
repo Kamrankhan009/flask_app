@@ -15,7 +15,7 @@ function init() {
   resizeCanvas();
 
   // Create circles
-  for (let i = 0; i < 120; i++) {
+  for (let i = 0; i < balls_num; i++) {
     const radius = Math.random() * (maxCircleRadius - minCircleRadius) + minCircleRadius;
     const x = Math.random() * (canvas.width - radius * 2) + radius;
     const y = Math.random() * (canvas.height - radius * 2) + radius;

@@ -82,6 +82,8 @@ def process_payment_cart():
         zip = request.form.get('zip')
         city = request.form.get('city')
         state = request.form.get('state')
+
+        
         # Create a payment intent with Stripe
         payment_intent = stripe.PaymentIntent.create(
             amount=int(float(payment_amount) * 100),  # Stripe requires amount in cents

@@ -243,3 +243,26 @@ def delete_offer(id, Pid):
     db.session.commit()
 
     return redirect(f"/edit_product/{Pid}")
+
+
+
+
+@app.route("/update_quantity/<item_id>", methods = ['GET', 'POST'])
+def update_quantity(item_id):
+    print(item_id)
+    user_id = current_user.id
+
+    # Query the Cart table to get all cart items for the current user
+
+    new_quantity = int(request.json.get('quantity', 0))
+    cart_data = Cart.query.get(item_id)
+    cart_data.quantity = new_quantity
+    db.session.commit()
+
+    cart_items = Cart.query.filter_by(uid=user_id).all()
+
+    # Calculate the total amount
+    total_amount = sum(cart_item.item.price * cart_item.quantity for cart_item in cart_items)
+
+
+    return jsonify({'total_amount': total_amount})

@@ -19,11 +19,22 @@
       </thead>
       <tbody>
         {% for cart_item in cart_items %}
-        <tr>
+        
+          <tr data-cart-item-id="{{ cart_item.id }}" class="cart-item">
+ 
           <td>{{ cart_item.item.title }}</td>
           <td>{{ cart_item.item.description }}</td>
           <td>{{ cart_item.item.price }}</td>
-          <td>{{ cart_item.quantity }}</td>
+         
+          <td class="quantity-cell">
+            <button class="quantity-btn" onclick="updateQuantity('{{ cart_item.id }}', 'decrease')">-</button>
+            
+            <span class="quantity-value" style="padding-left: 10px; padding-right: 10px;">{{ cart_item.quantity }}</span>
+            <button class="quantity-btn" onclick="updateQuantity('{{ cart_item.id }}', 'increase')">+</button>
+        </td>
+        
+
+
           <td>
             <form action="/delete_from_cart/{{ cart_item.id }}" method="POST">
               <button type="submit" class="delete-btn">Delete</button>
@@ -34,18 +45,70 @@
         <tr>
           <td colspan="3"></td>
           <td><strong>Total Amount:</strong></td>
-          <td><strong>{{ total_amount }}</strong></td>
+          <td><strong id="total-amount">{{ total_amount }}</strong></td>
         </tr>
       </tbody>
       <tr>
-        <td>
-          <a href="#" id="pay-btn" class="pay-btn" onclick="getPayFormURL('{{ total_amount }}')">Complete Payment</a>
+        <td style=" {%if not cart_items %} pointer-events: none;{%endif%}">
+          
+          <a href="#" id="pay-btn"  style="{%if not cart_items %} pointer-events: none;{%endif%}" class="pay-btn" onclick="getPayFormURL('{{ total_amount }}')">Complete Payment</a>
         </td>
       </tr>
     </table>
 
     
   </div>
+
+
+  <script>
+    function updateQuantity(cartItemId, action) {
+  // Find the corresponding row in the cart table
+  console.log(`Finding quantity cell for cart item ID: ${cartItemId}`);
+  var quantityCell = document.querySelector(`tr[data-cart-item-id="${cartItemId}"] .quantity-cell`);
+  console.log('Quantity cell element:', quantityCell);
+
+  // Check if the quantity cell exists before proceeding
+  if (!quantityCell) {
+    console.error('Quantity cell not found.');
+    return;
+  }
+
+    var quantityValueElement = quantityCell.querySelector('.quantity-value');
+  var currentQuantity = parseInt(quantityValueElement.textContent);
+
+  
+
+
+      // Calculate the new quantity based on the action
+      var newQuantity = currentQuantity + (action === 'increase' ? 1 : -1);
+      if (newQuantity < 0) {
+        return; // Avoid negative quantities
+      }
+  
+      // Update the quantity in the UI
+      quantityValueElement.textContent = newQuantity;
+  
+      // Send a request to Flask to update the cart item quantity
+      fetch(`/update_quantity/${cartItemId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ quantity: newQuantity })
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle any response data if needed
+        var totalAmountElement = document.querySelector('#total-amount');
+        totalAmountElement.textContent = data.total_amount;
+      })
+      .catch(error => {
+        console.error('Error updating quantity:', error);
+        // Handle error if necessary
+      });
+    }
+  </script>
+  
   
   <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
   <script src="{{ url_for('static', filename='js/purplegraph.js') }}"></script>

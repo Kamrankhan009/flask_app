@@ -32,3 +32,22 @@ class color_management(db.Model):
      id = db.Column(db.Integer, primary_key=True)
      color = db.Column(db.String(255))
      class_name = db.Column(db.String(255))
+
+
+class speed_management(db.Model):
+     id = db.Column(db.Integer, primary_key = True)
+     speed = db.Column(db.Integer, default=50)
+     page_name = db.Column(db.String(255), nullable = False)
+
+
+class text_management(db.Model):
+     id = db.Column(db.Integer, primary_key = True)
+     English_text = db.Column(db.Text, nullable = False)
+     Arabic_text = db.Column(db.Text, nullable = False)
+     page_name = db.Column(db.String(255))
+
+
+class ball_management(db.Model):
+     id = db.Column(db.Integer, primary_key = True)
+     number = db.Column(db.Integer, nullable = False, default = 120)
+     class_name = db.Column(db.String(255), nullable = False)

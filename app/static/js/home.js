@@ -51,7 +51,7 @@ function displayMessage(messageElement, message, callback) {
     if (index < message.length) {
       index++;
       updateDisplay();
-      setTimeout(typeNextCharacter, 2); // Adjust typing speed here (in milliseconds)
+      setTimeout(typeNextCharacter, speed); // Adjust typing speed here (in milliseconds)
     } else {
       clearInterval(blinkingInterval); // Stop the cursor blinking
       callback(); // Call the callback function when typing finishes

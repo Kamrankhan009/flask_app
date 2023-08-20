@@ -17,7 +17,6 @@ def leaderboard():
     except:
         count = 0
 
-
     color = color_management.query.filter_by(class_name = "leader_board").first()
     return render_template('leaderboard.html', active_users=active_users,user=current_user, count = count, color = color)
 
