@@ -7,13 +7,18 @@
 
 <div class="profile-info">
     <div class="profile-picture">
+        {%if current_user.image.startswith('https')%}
+        <img src="{{current_user.image}}" alt="Profile Picture">
+        {%else%}
         <img src="{{ url_for('uploaded_users_images', filename=current_user.image) }}" alt="Profile Picture">
+        {%endif%}
     </div>
     <div class="profile-details">
         <p>Username: {{ current_user.username }}</p>
         <p>Email: {{ current_user.email }}</p>
         <a href="{{ url_for('edit_profile') }}"><button style="background-color: rgb(20, 224, 20);">Edit</button> </a>
-        <a href="#"><button style="background-color: red;">Connect with Discord</button></a>
+        
+        <a href="/discord_login"><button style="background-color: red;">Connect with Discord</button></a>
     </div>
     
     

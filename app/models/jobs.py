@@ -17,3 +17,4 @@ class Job(db.Model):
     description = db.Column(db.String(300))
     from_salary = db.Column(db.Integer, default=0)
     to_salary = db.Column(db.Integer, default=0)
+    percent = db.Column(db.Integer)

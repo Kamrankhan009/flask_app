@@ -66,9 +66,12 @@
   </div>
 </div>
 </div>
+
 <script>
   var speed = {{speed}};
   var balls_num = {{balls}};
+  const arabic_text = {{ arabictext | safe }};
+  const english_text = {{ englishtext | safe}};
 </script>
 <script src="{{ url_for('static', filename='js/greengraph.js') }}"></script>
 <script src="{{ url_for('static', filename='js/home.js') }}"></script>

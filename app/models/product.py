@@ -11,8 +11,11 @@ class Product(db.Model):
     price = db.Column(db.Float)
     image = db.Column(db.String(256))
     quantity = db.Column(db.Integer)
+    discount = db.Column(db.Integer)
+    discount_price = db.Column(db.Integer)
     in_cart = db.relationship("Cart", backref="item")
     in_stock = db.Column(db.Boolean, default=True)
+
 
 class Product_offer(db.Model):
       id = db.Column(db.Integer, primary_key = True)

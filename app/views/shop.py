@@ -38,7 +38,7 @@ def add_product():
         filename = str(uuid4()) + '.' + image.filename.rsplit('.', 1)[1].lower()
         
         image.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/products", filename))
-        new_product=Product(title=title,description=description,price=price,image=f'{filename}')
+        new_product=Product(title=title,description=description,discount_price=price,image=f'{filename}')
         db.session.add(new_product)
         db.session.commit()
         # ...
@@ -170,6 +170,12 @@ def edit_product(id):
         stock = bool(request.form.get('check', False))
         quantity = request.form.get('quantity')
 
+
+        try:
+            discount = int(request.form.get('discount'))
+        except:
+            discount = ""
+
         
         if not image:
             pass
@@ -179,9 +185,17 @@ def edit_product(id):
             image.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/products", filename))
             product.image = filename
         
+
+        if discount:
+            product.discount = discount
+            convert_to_d = discount/100
+            discounted_price = int(product.discount_price) - (product.discount_price * convert_to_d)
+            product.price = discounted_price
+
         product.title = title
         product.description = description
-        product.price = price
+        
+        product.discount_price = price
         product.quantity = quantity
 
 
@@ -189,6 +203,8 @@ def edit_product(id):
             product.in_stock = False
         else:
             product.in_stock = True
+
+        
 
         db.session.commit()
 
@@ -211,7 +227,7 @@ def delete_product(id):
     db.session.delete(product)
     db.session.commit()
 
-    return redirect("/edit_products")
+    return redirect("/update_products")
 
 
 @app.route('/product_offer', methods=['POST'])

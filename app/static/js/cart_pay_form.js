@@ -2,7 +2,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const stripePublicKey = 'pk_test_51NP8SlAG1w1CkJgYirjkuUL8lP2f0iPg0KVLKWFq4L0piz1cWo9FPppSiMFthKC6PJqjwfGdE3vUWtLd79a2Hkiz00rUtkYZBC';
   const stripe = Stripe(stripePublicKey);
   const elements = stripe.elements();
-  const cardElement = elements.create('card');
+  const style = {
+    base: {
+      fontSize: '20px',
+      // color: '#32325d',
+      padding: '20px',
+      border: '1px solid black' // Add custom padding
+    }
+  };
+  const cardElement = elements.create('card', {style: style});
 
   cardElement.mount('#card-number');
 
@@ -41,8 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
               line1: address,
               postal_code: zip,
               city: city,
-              state: state,
-              country: 'AE' // Replace with the appropriate country code
+              country:state // Replace with the appropriate country code
             }
           }
         }

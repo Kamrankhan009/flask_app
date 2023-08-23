@@ -58,12 +58,16 @@
 
                 <p class="card-text">$ <span id="product-price">{% if min_price %} {{min_price}}
                     {% else %}
-                    {{product.price}}
-                    
+                    {{product.discount_price}}
                     {% endif %}
+                  
+                   
                 </span> </p>
-
-
+                  <p class="card-text">
+                    {%if product.discount %}
+                    <span style="color: red; font-weight: bold;">{{product.discount}}% of Discount</span>
+                    {%endif%}
+                  </p>
                 {%if product.quantity%}
                 <p class="card-text">
                     {{product.quantity}} Products Remaining

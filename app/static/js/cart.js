@@ -1,5 +1,12 @@
 function getPayFormURL(amount) {
     var payLink = document.getElementById('pay-btn');
-    payLink.href = `/cart_payment_form?amount=${amount}`;    
+    payLink.href = `/payment_address?amount=${amount}`;    
 }
+
+
+function getPayFormURL2(amount) {
+    var payLink = document.getElementById('pay-btn2');
+    payLink.href = `/payment_address?amount=${amount}`;    
+}
+
 

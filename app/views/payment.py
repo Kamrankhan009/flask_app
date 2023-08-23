@@ -1,5 +1,5 @@
 from app import app, db
-from flask import render_template,jsonify,request, url_for
+from flask import render_template,jsonify,request, url_for, session, redirect
 from flask_login import current_user
 import stripe
 from ..models import Cart
@@ -23,7 +23,14 @@ def cart_payment_form():
         count = full_count
     except:
         count = 0
-    return render_template('cart_payment_form.html', amount=amount, user=current_user, count = count)
+
+    
+    try:
+        user_data = session['shipping_address']
+    except:
+        user_data = ""
+
+    return render_template('cart_payment_form.html', amount=amount, user=current_user, count = count, user_data = user_data)
 
 
 @app.route('/donate_form')
@@ -72,18 +79,52 @@ def process_payment():
     return jsonify({"success": True})
 
 
+@app.route('/payment_address', methods = ['GET', 'POST'])
+def payment_address():
+
+    amount = request.args.get('amount')
+    try:
+        user_address = session['shipping_address']
+    except:
+        user_address = ""
+
+    if request.method == 'POST': 
+        country = request.form.get("country")
+        f_name = request.form.get("f_name")
+        l_name = request.form.get("l_name")
+        company = request.form.get("company")
+        address = request.form.get("address")
+        city = request.form.get("city")
+        postal_code = request.form.get("postal_code")
+        phone = request.form.get("phone")
+        amount = request.form.get('amount')
+
+        print(amount)
+        
+        session['shipping_address'] = {
+                'country': country,
+                'f_name': f_name,
+                'l_name': l_name,
+                'company': company,
+                'address': address,
+                'city': city,
+                'postal_code': postal_code,
+                'phone_number':phone,
+                'amount': amount
+            }
+
+
+        print(session['shipping_address'])
+        return redirect(f"/cart_payment_form?amount={amount.strip()}")
+    return render_template("payment_address.html", user = current_user, amount = amount, user_address = user_address)
+    
+
 
 @app.route('/process_payment_cart', methods=['POST'])
 def process_payment_cart():
     try:
         # Retrieve the payment amount from the request
-        payment_amount = request.form.get('payment-amount')
-        address = request.form.get('address')
-        zip = request.form.get('zip')
-        city = request.form.get('city')
-        state = request.form.get('state')
-
-        
+        payment_amount = request.form.get('payment-amount')   
         # Create a payment intent with Stripe
         payment_intent = stripe.PaymentIntent.create(
             amount=int(float(payment_amount) * 100),  # Stripe requires amount in cents

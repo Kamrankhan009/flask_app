@@ -5,7 +5,7 @@
 
 <div class="lcontainer" style="margin-top: -50px;">
 
-<h1 class="white-color">Edit Profile</h1>
+<h1 style="color: white;">Edit Profile</h1>
 <form method="POST" action="{{ url_for('update_profile') }}" enctype="multipart/form-data">
     <label>Username:</label>
     <input type="text" name="username" value="{{ current_user.username }}" required>

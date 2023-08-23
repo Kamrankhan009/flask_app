@@ -78,7 +78,10 @@
     
     {% if admin_list %}
     <div class="row " style="">
-      <div class="col-md-12">
+      <div class="col-md-10">
+
+      </div>
+      <div class="col-md-2">
         <article class="leaderboard text-center mt-5 mb-5" >
           <main class="leaderboard__profiles">
 
@@ -86,7 +89,7 @@
             {% for admin_user in admin_list %}
             <article class="leaderboard__profile">
               <img src="{{ url_for('uploaded_users_images', filename=admin_user.image) }}" alt="-- " class="leaderboard__picture" onError="this.onerror=null;this.src='/uploads/RG17vQejvkOoAmQTaioY.png';">
-              <span class="leaderboard__name">{{ admin_user.username }}</span>
+              <!-- <span class="leaderboard__name">{{ admin_user.username }}</span> -->
               <span class="leaderboard__value">  <button
                 onclick="createNotification('{{admin_user.id}}','ADD me to Leaderboard Rank Page!','lb_request','{{user.id}}')">Send</button></span>
             </article>
