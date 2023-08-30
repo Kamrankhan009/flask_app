@@ -63,7 +63,11 @@
 
             {% for active_user in active_users[3:] %}
             <article class="leaderboard__profile">
+              {%if current_user.image.startswith('https')%}
+              <img src="{{ active_user.image }}" alt="-- " class="leaderboard__picture" onError="this.onerror=null;this.src='/uploads/RG17vQejvkOoAmQTaioY.png';">
+              {%else%}
               <img src="{{ url_for('uploaded_users_images', filename=active_user.image) }}" alt="-- " class="leaderboard__picture" onError="this.onerror=null;this.src='/uploads/RG17vQejvkOoAmQTaioY.png';">
+              {%endif%}
               <span class="leaderboard__name">{{ active_user.username }}</span>
               <span class="leaderboard__value"> {{active_user.rank}}</span>
             </article>
@@ -81,18 +85,16 @@
       <div class="col-md-10">
 
       </div>
-      <div class="col-md-2">
-        <article class="leaderboard text-center mt-5 mb-5" >
-          <main class="leaderboard__profiles">
+      <div class="col-md-2" style="margin-left: 90s%;">
+        <!-- <article class="leaderboard text-center mt-5 mb-5" > -->
+          <!-- <main class="leaderboard__profiles"> -->
 
             {% if not is_in_board %}
             {% for admin_user in admin_list %}
-            <article class="leaderboard__profile">
-              <img src="{{ url_for('uploaded_users_images', filename=admin_user.image) }}" alt="-- " class="leaderboard__picture" onError="this.onerror=null;this.src='/uploads/RG17vQejvkOoAmQTaioY.png';">
-              <!-- <span class="leaderboard__name">{{ admin_user.username }}</span> -->
-              <span class="leaderboard__value">  <button
-                onclick="createNotification('{{admin_user.id}}','ADD me to Leaderboard Rank Page!','lb_request','{{user.id}}')">Send</button></span>
-            </article>
+            <!-- <article class="leaderboard__profile"> -->
+              <span class="leaderboard__value">  
+            <button class="btn btn-primary" onclick="createNotification('{{admin_user.id}}','ADD me to Leaderboard Rank Page!','lb_request','{{user.id}}')">Send</button></span>
+            <!-- </article> -->
             {%endfor%}
             {% else %}
             <article class="leaderboard__profile">

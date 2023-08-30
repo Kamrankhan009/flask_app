@@ -26,7 +26,11 @@
                 <p>#{{loop.index}}</p>
               </div>
               <div class="card-body">
+                {%if current_user.image.startswith('https')%}
+                <img src="{{ active_user.image}}" alt="" class="avatar" onError="this.onerror=null;this.src='/uploads/RG17vQejvkOoAmQTaioY.png';">
+                {%else%}
                 <img src="{{ url_for('uploaded_users_images', filename=active_user.image) }}" alt="" class="avatar" onError="this.onerror=null;this.src='/uploads/RG17vQejvkOoAmQTaioY.png';">
+                {%endif%}
                 <h5 class="card-title">{{active_user.username}}</h5>
                 <p>                {% if active_user.duration < 60 %}
                     {{ active_user.duration }} minute{{ 's' if active_user.duration > 1 else '' }}

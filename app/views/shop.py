@@ -271,14 +271,33 @@ def update_quantity(item_id):
     # Query the Cart table to get all cart items for the current user
 
     new_quantity = int(request.json.get('quantity', 0))
+    action2 = request.json.get('action')
+    
     cart_data = Cart.query.get(item_id)
-    cart_data.quantity = new_quantity
+    product = Product.query.get(cart_data.itemid)
+
+    if action2 == "increase":
+        if product.quantity and product.quantity > 0:
+            print(product.quantity)
+            if int(product.quantity) > 0:
+                cart_data.quantity = new_quantity
+                product.quantity -= 1
+                db.session.commit()
+            else:
+                new_quantity = product.quantity
+        else:
+            cart_data.quantity = new_quantity
+    else:
+        if product.quantity:
+            if product.quantity >=0:
+                cart_data.quantity = new_quantity
+                product.quantity += 1
+        else:
+            cart_data.quantity = new_quantity
+            
     db.session.commit()
 
     cart_items = Cart.query.filter_by(uid=user_id).all()
-
     # Calculate the total amount
     total_amount = sum(cart_item.item.price * cart_item.quantity for cart_item in cart_items)
-
-
-    return jsonify({'total_amount': total_amount})
+    return jsonify({'total_amount': total_amount, 'quantity': new_quantity})

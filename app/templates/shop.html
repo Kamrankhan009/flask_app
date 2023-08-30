@@ -58,14 +58,16 @@
 
                 <p class="card-text">$ <span id="product-price">{% if min_price %} {{min_price}}
                     {% else %}
-                    {{product.discount_price}}
+                    
+                    {%if product.discount%} <s>{{product.discount_price}}</s> {%else%} {{product.discount_price}}{%endif%}
                     {% endif %}
                   
                    
                 </span> </p>
                   <p class="card-text">
                     {%if product.discount %}
-                    <span style="color: red; font-weight: bold;">{{product.discount}}% of Discount</span>
+                    <span style="color: red; font-weight: bold;">{{product.discount}}% of Discount</span><br>
+                    <span>Discounted Pirce</span> <span>{{product.price}}</span>
                     {%endif%}
                   </p>
                 {%if product.quantity%}

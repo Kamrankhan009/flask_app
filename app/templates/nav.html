@@ -82,7 +82,17 @@
         </a>
 
         {% if user.is_authenticated %}
-        <img style="border-radius: 50%; max-width: 30px; margin-right: 20px;" src="{{ url_for('uploaded_users_images', filename=current_user.image) }}" alt="Profile Picture"> <strong style="margin-right: 30px;">{{user.username}}</strong>
+   
+        
+        
+          {%if current_user.image.startswith('https')%}
+        <img style="border-radius: 50%; max-width: 30px; margin-right: 20px;" src="{{current_user.image}}" alt="Profile Picture">
+        {%else%}
+        <img style="border-radius: 50%; max-width: 30px; margin-right: 20px;" src="{{ url_for('uploaded_users_images', filename=current_user.image) }}" alt="Profile Picture">
+        {%endif%}
+        
+        
+        <strong style="margin-right: 30px;">{{user.username}}</strong>
         <a href="{{url_for('logout')}}" class="login-button" style="background-color: red;">Logout</a>
         {% else %}
         <a href="{{url_for('login')}}" class="login-button">Login</a>

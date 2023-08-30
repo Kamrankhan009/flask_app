@@ -140,8 +140,6 @@ def allowed_file(filename):
 
 @app.route('/banner_change', methods=['POST', "GET"])
 def upload_file():
-
-
     if request.method == "POST":
         if 'file' not in request.files:
             return redirect(request.url)
@@ -157,10 +155,31 @@ def upload_file():
             return redirect("/banner_change")
         else:
             return 'Invalid file format. Only PNG files are allowed.'
-
+        
+        
     print(app.config['UPLOAD_FOLDER'])
     return render_template("banner.html", user = current_user, upload_folder = f"{app.config['UPLOAD_FOLDER']}/users/white.png")
 
+
+@app.route('/profile_change', methods=['POST', "GET"])
+def profile_file():
+    if request.method == "POST":
+        if 'profile_file' not in request.files:
+            return redirect(request.url)
+
+        file = request.files['profile_file']
+
+        if file.filename == '':
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            filename = 'actor.png'
+            file.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/users", filename))
+            return redirect("/banner_change")
+        else:
+            return 'Invalid file format. Only PNG files are allowed.'
+    print(app.config['UPLOAD_FOLDER'])
+    return render_template("banner.html", user = current_user, upload_folder = f"{app.config['UPLOAD_FOLDER']}/users/white.png")
 
 @app.route("/discord_login")
 def discord_login():

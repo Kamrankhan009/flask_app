@@ -2,6 +2,33 @@
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css')}}">
 
+<style>
+   .form-container {
+        width: 300px;
+        margin: auto;
+        text-align: center;
+    }
+
+    .password-criteria {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+    
+    .password-criteria ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    .password-criteria li::before {
+        content: '✔ ';
+        color: green;
+    }
+    
+    .password-criteria .invalid-criteria li::before {
+        content: '✘ ';
+        color: red;
+    }
+</style>
 <div class="background-container">
   <canvas id="canvas"></canvas>
 </div>
@@ -29,17 +56,64 @@
     <div class="back-arrow"></div>
 </a>
 <div class="form-container">
-    <h1>Register</h1>
-    <form action="/register" method="post">
-        <input type="text" name="name" placeholder="Name" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="{{url_for('login')}}">Login here</a></p>
+  <h1>Register</h1>
+  <form action="/register" method="post" onsubmit="return validateForm()">
+      <input type="text" name="name" placeholder="Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <div class="password-criteria">
+        <p>Password criteria:</p>
+        <ul class="invalid-criteria">
+            <li>At least 8 characters</li>
+            <li>At least one uppercase letter</li>
+            <li>At least one lowercase letter</li>
+            <li>At least one digit</li>
+            <li>At least one special character (e.g., !@#$%^&*)</li>
+        </ul>
+    </div>
+      <button type="submit">Register</button>
+  </form>
+  <p>Already have an account? <a href="{{url_for('login')}}">Login here</a></p>
 </div>
 
 
+<script>
+  function checkPasswordStrength(password) {
+      // Define the password strength criteria
+      const minLength = 8;
+      const uppercaseRegex = /[A-Z]/;
+      const lowercaseRegex = /[a-z]/;
+      const digitRegex = /[0-9]/;
+      const specialCharRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\-]/;
+
+      // Check each criteria
+      const isLengthValid = password.length >= minLength;
+      const hasUppercase = uppercaseRegex.test(password);
+      const hasLowercase = lowercaseRegex.test(password);
+      const hasDigit = digitRegex.test(password);
+      const hasSpecialChar = specialCharRegex.test(password);
+
+      // Calculate the overall password strength
+      const isStrong =
+          isLengthValid && hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
+
+      return isStrong;
+  }
+
+  function validateForm() {
+      const passwordInput = document.querySelector('input[name="password"]');
+      const submitButton = document.querySelector('button[type="submit"]');
+
+      const isPasswordStrong = checkPasswordStrength(passwordInput.value);
+      if (!isPasswordStrong) {
+          alert('Password is not strong enough. Make sure it meets the criteria.');
+          passwordInput.focus();
+          return false;
+      }
+
+      return true;
+  }
+</script>
 <script>
   // Set the timeout to remove flash messages after 3 seconds
 setTimeout(function() {

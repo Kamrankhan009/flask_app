@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
               line1: address,
               postal_code: zip,
               city: city,
-              country:state // Replace with the appropriate country code
+              country:"AE" // Replace with the appropriate country code
             }
           }
         }

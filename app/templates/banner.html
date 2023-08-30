@@ -18,7 +18,7 @@
      
       color: rgb(0, 0, 0);
       overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
     }
     #responsive-table {
       max-width: 100%;
@@ -71,23 +71,37 @@
 <body>
 
  
-<div style="background-color: white; padding:30px; width: 100%;">
-
-    <h2>Upload a PNG File</h2>
+<div style="background-color: white; padding:30px; width: 100%;" class="row">
+  <div class="col-md-6">
+    <h2>Banner change</h2>
     <form action="/banner_change" method="post" enctype="multipart/form-data">
         <label for="file">Choose a PNG file:</label>
         <input type="file" name="file" class="form-control" id="file" accept=".png">
         <br><br>
         <input type="submit" class="btn btn-primary" value="Upload">
     </form>
-    
+
+  </div>
+  <div class="col-md-6">
+    <h2>Profile change</h2>
+    <form action="/profile_change" method="post" enctype="multipart/form-data">
+        <label for="file">Choose a PNG file:</label>
+        <input type="file" name="profile_file" class="form-control" id="file" accept=".png">
+        <br><br>
+        <input type="submit" class="btn btn-primary" value="Upload">
+    </form>
+  </div>
     <h2>Previous Image</h2>
     
     <img src="{{ url_for('uploaded_users_images', filename='white.png') }}" alt="Previous Image">
    
+    <img src="{{ url_for('uploaded_users_images', filename='actor.png') }}" alt="Previous Image">
+   
+   
    
 
 </div>
+
 
 </div>
 </body>

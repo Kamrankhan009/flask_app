@@ -15,6 +15,8 @@
                     <h3>Job Title: {{ job.title }}</h3>
                     {% if job.from_salary > 0 %}
                     <p>From Salary: ${{job.from_salary}} - To Salary: ${{job.to_salary }}</p>
+                    {%else%}
+                    <p><span>Salary:</span>{{job.percent}}%</p>
                     {% endif %}
                     <p> <strong>Job Description:</strong> <br> {{ job.description }}</p>
                     

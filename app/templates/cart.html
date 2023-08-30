@@ -81,7 +81,7 @@
 
       // Calculate the new quantity based on the action
       var newQuantity = currentQuantity + (action === 'increase' ? 1 : -1);
-      if (newQuantity < 0) {
+      if (newQuantity < 1) {
         return; // Avoid negative quantities
       }
   
@@ -94,11 +94,13 @@
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ quantity: newQuantity })
+        body: JSON.stringify({ quantity: newQuantity, action : action })
       })
       .then(response => response.json())
       .then(data => {
         // Handle any response data if needed
+        // Update the quantity in the UI
+        quantityValueElement.textContent = data.quantity;
         var totalAmountElement = document.querySelector('#total-amount');
         totalAmountElement.textContent = data.total_amount;
       })

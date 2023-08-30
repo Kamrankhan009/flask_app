@@ -124,7 +124,11 @@ def payment_address():
 def process_payment_cart():
     try:
         # Retrieve the payment amount from the request
-        payment_amount = request.form.get('payment-amount')   
+        payment_amount = request.form.get('payment-amount')
+        copen = request.form.get('copen')
+
+        if copen == "1234":
+            payment_amount -= 100
         # Create a payment intent with Stripe
         payment_intent = stripe.PaymentIntent.create(
             amount=int(float(payment_amount) * 100),  # Stripe requires amount in cents

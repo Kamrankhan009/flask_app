@@ -98,7 +98,8 @@ def jobs():
                 "description" :job.description,
                 "applied":applied,
                 "from_salary":job.from_salary,
-                "to_salary":job.to_salary
+                "to_salary":job.to_salary,
+                "percent":job.percent
                 
             })
     try:
@@ -180,10 +181,15 @@ def add_job():
     if request.method == 'POST':
         title = request.form.get('title')
         description = request.form.get('description')
-        from_salary = int(request.form.get('from_salary'))
-        to_salary = int(request.form.get('to_salary'))
-        
-        job = Job(title=title, description=description, from_salary=from_salary, to_salary=to_salary)
+        try:
+            from_salary = int(request.form.get('from_salary'))
+            to_salary = int(request.form.get('to_salary'))
+            if from_salary and to_salary:
+                job = Job(title=title, description=description, from_salary=from_salary, to_salary=to_salary)
+        except:
+            percent = request.form.get('percent')
+            job = Job(title=title, description=description, percent = percent)
+
         db.session.add(job)
         db.session.commit()
         
