@@ -5,7 +5,12 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
 
 
-
+<style>
+    button[disabled] {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+</style>
 
 <div class="lcontainer">
   <div class="payment-form2" style="background-color: white; padding: 30px;">
@@ -40,13 +45,35 @@
           <input type="text" id="amount" class="form-control" name="amount" readonly>
           <br>
           <input type="number" placeholder="coupen number" name="copen" class="form-control">
-          <span style="color: red;">No money back</span>
           <br>
-          <button type="submit" id="submit-payment-btn" class="">Submit Payment</button>
+          <div class="row">
+          <!-- <div></div> -->
+          <label for="checkbox" style="color: red; margin-left: 1.5%;">No Money back, check if you are agree:</label>
+          <div class="col-md-3">
+          
+        
+          <input type="checkbox" id="checkbox" class="" style="transform: scale(2);">
+        </div></div>
+          <br>
+          <button type="submit" id="submit-payment-btn" disabled class="">Submit Payment</button>
         </form>
       </div>
     
-      
+      <script>
+        // Get references to the checkbox and button
+        const checkbox = document.getElementById('checkbox');
+        const button = document.getElementById('submit-payment-btn');
+
+        // Add an event listener to the checkbox
+        checkbox.addEventListener('change', function() {
+            // Enable or disable the button based on the checkbox state
+            if (checkbox.checked) {
+                button.removeAttribute('disabled');
+            } else {
+                button.setAttribute('disabled', 'true');
+            }
+        });
+    </script>
 
 </div>
 

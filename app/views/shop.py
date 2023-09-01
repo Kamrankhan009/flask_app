@@ -277,23 +277,28 @@ def update_quantity(item_id):
     product = Product.query.get(cart_data.itemid)
 
     if action2 == "increase":
+        print("you are here.. 1")
         if product.quantity and product.quantity > 0:
-            print(product.quantity)
             if int(product.quantity) > 0:
+                print("you are here.. 2")
                 cart_data.quantity = new_quantity
                 product.quantity -= 1
                 db.session.commit()
             else:
-                new_quantity = product.quantity
+                print("you are here.. 3")
+                if new_quantity > 1:
+                    new_quantity = product.quantity
         else:
-            cart_data.quantity = new_quantity
+            print("you are here.. 4")
+            new_quantity = cart_data.quantity -1
     else:
-        if product.quantity:
-            if product.quantity >=0:
-                cart_data.quantity = new_quantity
-                product.quantity += 1
-        else:
-            cart_data.quantity = new_quantity
+        print("you are here..  5")       
+
+        cart_data.quantity = new_quantity
+        product.quantity += 1
+        
+
+        
             
     db.session.commit()
 

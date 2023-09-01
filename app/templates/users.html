@@ -73,7 +73,7 @@
 <div id="responsive-table">
   <table>
     <thead>
-      <tr style="background-color: rgb(25, 0, 255);">
+      <tr style="{%if color %} background-color: {{color.color}} {%else%} rgb(25, 0, 255); {%endif%}">
         <th>#</th>
         <th>Image</th>
         <th>Name</th>

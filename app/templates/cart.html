@@ -86,7 +86,7 @@
       }
   
       // Update the quantity in the UI
-      quantityValueElement.textContent = newQuantity;
+      
   
       // Send a request to Flask to update the cart item quantity
       fetch(`/update_quantity/${cartItemId}`, {
@@ -100,6 +100,7 @@
       .then(data => {
         // Handle any response data if needed
         // Update the quantity in the UI
+        quantityValueElement.textContent = newQuantity;
         quantityValueElement.textContent = data.quantity;
         var totalAmountElement = document.querySelector('#total-amount');
         totalAmountElement.textContent = data.total_amount;

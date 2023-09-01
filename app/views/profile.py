@@ -2,7 +2,7 @@
 from app import app, db
 from flask import render_template,jsonify, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from ..models import User, Product, Cart
+from ..models import User, Product, Cart, color_management
 from werkzeug.utils import secure_filename
 import os
 from uuid import uuid4
@@ -10,7 +10,7 @@ import requests
 from oauthlib.oauth2 import WebApplicationClient
 
 DISCORD_CLIENT_ID = "1143875517909565480"
-DISCORD_CLIENT_SECRET = "a-eUXc4rnvc_ie1J97jMOyiQ_7c4sj1i"
+DISCORD_CLIENT_SECRET = "NzMcQtK_LtU_c295TITCUXnjYMksY09B"
 DISCORD_REDIRECT_URI = "http://localhost:5000/callback"
 DISCORD_API_BASE_URL = "https://discord.com/api"
 DISCORD_OAUTH_AUTHORIZE_URL = "https://discord.com/api/oauth2/authorize"
@@ -112,8 +112,8 @@ def edit_profile():
 @login_required
 def users():
     users = User.query.all()
-
-    return render_template('users.html', users = users, user = current_user)
+    color = color_management.query.filter_by(class_name="user_color").first()
+    return render_template('users.html', users = users, user = current_user, color = color)
 
 
 

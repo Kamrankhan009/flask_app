@@ -1,11 +1,12 @@
 {% extends 'nav.html' %}
 
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/card.css')}}">
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/card.css')}}"> -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/shop.css')}}">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   
 <style>
+  
     .card {
         opacity: 0.8;
         max-width: 25rem;
@@ -13,12 +14,13 @@
         margin-bottom: 10%;
         background-color: black;
         border: .5px solid red;
+        z-index: 1;
     }
 
     .card-img-top {
         object-fit: cover;
         width: 100%;
-        height: 100%; /* Adjust the image height as desired */
+        height: 75%; /* Adjust the image height as desired */
         border-radius: inherit;
         background-color: black;
     }
