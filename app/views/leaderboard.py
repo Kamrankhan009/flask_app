@@ -18,13 +18,15 @@ def leaderboard():
         count = 0
 
     color = color_management.query.filter_by(class_name = "leader_board").first()
-    return render_template('leaderboard.html', active_users=active_users,user=current_user, count = count, color = color)
+    color1 = color_management.query.filter_by(class_name= "Leaderboard_background").first()
+    return render_template('leaderboard.html', active_users=active_users,user=current_user, count = count, color = color, color1= color1)
 
 
 @app.route('/leaderboard_rank')
 def leaderboard_rank():
     # Retrieve the most active users from the database
     color = color_management.query.filter_by(class_name = "leader_board_rank").first()
+    color1 = color_management.query.filter_by(class_name= "Leaderboard_rank_background").first()
     ranked_users = LeaderboardList.query.order_by(LeaderboardList.rank).all()
     if current_user.is_authenticated:
         active_users = []
@@ -59,7 +61,7 @@ def leaderboard_rank():
         except:
             count = 0
 
-        return render_template('testing.html', active_users=active_users,user=current_user, admin_list=admin_list,is_in_board=is_in_board, count = count, color= color)
+        return render_template('testing.html', active_users=active_users,user=current_user, admin_list=admin_list,is_in_board=is_in_board, count = count, color= color, color1=color1)
     else:
         active_users = []
         for user in ranked_users:
@@ -83,4 +85,4 @@ def leaderboard_rank():
             count = full_count
         except:
             count = 0
-        return render_template('testing.html', active_users=active_users,user=current_user, admin_list=[],is_in_board=is_in_board, count = count, color = color)
+        return render_template('testing.html', active_users=active_users,user=current_user, admin_list=[],is_in_board=is_in_board, count = count, color = color, color1 = color1)

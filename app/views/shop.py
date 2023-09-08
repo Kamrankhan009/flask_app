@@ -22,7 +22,9 @@ def shop():
         count = full_count
     except:
         count = 0
-    return render_template('shop.html',user=current_user,products=products, offer = offer, count = count)
+
+    color = color_management.query.filter_by(class_name = "Shop_background").first()
+    return render_template('shop.html',user=current_user,products=products, offer = offer, count = count, color = color)
 
 
 @app.route('/add_product', methods=['GET', 'POST'])
@@ -77,7 +79,7 @@ def cart():
     cart_items = Cart.query.filter_by(uid=user_id).all()
 
     # Calculate the total amount
-    total_amount = sum(cart_item.item.price * cart_item.quantity for cart_item in cart_items)
+    total_amount = sum(cart_item.price * cart_item.quantity for cart_item in cart_items)
     count = Cart.query.filter_by(uid=current_user.id).all()
     full_count = 0
     for data in count:
@@ -278,31 +280,28 @@ def update_quantity(item_id):
 
     if action2 == "increase":
         print("you are here.. 1")
-        if product.quantity and product.quantity > 0:
+        if product.quantity is not None:
             if int(product.quantity) > 0:
                 print("you are here.. 2")
                 cart_data.quantity = new_quantity
                 product.quantity -= 1
                 db.session.commit()
             else:
-                print("you are here.. 3")
-                if new_quantity > 1:
-                    new_quantity = product.quantity
+                
+                new_quantity = new_quantity - 1
         else:
             print("you are here.. 4")
-            new_quantity = cart_data.quantity -1
+            cart_data.quantity = new_quantity
     else:
         print("you are here..  5")       
+        if product.quantity is not None:
+            cart_data.quantity = new_quantity
+            product.quantity += 1
+        else:
+            cart_data.quantity = new_quantity
 
-        cart_data.quantity = new_quantity
-        product.quantity += 1
-        
-
-        
-            
     db.session.commit()
-
     cart_items = Cart.query.filter_by(uid=user_id).all()
     # Calculate the total amount
-    total_amount = sum(cart_item.item.price * cart_item.quantity for cart_item in cart_items)
+    total_amount = sum(cart_item.price * cart_item.quantity for cart_item in cart_items)
     return jsonify({'total_amount': total_amount, 'quantity': new_quantity})

@@ -19,7 +19,9 @@ def home():
     text = text_management.query.filter_by(page_name = "Home_page_text").first()
     englishtext = "`" + text.English_text + "`"
     arabictext = "`" + text.Arabic_text + "`"
-    return render_template('home.html',user=current_user, count = count, speed = speed.speed,balls = int(balls.number), arabictext=arabictext, englishtext=englishtext)
+
+    color = color_management.query.filter_by(class_name = "Home_background").first()
+    return render_template('home.html',user=current_user, count = count, speed = speed.speed,balls = int(balls.number), arabictext=arabictext, englishtext=englishtext, color=color)
 
 @app.route("/color_edit/<id>", methods = ['GET', 'POST'])
 def color_edit(id):

@@ -6,7 +6,7 @@
 .rate {
   padding-top: 0px;
   position: relative;
-  z-index: 99999;
+  z-index: 1;
 }
 
 .rate .leaderboard {

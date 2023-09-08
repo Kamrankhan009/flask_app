@@ -12,6 +12,12 @@
 } -->
 
 <style>
+
+     {%if color %}
+     .background-container{
+      background-color: {{color.color}} !important;
+     }
+     {%endif%}
       .chat-container {
         /* padding: 20px; */
         border-radius: 5px;

@@ -6,7 +6,11 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   
 <style>
-  
+    {% if color %}
+.background-container{
+    background-color: {{color.color}} !important;
+}
+{%endif%}
     .card {
         opacity: 0.8;
         max-width: 25rem;
