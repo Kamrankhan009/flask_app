@@ -1,4 +1,5 @@
 venv/
+venvv/
 migrations/
 test.txt
 req.txt

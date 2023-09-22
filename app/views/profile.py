@@ -209,3 +209,8 @@ def callback():
     current_user.image = avatar_url
     db.session.commit()
     return redirect("/profile")
+
+
+@app.route("/Admin_Page")
+def admin_page():
+    return render_template("admin.html", user = current_user)

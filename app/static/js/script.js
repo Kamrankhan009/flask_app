@@ -42,6 +42,11 @@ $(document).ready(function() {
         data: { quantity: 1, price: price }, // Pass the quantity as data
         dataType: 'json',
         success: function(response) {
+          
+          if (response.hasOwnProperty('quantity')) {
+            // Check if 'quantity' exists in the response
+            $('#quan').text(response.quantity); // Update the value inside the <span>
+          }
           updateCartCount();
         },
         error: function(error) {

@@ -20,12 +20,12 @@
     }
     
     .password-criteria li::before {
-        content: '✔ ';
+        /* content: '✔ '; */
         color: green;
     }
     
     .password-criteria .invalid-criteria li::before {
-        content: '✘ ';
+        /* content: '✘ '; */
         color: red;
     }
 </style>
@@ -60,22 +60,58 @@
   <form action="/register" method="post" onsubmit="return validateForm()">
       <input type="text" name="name" placeholder="Name" required>
       <input type="email" name="email" placeholder="Email" required>
-      <input type="password" name="password" placeholder="Password" required>
+      <input type="password" name="password" id="passwordInput" placeholder="Password" required>
       <div class="password-criteria">
         <p>Password criteria:</p>
-        <ul class="invalid-criteria">
-            <li>At least 8 characters</li>
-            <li>At least one uppercase letter</li>
-            <li>At least one lowercase letter</li>
-            <li>At least one digit</li>
-            <li>At least one special character (e.g., !@#$%^&*)</li>
-        </ul>
+        <ul class="password-criteria invalid-criteria">
+          <li class="criteria-length">At least 8 characters</li>
+          <li class="criteria-uppercase">At least one uppercase letter</li>
+          <li class="criteria-lowercase">At least one lowercase letter</li>
+          <li class="criteria-digit">At least one digit</li>
+          <li class="criteria-special">At least one special character (e.g., !@#$%^&*)</li>
+      </ul>
     </div>
       <button type="submit">Register</button>
   </form>
   <p>Already have an account? <a href="{{url_for('login')}}">Login here</a></p>
 </div>
 
+<script>
+  const passwordInput = document.getElementById('passwordInput');
+  const criteriaLength = document.querySelector('.criteria-length');
+  const criteriaUppercase = document.querySelector('.criteria-uppercase');
+  const criteriaLowercase = document.querySelector('.criteria-lowercase');
+  const criteriaDigit = document.querySelector('.criteria-digit');
+  const criteriaSpecial = document.querySelector('.criteria-special');
+
+  function updatePasswordCriteria() {
+    const password = passwordInput.value;
+
+    // Define the password strength criteria
+    const minLength = 8;
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const digitRegex = /[0-9]/;
+    const specialCharRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\-]/;
+
+    // Check each criteria
+    const isLengthValid = password.length >= minLength;
+    const hasUppercase = uppercaseRegex.test(password);
+    const hasLowercase = lowercaseRegex.test(password);
+    const hasDigit = digitRegex.test(password);
+    const hasSpecialChar = specialCharRegex.test(password);
+
+    // Update the style of each list item based on criteria
+    criteriaLength.style.color = isLengthValid ? 'green' : 'red';
+    criteriaUppercase.style.color = hasUppercase ? 'green' : 'red';
+    criteriaLowercase.style.color = hasLowercase ? 'green' : 'red';
+    criteriaDigit.style.color = hasDigit ? 'green' : 'red';
+    criteriaSpecial.style.color = hasSpecialChar ? 'green' : 'red';
+  }
+
+  // Attach the event listener to the password input field
+  passwordInput.addEventListener('input', updatePasswordCriteria);
+</script>
 
 <script>
   function checkPasswordStrength(password) {

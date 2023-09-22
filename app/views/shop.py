@@ -1,19 +1,17 @@
 from app import app,db
 from flask import render_template,jsonify, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from ..models import Product,Cart, Product_offer, color_management
+from ..models import Product,Cart, Product_offer, color_management, speed_management, ball_management
 import os
 from ..confing import basedir
 from uuid import uuid4
 
 
 cart = []
-
 @app.route("/shop", methods = ['GET','POST'])
 def shop():
     products=Product.query.all()
     offer = Product_offer.query.all()
-
     try:
         count = Cart.query.filter_by(uid=current_user.id).all()
         full_count = 0
@@ -22,9 +20,16 @@ def shop():
         count = full_count
     except:
         count = 0
-
-    color = color_management.query.filter_by(class_name = "Shop_background").first()
-    return render_template('shop.html',user=current_user,products=products, offer = offer, count = count, color = color)
+    color1 = color_management.query.filter_by(class_name="Shop_background_ball").first()
+    speed_of_ball = speed_management.query.filter_by(page_name= "Shop_ball_speed").first()
+    balls = ball_management.query.filter_by(class_name = "Shop").first()
+    return render_template('shop.html',user=current_user,
+                           products=products,
+                           offer = offer, 
+                           count = count,
+                           color1 = color1,
+                           ball_speed =speed_of_ball.speed,
+                           balls =int(balls.number))
 
 
 @app.route('/add_product', methods=['GET', 'POST'])
@@ -44,7 +49,6 @@ def add_product():
         db.session.add(new_product)
         db.session.commit()
         # ...
-
         # Redirect to a success page or another route
         return redirect(url_for('shop'))
     count = Cart.query.filter_by(uid=current_user.id).all()
@@ -112,25 +116,39 @@ def add_to_cart(item_id):
         price = request.form['price']
     except:
         price = 0
-    
-
     # Check if the item is already in the cart for the user
     cart_item = Cart.query.filter_by(uid=user_id, itemid=item_id).first()
-
-    if cart_item:
-        # If the item already exists in the cart, update the quantity
-        cart_item.quantity += quantity
-        db.session.commit()
-        return jsonify({'message': 'Item added to cart successfully'})
+    product_item = Product.query.filter_by(id=item_id).first()
+    if product_item:
+        if product_item.quantity > 0:
+            product_item.quantity -= 1
+            if cart_item:
+                # If the item already exists in the cart, update the quantity
+                cart_item.quantity += quantity
+                db.session.commit()
+                return jsonify({'message': 'Item added to cart successfully'})
+            else:
+                # If the item is not in the cart, create a new Cart object
+                cart_item = Cart(uid=user_id, itemid=item_id, quantity=quantity, price=price)
+                # Save the Cart object to the database
+                db.session.add(cart_item)
+                db.session.commit()
+            return jsonify({"quantity":product_item.quantity})
+        else:
+            return jsonify({"quantity":product_item.quantity})
     else:
-        # If the item is not in the cart, create a new Cart object
-        cart_item = Cart(uid=user_id, itemid=item_id, quantity=quantity, price=price)
-
-        # Save the Cart object to the database
-        db.session.add(cart_item)
-        db.session.commit()
-
-    return jsonify({'message': 'Item added to cart successfully'})
+        if cart_item:
+            # If the item already exists in the cart, update the quantity
+            cart_item.quantity += quantity
+            db.session.commit()
+            return jsonify({'message': 'Item added to cart successfully'})
+        else:
+            # If the item is not in the cart, create a new Cart object
+            cart_item = Cart(uid=user_id, itemid=item_id, quantity=quantity, price=price)
+            # Save the Cart object to the database
+            db.session.add(cart_item)
+            db.session.commit()
+        return jsonify({'message': 'Item added to cart successfully'})
 
 
 
@@ -139,15 +157,12 @@ def add_to_cart(item_id):
 def delete_from_cart(cart_item_id):
     # Retrieve the current user ID (assuming you have a way to get the user ID)
     user_id = current_user.id
-
     # Query the Cart table for the cart item to delete
     cart_item = Cart.query.filter_by(uid=user_id, id=cart_item_id).first()
-
     if cart_item:
         # Delete the cart item from the database
         db.session.delete(cart_item)
         db.session.commit()
-
     return redirect('/cart')  # Redirect back to the cart page
 
 

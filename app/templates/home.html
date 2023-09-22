@@ -13,11 +13,6 @@
 
 <style>
 
-     {%if color %}
-     .background-container{
-      background-color: {{color.color}} !important;
-     }
-     {%endif%}
       .chat-container {
         /* padding: 20px; */
         border-radius: 5px;
@@ -78,7 +73,12 @@
   var balls_num = {{balls}};
   const arabic_text = {{ arabictext | safe }};
   const english_text = {{ englishtext | safe}};
+  var colors = "{{color1.color}}";
+  var color22 = {{ball_speed}};
+  var color2 = typeof color22 !== 'undefined' ? color22 : 2;
 </script>
+
+
 <script src="{{ url_for('static', filename='js/greengraph.js') }}"></script>
 <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>

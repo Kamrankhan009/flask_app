@@ -2,7 +2,7 @@ from app import app,db
 from flask import Flask, render_template, request,redirect,url_for,jsonify,flash
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
-from ..models import JobApplication,Job, User, Cart
+from ..models import JobApplication,Job, User, Cart, color_management, speed_management, ball_management
 from uuid import uuid4
 import os
 import smtplib
@@ -34,7 +34,8 @@ def job_applications():
         count = full_count
     except:
         count = 0
-    return render_template('job_applications.html', applications=all_apps, user=current_user, count = count)
+    color1 = color_management.query.filter_by(class_name = "Job_application_background_ball").first()
+    return render_template('job_applications.html', applications=all_apps, user=current_user, count = count, color1 = color1)
 
 
 # Apply for a job page
@@ -81,8 +82,6 @@ def apply_job(job_id):
 @app.route('/jobs')
 def jobs():
     jobs = Job.query.all()
-    
-    
     all_jobs= []
     applied = False
     for job in jobs:
@@ -110,7 +109,14 @@ def jobs():
         count = full_count
     except:
         count = 0
-    return render_template('jobs.html', jobs=all_jobs, user=current_user, applied=applied, count = count)
+    color1 = color_management.query.filter_by(class_name = "Job_background_ball").first()
+    speed_of_ball = speed_management.query.filter_by(page_name= "Job_ball_speed").first()
+    balls = ball_management.query.filter_by(class_name = "Job").first()
+    return render_template('jobs.html', jobs=all_jobs, user=current_user, applied=applied,
+                           count = count,
+                           color1 = color1,
+                           ball_speed = speed_of_ball.speed,
+                           balls = int(balls.number))
 
 @app.route('/view_application/<int:application_id>')
 def view_application(application_id):

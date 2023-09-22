@@ -9,13 +9,7 @@
 
 
 
-<style>
-      {% if color1 %}
-.background-container{
-    background-color: {{color1.color}} !important;
-}
-{%endif%}
-</style>
+
 <section class="rate">
 
     <div class="container" >
@@ -98,7 +92,12 @@
   </section>
   
 
-
+  <script>
+    var balls_num = {{balls}};
+    var colors = "{{color1.color}}";
+    var color22 = {{ball_speed}};
+    var color2 = typeof color22 !== 'undefined' ? color22 : 2;
+  </script>
 
 <script src="{{ url_for('static', filename='js/leaderboard.js') }}"></script>
 <script src="{{ url_for('static', filename='js/yellowgraph.js') }}"></script>

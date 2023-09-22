@@ -19,9 +19,8 @@ function init() {
     const radius = Math.random() * (maxCircleRadius - minCircleRadius) + minCircleRadius;
     const x = Math.random() * (canvas.width - radius * 2) + radius;
     const y = Math.random() * (canvas.height - radius * 2) + radius;
-    const dx = (Math.random() - 0.5) * 2;
-    const dy = (Math.random() - 0.5) * 2;
-
+    const dx = (Math.random() - 0.5) * color2;
+    const dy = (Math.random() - 0.5) * color2;
     circles.push({ x, y, radius, dx, dy });
   }
 
@@ -124,7 +123,7 @@ function animate() {
 function drawCircle(circle) {
   ctx.beginPath();
   ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
-  ctx.fillStyle = 'green';
+  ctx.fillStyle = colors;
   ctx.fill();
   ctx.closePath();
 }
@@ -139,7 +138,7 @@ function drawLine(line) {
   ctx.beginPath();
   ctx.moveTo(line.x1, line.y1);
   ctx.lineTo(line.x2, line.y2);
-  ctx.strokeStyle = 'green';
+  ctx.strokeStyle = colors;
   ctx.stroke();
   ctx.closePath();
 }

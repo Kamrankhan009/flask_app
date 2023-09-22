@@ -15,12 +15,12 @@ function init() {
   resizeCanvas();
 
   // Create circles
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < balls_num; i++) {
     const radius = Math.random() * (maxCircleRadius - minCircleRadius) + minCircleRadius;
     const x = Math.random() * (canvas.width - radius * 2) + radius;
     const y = Math.random() * (canvas.height - radius * 2) + radius;
-    const dx = (Math.random() - 0.5) * 2;
-    const dy = (Math.random() - 0.5) * 2;
+    const dx = (Math.random() - 0.5) * color2;
+    const dy = (Math.random() - 0.5) * color2;  
 
     circles.push({ x, y, radius, dx, dy });
   }
@@ -116,7 +116,7 @@ function animate() {
 function drawCircle(circle) {
   ctx.beginPath();
   ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
-  ctx.fillStyle = 'blue';
+  ctx.fillStyle = colors;
   ctx.fill();
   ctx.closePath();
 }
@@ -131,7 +131,7 @@ function drawLine(line) {
   ctx.beginPath();
   ctx.moveTo(line.x1, line.y1);
   ctx.lineTo(line.x2, line.y2);
-  ctx.strokeStyle = 'blue';
+  ctx.strokeStyle = colors;
   ctx.stroke();
   ctx.closePath();
 }

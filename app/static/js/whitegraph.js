@@ -99,7 +99,7 @@ function animate() {
 function drawCircle(circle) {
   ctx.beginPath();
   ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
-  ctx.fillStyle = 'white';
+  ctx.fillStyle = typeof colors !== 'undefined' ? colors : 'white';
   ctx.fill();
   ctx.closePath();
 }
@@ -114,7 +114,7 @@ function drawLine(line) {
   ctx.beginPath();
   ctx.moveTo(line.x1, line.y1);
   ctx.lineTo(line.x2, line.y2);
-  ctx.strokeStyle = 'white';
+  ctx.strokeStyle = typeof colors !== 'undefined' ? colors : 'white';
   ctx.stroke();
   ctx.closePath();
 }

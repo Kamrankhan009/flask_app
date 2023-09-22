@@ -2,7 +2,7 @@
 from app import app, db
 from flask import render_template,jsonify, request, flash, redirect, url_for
 from flask_login import current_user
-from ..models import User,LeaderboardList,Cart, color_management
+from ..models import User,LeaderboardList,Cart, color_management, speed_management, ball_management
 
 @app.route('/leaderboard')
 def leaderboard():
@@ -18,15 +18,22 @@ def leaderboard():
         count = 0
 
     color = color_management.query.filter_by(class_name = "leader_board").first()
-    color1 = color_management.query.filter_by(class_name= "Leaderboard_background").first()
-    return render_template('leaderboard.html', active_users=active_users,user=current_user, count = count, color = color, color1= color1)
+    color1 = color_management.query.filter_by(class_name= "Leaderboard_background_ball").first()
+    speed_of_ball = speed_management.query.filter_by(page_name= "Leaderboard_ball_speed").first()
+    balls = ball_management.query.filter_by(class_name = "Leaderboard").first()
+    return render_template('leaderboard.html', active_users=active_users,user=current_user, count = count, color = color, color1= color1,
+                           ball_speed = speed_of_ball.speed,
+                           balls = int(balls.number))
 
 
 @app.route('/leaderboard_rank')
 def leaderboard_rank():
     # Retrieve the most active users from the database
     color = color_management.query.filter_by(class_name = "leader_board_rank").first()
-    color1 = color_management.query.filter_by(class_name= "Leaderboard_rank_background").first()
+    color1 = color_management.query.filter_by(class_name= "Leaderboard_rank_background_ball").first()
+    speed_of_ball = speed_management.query.filter_by(page_name= "Leaderboard_rank_ball_speed").first()
+    balls = ball_management.query.filter_by(class_name = "Leaderboard_rank").first()
+    print(color1.color)
     ranked_users = LeaderboardList.query.order_by(LeaderboardList.rank).all()
     if current_user.is_authenticated:
         active_users = []
@@ -61,7 +68,13 @@ def leaderboard_rank():
         except:
             count = 0
 
-        return render_template('testing.html', active_users=active_users,user=current_user, admin_list=admin_list,is_in_board=is_in_board, count = count, color= color, color1=color1)
+        return render_template('testing.html', active_users=active_users,user=current_user,
+                               admin_list=admin_list,is_in_board=is_in_board,
+                               count = count,
+                               color= color,
+                               color1=color1,
+                               ball_speed = speed_of_ball.speed,
+                               balls = int(balls.number))
     else:
         active_users = []
         for user in ranked_users:
@@ -85,4 +98,10 @@ def leaderboard_rank():
             count = full_count
         except:
             count = 0
-        return render_template('testing.html', active_users=active_users,user=current_user, admin_list=[],is_in_board=is_in_board, count = count, color = color, color1 = color1)
+        return render_template('testing.html', active_users=active_users,user=current_user,
+                               admin_list=[],is_in_board=is_in_board,
+                               count = count,
+                               color = color,
+                               color1 = color1,
+                               ball_speed = speed_of_ball.speed,
+                               balls = int(balls.number))
