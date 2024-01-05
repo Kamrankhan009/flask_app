@@ -4,32 +4,32 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/donate.css')}}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-<div class="lcontainer">
+<div class="lcontainer" style="margin-top: -5%;">
     <h1 style="color: azure;">Admin Dashboard</h1>
-    <div class="donate-cards">
+    <div class="donate-cards" style="margin-top: -1%;">
         <div class="row">
             
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="{{url_for('add_product')}}">
-                <div class="card strong-donate" style="padding: 50px; background-color: gray;">
+                <div class="card strong-donate" style="padding: 20px; background-color: gray;">
                     <h2>Add Products</h2>
                 </div>
             </a>
             </div>
 
             
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="{{url_for('update_products')}}">
-                <div class="card strong-donate" style="padding: 50px; background-color: gray;">
+                <div class="card strong-donate" style="padding: 20px; background-color: gray;">
                     <h2>Edit Products</h2>
                 </div>
             </a>
             </div>
 
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="{{url_for('add_job')}}">
-                <div class="card strong-donate" style="padding: 50px; background-color: gray;">
+                <div class="card strong-donate" style="padding: 20px; background-color: gray;">
                     <h2>Add New Job</h2>
                 </div>
             </a>
@@ -38,9 +38,9 @@
 
             
             
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="{{url_for('edit_color')}}">
-                <div class="card strong-donate" style="padding: 50px; background-color: gray;">
+                <div class="card strong-donate" style="padding: 20px; background-color: gray;">
                     <h2>Edit Colors</h2>
                 </div>
             </a>
@@ -49,38 +49,85 @@
 
 
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="{{url_for('edit_speed')}}">
-                <div class="card strong-donate" style="padding: 50px; background-color: gray;">
+                <div class="card strong-donate" style="padding: 20px; background-color: gray;">
                     <h2>Edit Speeds</h2>
                 </div>
             </a>
             </div>
 
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="{{url_for('edit_text')}}">
-                <div class="card strong-donate" style="padding: 50px; background-color: gray;">
+                <div class="card strong-donate" style="padding: 20px; background-color: gray;">
                     <h2>Edit Text</h2>
                 </div>
             </a>
             </div>
 
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="{{url_for('edit_ball')}}">
-                <div class="card strong-donate" style="padding: 50px; background-color: gray;">
+                <div class="card strong-donate" style="padding: 20px; background-color: gray;">
                     <h2>Edit Balls</h2>
                 </div>
             </a>
             </div>
 
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="{{url_for('upload_file')}}">
 
-                <div class="card strong-donate" style="padding: 50px; background-color: gray;">
+                <div class="card strong-donate" style="padding: 20px; background-color: gray;">
                     <h2>Edit Banners</h2>
+                </div>
+            </a>
+            </div>
+
+            <div class="col-md-3">
+                <a href="{{url_for('job_applications')}}">
+
+                <div class="card strong-donate" style="padding: 20px; background-color: gray;">
+                    <h2>Job Application</h2>
+                </div>
+            </a>
+            </div>
+
+            <div class="col-md-3">
+                <a href="{{url_for('users')}}">
+
+                <div class="card strong-donate" style="padding: 20px; background-color: gray;">
+                    <h2>Users</h2>
+                </div>
+            </a>
+            </div>
+
+
+            <div class="col-md-3">
+                <a href="{{url_for('change_popup')}}">
+
+                <div class="card strong-donate" style="padding: 20px; background-color: gray;">
+                    <h2>Popup text</h2>
+                </div>
+            </a>
+            </div>
+          
+
+            <div class="col-md-2">
+                <a href="{{url_for('money_back')}}">
+
+                <div class="card strong-donate" style="padding: 20px; background-color: gray;">
+                    <h2>Money Back</h2>
+                </div>
+            </a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="{{url_for('time_change')}}">
+
+                <div class="card strong-donate" style="padding: 20px; background-color: gray;">
+                    <h2>Sale Ends in</h2>
                 </div>
             </a>
             </div>
@@ -89,7 +136,7 @@
         </div>
     </div>
 
-    <a id="donate-link" href="#" onclick="">Donate</a>
+    <!-- <a id="donate-link" href="#" onclick="">Donate</a> -->
 </div>
 
 <script src="{{ url_for('static', filename='js/donate.js') }}"></script>

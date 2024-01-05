@@ -76,7 +76,14 @@ def apply_job(job_id):
     for data in count:
         full_count += data.quantity
     count = full_count
-    return render_template('apply_job.html', job=job, user=current_user,job_id=job_id, count = count)
+    color1 = color_management.query.filter_by(class_name = "Job_background_ball").first()
+    speed_of_ball = speed_management.query.filter_by(page_name= "Job_ball_speed").first()
+    balls = ball_management.query.filter_by(class_name = "Job").first()
+    return render_template('apply_job.html', job=job, user=current_user,job_id=job_id, count = count,
+                          
+                           color1 = color1,
+                           ball_speed = speed_of_ball.speed,
+                           balls = int(balls.number))
 
 
 @app.route('/jobs')

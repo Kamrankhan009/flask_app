@@ -1,6 +1,7 @@
 from app import db, login_manager
 from flask_login import UserMixin
 from .product import Cart
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -21,6 +22,12 @@ class User(db.Model, UserMixin):
     image = db.Column(db.String(256), default='actor.png')
     banner = db.Column(db.String(256), default='white.png')
     applications = db.relationship('JobApplication', backref='user', lazy=True)
+    status = db.Column(db.String(10), default='offline')
+    last_seen = db.Column(db.DateTime)
+    socket_id = db.Column(db.String(50))
+    created_date = db.Column(db.DateTime, default=datetime.now())
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
 
 
 class LeaderboardList(db.Model):

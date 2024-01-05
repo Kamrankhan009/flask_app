@@ -145,6 +145,12 @@
     });
 </script>
 
+<script>
+    var balls_num = {{balls}};
+    var color22 = {{ball_speed}};
+var color2 = typeof color22 !== 'undefined' ? color22 : 2;
+</script>
+
 <script src="{{ url_for('static', filename='js/donate_form.js') }}"></script>
 <script src="{{ url_for('static', filename='js/skybluegraph.js') }}"></script>
 {% endblock%}

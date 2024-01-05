@@ -18,6 +18,7 @@ def donate():
     color1 = color_management.query.filter_by(class_name = "Donate_background_ball").first()
     speed_of_ball = speed_management.query.filter_by(page_name= "Donate_ball_speed").first()
     balls = ball_management.query.filter_by(class_name = "Donate").first()
+    
     return render_template('donate.html', user=current_user,
                            count = count,
                            color1 = color1,

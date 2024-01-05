@@ -73,6 +73,7 @@ def one_product(id):
     return render_template('one_product.html',user=current_user,product=product, offer = offer, count = count)
 
 
+
 @app.route('/cart')
 @login_required
 def cart():
@@ -118,8 +119,10 @@ def add_to_cart(item_id):
         price = 0
     # Check if the item is already in the cart for the user
     cart_item = Cart.query.filter_by(uid=user_id, itemid=item_id).first()
+    
     product_item = Product.query.filter_by(id=item_id).first()
-    if product_item:
+    
+    if product_item and product_item.quantity != None:
         if product_item.quantity > 0:
             product_item.quantity -= 1
             if cart_item:
@@ -133,11 +136,13 @@ def add_to_cart(item_id):
                 # Save the Cart object to the database
                 db.session.add(cart_item)
                 db.session.commit()
+                
             return jsonify({"quantity":product_item.quantity})
         else:
             return jsonify({"quantity":product_item.quantity})
     else:
         if cart_item:
+            print("hereerer")
             # If the item already exists in the cart, update the quantity
             cart_item.quantity += quantity
             db.session.commit()
@@ -153,14 +158,17 @@ def add_to_cart(item_id):
 
 
 
-@app.route('/delete_from_cart/<int:cart_item_id>', methods=['POST'])
-def delete_from_cart(cart_item_id):
+@app.route('/delete_from_cart/<int:cart_item_id>/<cart_quantity>', methods=['POST'])
+def delete_from_cart(cart_item_id, cart_quantity):
     # Retrieve the current user ID (assuming you have a way to get the user ID)
     user_id = current_user.id
     # Query the Cart table for the cart item to delete
     cart_item = Cart.query.filter_by(uid=user_id, id=cart_item_id).first()
     if cart_item:
         # Delete the cart item from the database
+        product_item = Product.query.filter_by(id=cart_item.itemid).first()
+        if product_item.quantity != None:
+            product_item.quantity += int(cart_quantity)
         db.session.delete(cart_item)
         db.session.commit()
     return redirect('/cart')  # Redirect back to the cart page
@@ -186,14 +194,11 @@ def edit_product(id):
         image = request.files['image']
         stock = bool(request.form.get('check', False))
         quantity = request.form.get('quantity')
-
-
         try:
             discount = int(request.form.get('discount'))
         except:
             discount = ""
 
-        
         if not image:
             pass
         else:

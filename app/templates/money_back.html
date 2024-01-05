@@ -1,0 +1,102 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>back ball management</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+     
+      color: rgb(0, 0, 0);
+      overflow-x: hidden;
+  overflow-y: auto;
+    }
+    #responsive-table {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    #responsive-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #responsive-table th,
+    #responsive-table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    #responsive-table th:first-child,
+    #responsive-table td:first-child {
+      padding-left: 2%;
+    }
+
+    #responsive-table th:last-child,
+    #responsive-table td:last-child {
+      padding-right: 0;
+    }
+
+    .image-column img {
+      max-width: 100px;
+      height: auto;
+    }
+
+    .action-column button {
+      background-color: #4CAF50;
+      color: rgb(0, 0, 0);
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+ 
+    @media screen and (max-width: 768px) {
+      #responsive-table {
+        overflow-x: scroll;
+      }
+    }
+  </style>
+</head>
+<body>
+
+ 
+<div style="background-color: white; padding:30px; width: 100%;">
+
+    
+    <h1>Money Back Text</h1>
+    <form action="/money_back" method="POST">
+        <label for="blue-class">Text:</label><br>
+        <textarea name="text" class="form-control"></textarea>
+        <br>
+        <input type="text" name="color" class="form-control" placeholder="input color name">
+        <br><br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+
+
+
+
+</div>
+</body>
+</html>
+
+
+
+
+
+<script src="{{ url_for('static', filename='js/whitegraph.js') }}"></script>
+
+{% endblock%}

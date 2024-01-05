@@ -2,6 +2,63 @@ from app import app, db
 from flask import render_template,jsonify, request, flash, redirect, url_for
 from flask_login import current_user, login_required
 from ..models import User, Cart, color_management, speed_management, text_management, ball_management
+from flask_socketio import SocketIO, emit
+from datetime import datetime, timedelta
+
+
+
+socketio = SocketIO(app)
+# Dictionary to store user status
+user_status = {}
+# Initial countdown time (0 days)
+
+end_time = datetime.now() + timedelta(days=0)
+
+@socketio.on('connect')
+def handle_connect():
+    if current_user.is_authenticated:
+        user_id = current_user.id
+        user_status[user_id] = {
+            'status': 'online',
+            'last_seen': None,
+        }
+
+        user = User.query.get(user_id)
+        if user:
+            user.status = "online"
+            user.last_seen = datetime.now()
+            user.socket_id = request.sid  # Associate socket ID with the user
+            db.session.commit()
+            
+    emit('update_time', {'end_time': end_time.strftime('%Y-%m-%d %H:%M:%S')})
+    
+
+
+@socketio.on('disconnect')
+def disconnect():
+    if current_user.is_authenticated:
+        user_id = current_user.id
+        user_status[user_id]['status'] = 'offline'
+        user_status[user_id]['last_seen'] = datetime.now()
+
+        # Update user status in the database
+        user = User.query.get(user_id)
+        if user:
+            user.status = 'offline'
+            user.last_seen = datetime.now()
+            user.socket_id = None  # Remove socket ID association
+            db.session.commit()
+
+
+
+@app.route('/time_change', methods=["GET","POST"])
+def time_change():
+    if request.method == "POST":
+        days = int(request.form.get("days"))
+        global end_time
+        end_time = datetime.now() + timedelta(days=days)
+        return redirect("/")
+    return render_template("time_change.html", user = current_user)
 
 @app.route("/", methods = ['GET','POST'])
 def home():

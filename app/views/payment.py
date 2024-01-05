@@ -2,14 +2,54 @@ from app import app, db
 from flask import render_template,jsonify,request, url_for, session, redirect
 from flask_login import current_user
 import stripe
-from ..models import Cart
+from ..models import Cart, ball_management, color_management, speed_management, Ordered_items, Product
 
 
+popup_text = "hello world"
+money_back = "No Money back, check if you are agree"
+color = "red"
 @app.route("/success")
 def success():
-    print("don")
+    user_data = session['shipping_address']
+    # country,f_name, l_name, company,address,city,postal_code,phone_number, amount
+    car_data = Cart.query.filter_by(uid = current_user.id).all()    
+    for data in car_data:
+        order = Ordered_items(
+            user_id = current_user.id,
+            item_id = data.itemid,
+            quantity = data.quantity,
+            country = user_data['country'],
+            first_name = user_data['f_name'],
+            last_name = user_data['l_name'],
+            company = user_data['company'],
+            address = user_data['address'],
+            city = user_data['city'],
+            postal_code = user_data['postal_code'],
+            phone_number = user_data['phone_number'],
+            amount = user_data['amount']
+        )
+        db.session.add(order)
+        db.session.delete(data)
+        db.session.commit()
     return render_template("success.html", user=current_user)
 
+
+@app.route("/change_popup", methods=['GET', 'POST'])
+def change_popup():
+    global popup_text
+    if request.method == "POST":
+        popup_text = request.form.get('popup')
+    return render_template("popup.html", user = current_user)
+
+
+@app.route("/money_back", methods = ["GET", 'POST'])
+def money_back():
+    global money_back
+    global color
+    if request.method == 'POST':
+        money_back = request.form.get("text")
+        color = request.form.get('color')        
+    return render_template("money_back.html", user = current_user)
 
 
 @app.route('/cart_payment_form')
@@ -23,14 +63,13 @@ def cart_payment_form():
         count = full_count
     except:
         count = 0
-
     
     try:
         user_data = session['shipping_address']
     except:
         user_data = ""
-
-    return render_template('cart_payment_form.html', amount=amount, user=current_user, count = count, user_data = user_data)
+  
+    return render_template('cart_payment_form.html', amount=amount, user=current_user, count = count, user_data = user_data, text = popup_text, money_back = money_back, color = color)
 
 
 @app.route('/donate_form')
@@ -45,7 +84,14 @@ def donate_form():
         count = full_count
     except:
         count = 0
-    return render_template('donate_form.html', min_amount=min_amount, user=current_user, count = count)
+    color1 = color_management.query.filter_by(class_name = "Donate_background_ball").first()
+    speed_of_ball = speed_management.query.filter_by(page_name= "Donate_ball_speed").first()
+    balls = ball_management.query.filter_by(class_name = "Donate").first()
+    return render_template('donate_form.html', min_amount=min_amount, user=current_user, count = count,
+                            color1 = color1,
+                           ball_speed = speed_of_ball.speed,
+                           balls = int(balls.number))
+
 
 @app.route("/process_payment", methods=["POST"])
 def process_payment():
@@ -56,6 +102,7 @@ def process_payment():
     name = request.json.get("name")
     email = request.json.get("email")
     amount = request.json.get('amount')
+    
     print(request.json)
     print(amount)
   
@@ -112,9 +159,9 @@ def payment_address():
                 'phone_number':phone,
                 'amount': amount
             }
-
-
         print(session['shipping_address'])
+        
+
         return redirect(f"/cart_payment_form?amount={amount.strip()}")
     return render_template("payment_address.html", user = current_user, amount = amount, user_address = user_address)
     
@@ -124,7 +171,7 @@ def payment_address():
 def process_payment_cart():
     try:
         # Retrieve the payment amount from the request
-        payment_amount = request.form.get('payment-amount')
+        payment_amount = request.form.get('payment-amount')        
         copen = request.form.get('copen')
 
         if copen == "1234":

@@ -54,3 +54,23 @@ class ball_management(db.Model):
      id = db.Column(db.Integer, primary_key = True)
      number = db.Column(db.Integer, nullable = False, default = 120)
      class_name = db.Column(db.String(255), nullable = False)
+     
+     
+# country,f_name, l_name, company,address,city,postal_code,phone_number, amount
+
+class Ordered_items(db.Model):
+     id = db.Column(db.Integer, primary_key=True)
+     user_id = db.Column(db.Integer, nullable = False)
+     item_id = db.Column(db.Integer, nullable = False)
+     quantity = db.Column(db.Integer)
+     country = db.Column(db.String(255))
+     first_name = db.Column(db.String(255))
+     last_name = db.Column(db.String(255))
+     company = db.Column(db.String(255))
+     address = db.Column(db.String(255))
+     city = db.Column(db.String(255))
+     postal_code = db.Column(db.String(255))
+     phone_number = db.Column(db.String(255))
+     amount = db.Column(db.String(255))
+     
+     

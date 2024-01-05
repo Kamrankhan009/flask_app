@@ -5,6 +5,7 @@ from flask_login import current_user, login_required
 from ..models import User, Product, Cart, color_management
 from werkzeug.utils import secure_filename
 import os
+from sqlalchemy.exc import SQLAlchemyError
 from uuid import uuid4
 import requests
 from oauthlib.oauth2 import WebApplicationClient
@@ -108,12 +109,50 @@ def edit_profile():
     return render_template('edit_profile.html',user=current_user, count = count)
 
 
+@app.route('/update_location', methods=['POST'])
+def update_location():
+    data = request.get_json()
+    user_id = current_user.id  # Replace with the actual user ID (you need to identify the logged-in user)
+
+    try:
+        user = User.query.get(user_id)
+        if user:
+            user.latitude = data['latitude']
+            user.longitude = data['longitude']
+            db.session.commit()
+            return {'status': 'success', 'message': 'Location updated successfully'}
+        else:
+            return {'status': 'error', 'message': 'User not found'}
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        return {'status': 'error', 'message': 'Failed to update location'}
+
+@app.route('/get_user_location/<id>', methods=['GET'])
+def get_user_location(id):
+    print()
+    print()
+    print()
+    print()
+    user_id = id # Replace with the actual user ID (you need to identify the logged-in user)
+    try:
+        user = User.query.get(user_id)
+        if user:
+            return jsonify({'status': 'success', 'latitude': user.latitude, 'longitude': user.longitude})
+        else:
+            return jsonify({'status': 'error', 'message': 'User not found'})
+    except SQLAlchemyError as e:
+        return jsonify({'status': 'error', 'message': 'Failed to fetch user location'})
+
+
 @app.route('/users')
 @login_required
 def users():
     users = User.query.all()
+    from datetime import datetime
+    current_time = datetime.now()
+    print(current_time)
     color = color_management.query.filter_by(class_name="user_color").first()
-    return render_template('users.html', users = users, user = current_user, color = color)
+    return render_template('users.html', users = users, user = current_user, color = color,current_time=current_time)
 
 
 
@@ -213,4 +252,5 @@ def callback():
 
 @app.route("/Admin_Page")
 def admin_page():
-    return render_template("admin.html", user = current_user)
+    notification = True
+    return render_template("admin.html", user = current_user, notification = notification)
