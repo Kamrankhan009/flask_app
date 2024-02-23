@@ -45,7 +45,7 @@ def add_product():
         filename = str(uuid4()) + '.' + image.filename.rsplit('.', 1)[1].lower()
         
         image.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/products", filename))
-        new_product=Product(title=title,description=description,discount_price=price,image=f'{filename}')
+        new_product=Product(title=title,description=description,discount_price=price, price= price,image=f'{filename}')
         db.session.add(new_product)
         db.session.commit()
         # ...
@@ -56,12 +56,17 @@ def add_product():
     for data in count:
         full_count += data.quantity
     count = full_count
-    return render_template('add_product.html',user=current_user, count = count)
+    return render_template('dashboard/add_product.html',user=current_user, count = count)
 
 @app.route("/products/<int:id>", methods = ['GET','POST'])
 def one_product(id):
     product=Product.query.filter_by(id=id).first()
     offer = Product_offer.query.filter_by(p_id=id).order_by(Product_offer.price).all()
+    
+    print("+++++++++++++++++++++++++++++++++++++++++")
+    for value in offer:
+        print(value.price)
+    print("+++++++++++++++++++++++++++++++++++++")
     try:
         count = Cart.query.filter_by(uid=current_user.id).all()
         full_count = 0
@@ -180,7 +185,7 @@ def delete_from_cart(cart_item_id, cart_quantity):
 def update_products():
     products=Product.query.all()
     color = color_management.query.filter_by(class_name = "update_products").first()
-    return render_template("edit_products.html", user = current_user, products=products, color = color)
+    return render_template("dashboard/edit_products.html", user = current_user, products=products, color = color)
 
 
 @app.route("/edit_product/<id>", methods = ['GET','POST'])
@@ -239,7 +244,7 @@ def edit_product(id):
         count = full_count
     except:
         count = 0
-    return render_template("add_product.html",user = current_user, product = product, edit = True, offer = offer, count = count)
+    return render_template("dashboard/add_product.html",user = current_user, product = product, edit = True, offer = offer, count = count)
 
 @app.route("/delete_product/<id>")
 @login_required

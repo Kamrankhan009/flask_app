@@ -1,0 +1,145 @@
+{%extends 'dashboard/base.html'%}
+{%block content%}
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<!-- Include Leaflet JavaScript -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<div id="">
+    <table class="table">
+      <thead>
+        <tr style="{%if color %} background-color: {{color.color}} {%else%} rgb(25, 0, 255); {%endif%}">
+          <th scope="col">#</th>
+          <th scope="col">Image</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+  
+          <th scope="col">Stutus</th>
+          <th scope="col">last seen</th>
+          <th scope="col">location</th>
+          <th scope="col">action</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+          {% for user in users%}
+        <tr style="background-color: rgb(255, 255, 255);">
+          <td scope="row">{{loop.index}}</td>
+          <td class="image-column">
+            <a href="/profile/{{user.id}}"><img src="{{ url_for('uploaded_users_images', filename=user.image) }}" width="30px" height="30px" alt="Image 1">
+            </a>
+          </td>
+          <td>{{user.username}}</td>
+          <td>{{user.email}}</td>
+        
+          <td>{{user.status}}</td>
+          <td>
+               
+            {% if user.last_seen %}
+            {% set time_delta_seconds = (current_time - user.last_seen).total_seconds() %}
+            {% set time_delta_minutes = time_delta_seconds / 60 %}
+            {% if time_delta_minutes < 1 %}
+              {{ time_delta_seconds | int }} seconds ago
+            {% elif time_delta_minutes < 60 %}
+              {{ time_delta_minutes | int }} minutes ago
+            {% else %}
+              {{ (time_delta_minutes / 60) | int }} hours ago
+            {% endif %}
+          {% else %}
+            None
+          {% endif %}
+          </td>
+            
+          <td>
+            <div id="map{{user.id}}" style="height: 100px; width: 100px;"></div>
+  
+  
+  
+            <script>
+              var map = L.map('map{{user.id}}').setView([0, 0], 2);  // Initial center and zoom level
+            
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+              }).addTo(map);
+            
+              // Function to add a marker to the map
+              function addMarker(latitude, longitude) {
+                L.marker([latitude, longitude]).addTo(map)
+                  .bindPopup('User Location').openPopup();
+              }
+            
+              // Assuming you have the user's location available on the server side
+              // Fetch the user's location and add a marker to the map
+              fetch('/get_user_location/{{user.id}}')  // Replace with your actual endpoint
+                .then(response => response.json())
+                .then(data => {
+                  if (data.status === 'success') {
+                    addMarker(data.latitude, data.longitude);
+                  } else {
+                    console.error('Error fetching user location:', data.message);
+                  }
+                })
+                .catch(error => {
+                  console.error('Error fetching user location:', error);
+                });
+            </script>
+  
+  
+  
+  
+  
+          </td>
+          <td>
+            <a href="/delete_user/{{user.id}}"> <button style="background-color: red; padding: 9px;">Delete</button></a>
+            <a href="/info_user/{{user.id}}"><button style="background-color: rgb(0, 190, 9, 0.678); padding: 9px;">Info</button></a>
+          </td>
+        </tr>
+        {%endfor%}
+        
+        <!-- Add more rows as needed -->
+      </tbody>
+    </table>
+  </div>
+  
+  </body>
+  </html>
+  
+  
+  
+  <!-- Add this script to your template -->
+  <script>
+    function getUserLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+  
+    function showPosition(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+  
+      // Send latitude and longitude to the server (via AJAX or form submission)
+      // For simplicity, let's assume you have an API endpoint for updating the user's location
+      // Replace '/update_location' with your actual endpoint
+      fetch('/update_location', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ latitude: latitude, longitude: longitude }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle response if needed
+          console.log('Location updated:', data);
+        })
+        .catch(error => {
+          console.error('Error updating location:', error);
+        });
+    }
+  
+    // Call the function to get user location on page load
+    getUserLocation();
+  </script>
+{%endblock%}

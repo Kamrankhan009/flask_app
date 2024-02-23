@@ -1,0 +1,27 @@
+{%extends 'dashboard/base.html'%}
+
+{%block content%}
+<div class="profile-info row">
+    <div class="profile-picture col-sm-3">
+        {%if current_user.image.startswith('https')%}
+        <img src="{{current_user.image}}" alt="Profile Picture">
+        {%else%}
+        <img src="{{ url_for('uploaded_users_images', filename=current_user.image) }}" width="50" height="50" alt="Profile Picture">
+        {%endif%}
+    </div>
+    <div class="profile-details col-sm-6">
+        <p >Username: {{ current_user.username }}</p>
+        <p >Email: {{ current_user.email }}</p>
+    </div>
+        <div class="col-sm-3">
+            <a href="{{ url_for('admin_edit_profile') }}"><button style="background-color: rgb(20, 224, 20); padding: 10px;">Edit</button> </a>
+        
+        <a href="/discord_login"><button  style="background-color: red; padding: 10px;">Connect with Discord</button></a>
+        </div>
+   
+    
+
+
+
+</div>
+{%endblock%}

@@ -58,7 +58,7 @@ def time_change():
         global end_time
         end_time = datetime.now() + timedelta(days=days)
         return redirect("/")
-    return render_template("time_change.html", user = current_user)
+    return render_template("dashboard/time_change.html", user = current_user)
 
 @app.route("/", methods = ['GET','POST'])
 def home():
@@ -100,7 +100,7 @@ def color_edit(id):
         db.session.commit()
         return redirect("/edit_color")
 
-    return render_template("edit_colors.html", user = current_user, update = True, color = color, colors = colors)
+    return render_template("dashboard/edit_colors.html", user = current_user, update = True, color = color, colors = colors)
 
 
 @app.route("/edit_color", methods = ['GET', 'POST'])
@@ -119,7 +119,7 @@ def edit_color():
         db.session.commit()
     
     colors = color_management.query.all()
-    return render_template("edit_colors.html", user = current_user, colors = colors)
+    return render_template("dashboard/edit_colors.html", user = current_user, colors = colors)
 
 
 @app.route("/speed_edit/<id>", methods = ['GET', 'POST'])
@@ -136,7 +136,7 @@ def speed_edit(id):
         db.session.commit()
         return redirect("/edit_speed")
 
-    return render_template("edit_speed.html", user = current_user, update = True, speed = speed, speeds = speeds)
+    return render_template("dashboard/edit_speed.html", user = current_user, update = True, speed = speed, speeds = speeds)
 
 
 @app.route("/edit_speed", methods = ['GET', 'POST'])
@@ -155,7 +155,7 @@ def edit_speed():
         db.session.commit()
     
     speeds = speed_management.query.all()
-    return render_template("edit_speed.html", user = current_user, speeds = speeds)
+    return render_template("dashboard/edit_speed.html", user = current_user, speeds = speeds)
 
 
 
@@ -175,7 +175,7 @@ def text_edit(id):
         db.session.commit()
         return redirect("/edit_text")
 
-    return render_template("edit_text.html", user = current_user, update = True, text = text, texts = texts)
+    return render_template("dashboard/edit_text.html", user = current_user, update = True, text = text, texts = texts)
 
 
 @app.route("/edit_text", methods = ['GET', 'POST'])
@@ -197,7 +197,7 @@ def edit_text():
         db.session.commit()
     
     texts = text_management.query.all()
-    return render_template("edit_text.html", user = current_user, texts = texts)
+    return render_template("dashboard/edit_text.html", user = current_user, texts = texts)
 
 
 
@@ -215,7 +215,7 @@ def ball_edit(id):
         db.session.commit()
         return redirect("/edit_ball")
 
-    return render_template("edit_ball.html", user = current_user, update = True, ball = ball, balls = balls)
+    return render_template("dashboard/edit_ball.html", user = current_user, update = True, ball = ball, balls = balls)
 
 
 @app.route("/edit_ball", methods = ['GET', 'POST'])
@@ -234,4 +234,4 @@ def edit_ball():
         db.session.commit()
     
     balls = ball_management.query.all()
-    return render_template("edit_ball.html", user = current_user, balls = balls)
+    return render_template("dashboard/edit_ball.html", user = current_user, balls = balls)

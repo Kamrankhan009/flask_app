@@ -33,7 +33,12 @@
             </ul>
         </div>
 
-        <a href="{{url_for('jobs')}}">Jobs</a>
+        
+        {% if current_user.is_authenticated %}
+          {% if current_user.is_admin and current_user.jobs_page_visible %}
+            <a href="{{ url_for('jobs') }}">Jobs</a>
+          {% endif %}
+        {% endif %}
         <a href="{{url_for('donate')}}">Donate</a>
 
         {% if user.is_admin %}
@@ -108,7 +113,14 @@
         <hr>
         <a href="{{url_for('leaderboard_rank')}}">Championships</a>
         <hr>
-        <a href="{{url_for('jobs')}}">Jobs</a>
+
+        {% if current_user.is_authenticated %}
+          {% if current_user.is_admin and current_user.jobs_page_visible %}
+            <a href="{{ url_for('jobs') }}">Jobs</a>
+          {% endif %}
+        {% endif %}
+
+    
         <hr>
         <a href="{{url_for('donate')}}">Donate</a>
         <hr>

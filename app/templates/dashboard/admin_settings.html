@@ -1,0 +1,15 @@
+{%extends 'dashboard/base.html'%}
+{%block content%}
+
+  <h2>Admin Settings</h2>
+  <form method="post">
+    <label>
+      <input type="checkbox" name="jobs_page_visible" {% if admin.jobs_page_visible %}checked{% endif %}>
+      Display Jobs Page
+    </label>
+    <br>
+    <input type="submit" value="Save Changes">
+  </form>
+
+
+{%endblock%}

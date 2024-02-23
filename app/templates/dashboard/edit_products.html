@@ -1,0 +1,46 @@
+{%extends 'dashboard/base.html'%}
+{%block content%}
+
+    <table class="table">
+      <thead>
+        <tr style="{%if color %} background-color: {{color.color}} {%else%} rgb(25, 0, 255);
+        {%endif%}">
+          <th scope="row">#</th>
+          <th scope="row">Image</th>
+          <th scope="row">Title</th>
+          <th scope="row">Description</th>
+          <th scope="row">price</th>
+          <th scope="row">discounted price</th>
+          <th scope="row">discount</th>
+          <th scope="row">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for product in products%}
+        <tr style="background-color: rgb(255, 255, 255);">
+          <td scope="row">{{loop.index}}</td>
+          <td class="image-column">
+            <a href="/products/{{product.id}}"><img src="{{ url_for('uploaded_product_images', filename=product.image) }}" width="30px" height="30px" alt="Image 1">
+            </a>
+          </td>
+          <td>{{product.title}}</td>
+          <td>{{product.description}}</td>
+          <td>{{product.discount_price}}</td>
+          <td>{{product.price}}</td>
+  
+          <td>{%if product.discount%} {{product.discount}}% {%else%} 0% {%endif%}</td>
+          
+          <td class="action-column">
+            <a href="/delete_product/{{product.id}}"><button style="background-color: rgb(255, 0, 0 , 0.808);">Delete</button></a>
+          
+            <a href="/edit_product/{{product.id}}"><button style="background-color: rgb(0, 190, 9, 0.678);">Edit</button></a>
+          </td>
+        </tr>
+        {%endfor%}
+        
+        <!-- Add more rows as needed -->
+      </tbody>
+    </table>
+
+  
+{%endblock%}

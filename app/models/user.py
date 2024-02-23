@@ -28,6 +28,7 @@ class User(db.Model, UserMixin):
     created_date = db.Column(db.DateTime, default=datetime.now())
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
+    jobs_page_visible = db.Column(db.Boolean, default=True)
 
 
 class LeaderboardList(db.Model):
@@ -36,3 +37,4 @@ class LeaderboardList(db.Model):
     username = db.Column(db.String(100), unique=True)
     email = db.Column(db.String(100), unique=True)
     rank = db.Column(db.Integer, default=0)
+    

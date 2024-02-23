@@ -1,0 +1,106 @@
+{%extends 'dashboard/base.html'%}
+{%block content%}
+<div >
+
+    {% if update %}
+    <h1 class="card-title">Update Text</h1>
+    <form action="/text_edit/{{text.id}}" class="form-horizontal" method="POST">
+
+        <div class="form-group row">
+        <label for="blue-class" class="col-sm-3 text-end control-label col-form-label">Page Name:</label>
+        <div class="col-sm-9">
+        <input type="text" class="form-control" id="blue-class" name="speed_class" value="{{text.page_name}}"><br><br>
+        </div>
+        </div>
+
+        <div class="form-group row">
+        <label for="user_input" class="col-sm-3 text-end control-label col-form-label">English Text:</label>
+        <div class="col-sm-9">
+        <textarea name="english_text" id="user_input" rows="4" cols="50" class="form-control">{{text.English_text}}</textarea>
+        </div>
+       </div>
+
+
+       <div class="form-group row">
+
+        <label for="user_input" class="col-sm-3 text-end control-label col-form-label">Arabic Text:</label>
+        <div class="col-sm-9">
+        <textarea name="arabic_text" id="user_input" rows="4" cols="50" class="form-control">{{text.Arabic_text}}</textarea>
+        </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+        <button type="submit" class="btn btn-sm btn-primary">Update Text</button>
+        </div>
+        </div>
+    </form>
+    {%else%}
+    
+    <h1 class="card-title">Add New page</h1>
+    <form action="{{ url_for('edit_text') }}" class="form-horizontal" method="POST">
+
+        <div class="form-group row">
+        <label for="blue-class" class="col-sm-3 text-end control-label col-form-label">Page Name:</label>
+        <div class="col-sm-9">
+        <input type="text" class="form-control" id="blue-class" name="speed_class"><br><br>
+        </div>
+        </div>
+
+        <div class="form-group row">
+            
+        <label class="col-sm-3 text-end control-label col-form-label" for="user_input">English Text:</label>
+
+        <div class="col-sm-9">
+        <textarea name="english_text" id="user_input" rows="4" cols="50" class="form-control"></textarea>
+        </div>
+        </div>
+
+        <div class="form-group row">
+        <label for="user_input" class="col-sm-3 text-end control-label col-form-label">Arabic Text:</label>
+
+        <div class="col-sm-9">
+        <textarea name="arabic_text" id="user_input" rows="4" cols="50" class="form-control"></textarea>
+        </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+        <button type="submit" class="btn btn-sm btn-primary">Add new Text Class</button>
+        </div>
+        </div>
+    </form>
+    {%endif%}
+    <hr>
+
+ <h1 class="card-title">Text</h1>
+
+ <div id="responsive-table">
+  <table class="table">
+    <thead>
+      <tr style="background-color: rgb(25, 0, 255);">
+        <th scope="col">#</th>
+        <th scope="col">Page Name</th>
+        <th scope="col">English Text</th>
+        <th scope="col">Arabic Text</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for text in texts%}
+      <tr style="background-color: rgb(255, 255, 255);">
+       <td scope="row">{{loop.index}}</td>
+       <td>{{text.page_name}}</td>
+       <td style=""><div>{{text.English_text | safe}}  </div></td>
+       <td>{{text.Arabic_text | safe}}</td>
+       <td><a href="/text_edit/{{text.id}}"><button>edit text</button></a></td>
+      </tr>
+      {%endfor%}
+      
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
+</div>
+
+</div>
+{%endblock%}

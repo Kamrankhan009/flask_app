@@ -39,7 +39,7 @@ def change_popup():
     global popup_text
     if request.method == "POST":
         popup_text = request.form.get('popup')
-    return render_template("popup.html", user = current_user)
+    return render_template("dashboard/popup.html", user = current_user)
 
 
 @app.route("/money_back", methods = ["GET", 'POST'])
@@ -49,7 +49,7 @@ def money_back():
     if request.method == 'POST':
         money_back = request.form.get("text")
         color = request.form.get('color')        
-    return render_template("money_back.html", user = current_user)
+    return render_template("dashboard/money_back.html", user = current_user)
 
 
 @app.route('/cart_payment_form')

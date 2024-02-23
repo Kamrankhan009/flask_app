@@ -18,3 +18,7 @@ class Job(db.Model):
     from_salary = db.Column(db.Integer, default=0)
     to_salary = db.Column(db.Integer, default=0)
     percent = db.Column(db.Integer)
+    
+
+
+    

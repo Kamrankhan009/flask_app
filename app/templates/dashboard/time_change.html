@@ -1,0 +1,28 @@
+{%extends 'dashboard/base.html'%}
+{%block content%}
+<div style="background-color: white; padding:30px; width: 100%;">
+
+    
+    <h1>End Sale In</h1>
+    <form action="/time_change" class="form-horizontal" method="POST">
+        <div class="form-group row">
+        <label for="blue-class" class="col-sm-3 text-end control-label col-form-label">Input Days:</label>
+        <div class="col-sm-9">
+        <input type="number" placeholder="Please Enter Days" name="days" class="form-control">
+        </div>
+        </div>
+        
+        <div class="form-group row">
+            <div class="col-sm-3">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        </div>
+    </form>
+
+
+
+
+
+
+</div>
+{%endblock%}

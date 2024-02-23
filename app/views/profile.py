@@ -26,6 +26,25 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
+
+
+@app.route('/admin/settings', methods=['GET', 'POST'])
+@login_required
+def admin_settings():
+    # Check if the current user is an admin
+    if current_user.is_admin:
+        if request.method == 'POST':
+            # Toggle the visibility of the jobs page
+            current_user.jobs_page_visible = not current_user.jobs_page_visible
+            db.session.commit()
+
+        return render_template('dashboard/admin_settings.html', admin=current_user)
+    else:
+        # Redirect non-admin users to a different page or show an error message
+        return redirect(url_for('home'))
+    
+
 @app.route('/update_profile', methods=['POST'])
 @login_required
 def update_profile():
@@ -87,6 +106,68 @@ def update_profile():
         return redirect(url_for('edit_profile'))
 
 
+
+
+@app.route('/admin_update_profile', methods=['POST'])
+@login_required
+def admin_update_profile():
+    # Get the uploaded file
+    image = request.files['image']
+    banner = request.files['banner']
+    new_email = request.form.get('email')
+    new_username = request.form.get('username')
+
+    # Check if any field is being updated
+    if image or banner or new_email or new_username:
+        if image and allowed_file(image.filename):
+            print("here")
+            # Generate a new filename using UUID
+            new_filename = str(uuid4()) + '.' + image.filename.rsplit('.', 1)[1].lower()
+            # Remove the old profile picture if it exists
+            if current_user.image:
+                old_filename = current_user.image
+                if old_filename != 'actor.png':
+                    # Remove the old file from the uploads folder
+                    old_file_path = os.path.join(f"{app.config['UPLOAD_FOLDER']}/users", old_filename)
+                    if os.path.exists(old_file_path):
+                        os.remove(old_file_path)
+            # Save the uploaded image with the new filename
+            image.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/users", new_filename))
+            # Update the user's image filename in the database
+            current_user.image = new_filename
+
+        if banner and allowed_file(banner.filename):
+            # Generate a new filename using UUID
+            new_banner = str(uuid4()) + '.' + banner.filename.rsplit('.', 1)[1].lower()
+            # Remove the old banner if it exists
+            if current_user.banner:
+                old_filename = current_user.banner
+                if old_filename != 'white.png':
+                    # Remove the old file from the uploads folder
+                    old_file_path = os.path.join(f"{app.config['UPLOAD_FOLDER']}/users", old_filename)
+                    if os.path.exists(old_file_path):
+                        os.remove(old_file_path)
+            # Save the uploaded banner with the new filename
+            banner.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/users", new_banner))
+            # Update the user's banner filename in the database
+            current_user.banner = new_banner
+
+        # Update email if provided
+        if new_email:
+            current_user.email = new_email
+
+        # Update username if provided
+        if new_username:
+            current_user.username = new_username
+
+        db.session.commit()
+
+        flash('Profile updated successfully.', 'success')
+        return redirect(url_for('admin_profile'))
+    else:
+        flash('No fields were updated.', 'error')
+        return redirect(url_for('admin_edit_profile'))
+
 @app.route('/profile')
 @login_required
 def profile():
@@ -98,6 +179,9 @@ def profile():
     return render_template('profile.html',user=current_user, count = count)
 
 
+
+
+
 @app.route('/edit_profile')
 @login_required
 def edit_profile():
@@ -107,6 +191,26 @@ def edit_profile():
         full_count += data.quantity
     count = full_count
     return render_template('edit_profile.html',user=current_user, count = count)
+
+@app.route('/admin_profile')
+@login_required
+def admin_profile():
+    count = Cart.query.filter_by(uid=current_user.id).all()
+    full_count = 0
+    for data in count:
+        full_count += data.quantity
+    count = full_count
+    return render_template('dashboard/profile.html',user=current_user, count = count)
+
+@app.route('/admin_edit_profile')
+@login_required
+def admin_edit_profile():
+    count = Cart.query.filter_by(uid=current_user.id).all()
+    full_count = 0
+    for data in count:
+        full_count += data.quantity
+    count = full_count
+    return render_template('dashboard/edit_profile.html',user=current_user, count = count)
 
 
 @app.route('/update_location', methods=['POST'])
@@ -152,14 +256,14 @@ def users():
     current_time = datetime.now()
     print(current_time)
     color = color_management.query.filter_by(class_name="user_color").first()
-    return render_template('users.html', users = users, user = current_user, color = color,current_time=current_time)
+    return render_template('dashboard/users.html', users = users, user = current_user, color = color,current_time=current_time)
 
 
 
 @app.route("/info_user/<id>")
 def info_user(id):
     users = User.query.get(id)
-    return render_template("info_user.html", user = current_user, users = users)
+    return render_template("dashboard/info_user.html", user = current_user, users = users)
 
 
 @app.route("/delete_user/<id>")
@@ -197,7 +301,7 @@ def upload_file():
         
         
     print(app.config['UPLOAD_FOLDER'])
-    return render_template("banner.html", user = current_user, upload_folder = f"{app.config['UPLOAD_FOLDER']}/users/white.png")
+    return render_template("dashboard/banner.html", user = current_user, upload_folder = f"{app.config['UPLOAD_FOLDER']}/users/white.png")
 
 
 @app.route('/profile_change', methods=['POST', "GET"])
@@ -253,4 +357,8 @@ def callback():
 @app.route("/Admin_Page")
 def admin_page():
     notification = True
-    return render_template("admin.html", user = current_user, notification = notification)
+    return render_template("dashboard/base.html", user = current_user, notification = notification)
+
+# @app.route("/admin")
+# def admin_testing():
+#     return render_template("dashboard/base.html")

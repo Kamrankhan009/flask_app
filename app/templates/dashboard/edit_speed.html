@@ -1,0 +1,80 @@
+{%extends 'dashboard/base.html'%}
+{%block content%}
+<div style="background-color: white; padding:30px; width: 100%;">
+
+    {% if update %}
+    <h1 class="card-title">Update Speed</h1>
+    <form action="/speed_edit/{{speed.id}}" class="form-horizontal" method="POST">
+        <div class="form-group row">
+        <label for="blue-class" class="col-sm-3 text-end control-label col-form-label">Page Name:</label>
+        <div class="col-sm-9">
+        <input type="text" class="form-control" id="blue-class" name="speed_class" value="{{speed.page_name}}">
+        </div></div>
+
+        <div class="form-group row">
+        <label for="red-class" class="col-sm-3 text-end control-label col-form-label">Color:</label>
+        <div class="col-sm-3">
+        <input type="number" class="form-control" id="red-class" name="num" value="{{speed.speed}}">
+        </div></div>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+            <button type="submit" class="btn btn-sm btn-primary">Update Speed</button>
+            </div>
+        </div>
+    </form>
+    {%else%}
+    
+    <h1 class="card-title">Add New page</h1>
+    <form action="{{ url_for('edit_speed') }}" class="form-horizontal" method="POST">
+        <div class="form-group row">
+        <label for="blue-class" class="col-sm-3 text-end control-label col-form-label">Page Name:</label>
+        <div class="col-sm-9">
+        <input type="text" class="form-control" id="blue-class" name="speed_class">
+        </div></div>
+
+        <div class="form-group row">
+        <label for="red-class" class="col-sm-3 text-end control-label col-form-label">Speed:</label>
+        <div class="col-sm-3">
+        <input type="number" id="red-class" class="form-control" name="num">
+        </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+        <button type="submit" class="btn btn-primary">Add new page</button>
+        </div>
+        </div>
+    </form>
+    {%endif%}
+    <hr>
+
+ <h1>Speed Pages</h1>
+
+ <div id="">
+  <table class="table">
+    <thead>
+      <tr style="background-color: rgb(25, 0, 255);">
+        <th scope="col">#</th>
+        <th scope="col">Page Name</th>
+        <th scope="col">Speed</th>
+        <th scope="col">action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for speed in speeds%}
+      <tr style="background-color: rgb(255, 255, 255);">
+       <td scope="row">{{loop.index}}</td>
+       <td>{{speed.page_name}}</td>
+       <td style="">{{speed.speed}}</td>
+       <td><a href="/speed_edit/{{speed.id}}"><button>edit speed</button></a></td>
+      </tr>
+      {%endfor%}
+      
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
+</div>
+
+</div>
+{%endblock%}

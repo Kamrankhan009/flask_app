@@ -106,13 +106,10 @@
           <div class="cable-config">
 
             <div class="cable-choose">
-
-
               <div class="counter-container">
                 <button id="decrement" class="counter-button" style="background-color: rgb(0, 0, 0); color: white; opacity: 0.8;">-</button>
-                <input id="counter" class="counter-input" style="background-color: rgb(0, 0, 0); color: white; opacity: 0.8;" type="number" min="1" value="1">
-                <button id="increment" class="counter-button" style="background-color: rgb(0, 0, 0); color: white; opacity: 0.8;">+</button>
-                
+                <input id="counter" class="counter-input" style="background-color: rgb(0, 0, 0); color: white; opacity: 0.8;" type="text" min="1" value="1">
+                <button id="increment" class="counter-button" style="background-color: rgb(0, 0, 0); color: white; opacity: 0.8;">+</button>  
               </div>
               <!-- <button>Straight</button>
               <button>Coiled</button>
@@ -126,7 +123,9 @@
         <!-- Product Pricing -->
         <div class="product-price">
           <span><div class="price-container">
-            <span id="product-price">{% if not offer %}{{ product.price }}{%else%}
+            <span id="product-price">{% if not offer %}
+              
+              {{ product.price}}{%else%}
               
               {%for off in offer[:1]%}
               {{off.price}}

@@ -1,0 +1,54 @@
+{%extends 'dashboard/base.html'%}
+{%block content%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/job_application.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/modal.css')}}">
+
+
+
+<div class="lcontainer">
+
+  <div id="flash-message"></div>
+  
+  {% for application in applications %}
+
+  <div class="card">
+    <div class="card-title">{{ application.title }}</div>
+    <div class="card-description">Username: {{ application.username }}</div>
+    <div class="card-description">Email: {{ application.email }}</div>
+    <button onclick="openCVModal(`{{url_for('uploaded_resumes', filename=application.resume)}}`)" style="background-color: blue;">View CV</button>
+    <button id="acceptbtn{{application.id}}" onclick="openModal('{{application.email}}','accept')">Accept</button>
+    <button id="declinebtn{{application.id}}" onclick="openModal('{{application.email}}','decline')" style="background-color: brown;">Decline</button>
+  </div>
+  
+  <div id="cvModal" class="cv-modal">
+    <div class="cv-modal-content">
+      <span onclick="closeCVModal()" class="cv-modal-close">&times;</span>
+      <embed src="" id="cvPdf" width="1000" height="800" type="application/pdf">
+    </div>
+  </div>
+
+
+  {% endfor %}
+
+</div>
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Are you sure?</h2>
+      <div class="modal-buttons">
+          <input class=".code" id="code" type="text" placeholder="Enter the code!" oninput="return verifyCode()">
+          <br>
+          <span id = "codemessage" style="color:red"> </span> <br><br>  
+          <button id="btn-yes" class="btn-yes" disabled>Yes</button>
+          <button id="btn-no" class="btn-no" >No</button>
+      </div>
+  </div>
+</div>  
+<script>
+  var colors = "{{color1.color}}";
+</script>
+<!-- <script src="{{ url_for('static', filename='js/whitegraph.js') }}"></script> -->
+<script src="{{ url_for('static', filename='js/cv_modal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/confirmModal.js') }}"></script>
+{%endblock%}

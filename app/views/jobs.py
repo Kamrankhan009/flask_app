@@ -35,7 +35,7 @@ def job_applications():
     except:
         count = 0
     color1 = color_management.query.filter_by(class_name = "Job_application_background_ball").first()
-    return render_template('job_applications.html', applications=all_apps, user=current_user, count = count, color1 = color1)
+    return render_template('dashboard/job_applications.html', applications=all_apps, user=current_user, count = count, color1 = color1)
 
 
 # Apply for a job page
@@ -216,4 +216,4 @@ def add_job():
         count = full_count
     except:
         count = 0
-    return render_template('add_job.html', user=current_user, count = count)
+    return render_template('dashboard/add_job.html', user=current_user, count = count)

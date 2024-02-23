@@ -1,0 +1,35 @@
+{%extends 'dashboard/base.html'%}
+{%block content%}
+<div style="background-color: white; padding:30px; width: 100%;">
+
+    
+    <h1 class="card-title">Money Back Text</h1>
+    <form action="/money_back" method="POST">
+        <div class="form-group row">
+        <label for="blue-class" class="col-sm-3 text-end control-label col-form-label">Text:</label>
+        <div class="col-sm-9">
+        <textarea name="text" class="form-control"></textarea>
+        </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="blue-class" class="col-sm-3 text-end control-label col-form-label">Color Name:</label>
+        <div class="col-sm-9">
+        <input type="text" name="color" class="form-control" placeholder="">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        </div>
+    </form>
+
+
+
+
+
+
+</div>
+{%endblock%}
